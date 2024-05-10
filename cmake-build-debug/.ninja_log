@@ -1,0 +1,9 @@
+# ninja log v5
+2	778	1715364163299201811	CMakeFiles/megatron.dir/main.cpp.o	56338e80e4b4060c
+24	2184	1715363297420415282	CMakeFiles/megatron.dir/Util/myFunc.cpp.o	ddca9071a729ade3
+779	980	1715364163504205915	megatron	ccc2487e93f81407
+24	2139	1715363297420415282	CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.o	a7ee925dd6b4b7b0
+24	2185	1715363297421415303	CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.o	1d23dcbd3a58d91b
+24	2185	1715363297420415282	CMakeFiles/megatron.dir/Megatron.cpp.o	ddf480c6b29594d9
+1	849	1715365457513846357	CMakeFiles/megatron.dir/main.cpp.o	56338e80e4b4060c
+849	970	1715365457633846751	megatron	ccc2487e93f81407

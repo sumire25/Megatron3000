@@ -1,0 +1,2 @@
+titanic#PassengerId#in#2#Survived#in#1#Pclass#in#1#Name#in#57#Sex#in#6#Age#in#2#SibSp#in#1#Parch#in#1#Ticket#in#16#Fare#in#9#Cabin#in#11#Embarked#in#1
+titanic#PassengerId#in#2#Survived#in#1#Pclass#in#1#Name#in#57#Sex#ni#6#Age#in#2#SibSp#in#1#Parch#ni#1#Ticket#in#16#Fare#in#9#Cabin#in#11#Embarked#in#1
