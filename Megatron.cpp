@@ -6,10 +6,10 @@
 
 void Megatron::load() {
     myParser.load();
-    diskMan.load();
+    storageMan.load();
     cout << "Loading\n";
 }
 
-void Megatron::createDisk(int *measures) {
-
+void Megatron::setDisk(int *measures) {
+    storageMan.setDisk(measures);
 }

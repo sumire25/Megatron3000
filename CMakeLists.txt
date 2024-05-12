@@ -11,4 +11,8 @@ add_executable(megatron main.cpp
         Storage_Manager/DiskManager.cpp
         Storage_Manager/DiskManager.h
         Util/myFunc.h
-        Util/myFunc.cpp)
+        Util/myFunc.cpp
+        Storage_Manager/StorageManager.cpp
+        Storage_Manager/StorageManager.h
+        Storage_Manager/FileManager.cpp
+        Storage_Manager/FileManager.h)

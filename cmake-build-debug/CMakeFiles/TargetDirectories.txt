@@ -1,3 +1,3 @@
-/home/sumire/CLionProjects/megatron/cmake-build-debug/CMakeFiles/megatron.dir
-/home/sumire/CLionProjects/megatron/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/sumire/CLionProjects/megatron/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Megatron3000/cmake-build-debug/CMakeFiles/megatron.dir
+D:/Megatron3000/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Megatron3000/cmake-build-debug/CMakeFiles/rebuild_cache.dir

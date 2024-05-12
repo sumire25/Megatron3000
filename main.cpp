@@ -7,50 +7,50 @@ void handleChoice(int choice);
 void readFile(string &filename);
 
 void writeTable(string table, string scheme) {
-    // Abrir el archivo de salida
-    ofstream schemeFile("../Data/scheme.txt", ios::app);
-    if (!schemeFile.is_open()) {
-        cerr << "Error al abrir el archivo scheme.txt." << endl;
-    }
-    schemeFile<<scheme<<endl;
-    schemeFile.close();
-    //crear el archivo de la relacion
-    ofstream relationFile("../Data/"+table+".txt", ios::app);
-    if (!relationFile.is_open())
-        cerr << "Error creando el archivo de la tabla: " << table <<endl;
-    relationFile.close();
+  // Abrir el archivo de salida
+  ofstream schemeFile("../Data/scheme.txt", ios::app);
+  if (!schemeFile.is_open()) {
+    cerr << "Error al abrir el archivo scheme.txt." << endl;
+  }
+  schemeFile<<scheme<<endl;
+  schemeFile.close();
+  //crear el archivo de la relacion
+  ofstream relationFile("../Data/"+table+".txt", ios::app);
+  if (!relationFile.is_open())
+    cerr << "Error creando el archivo de la tabla: " << table <<endl;
+  relationFile.close();
 }
 
 void writeRegister(string table, string row) {
-    // Abrir el archivo de salida
-    ofstream tableFile("../Data/"+table+".txt", ios::app);
-    if (!tableFile.is_open()) {
-        cerr << "Error al abrir el archivo scheme.txt." << endl;
-    }
-    // Escribir los registros en el archivo de salida
-    tableFile<<row<<endl;
+  // Abrir el archivo de salida
+  ofstream tableFile("../Data/"+table+".txt", ios::app);
+  if (!tableFile.is_open()) {
+    cerr << "Error al abrir el archivo scheme.txt." << endl;
+  }
+  // Escribir los registros en el archivo de salida
+  tableFile<<row<<endl;
 
-    tableFile.close();
+  tableFile.close();
 }
+
+Megatron megatron;
 
 int main()
 {
-    Megatron megatron;
-    megatron.load();
-    cout << "Bienvenido a Megatron3000!" << endl;
+  cout << "Bienvenido a Megatron3000!" << endl;
 
-    int choice;
-    do {
-        displayMenu();
-        cin >> choice;
-        handleChoice(choice);
-    } while (choice != 0);
+  int choice;
+  do {
+      displayMenu();
+      cin >> choice;
+      handleChoice(choice);
+  } while (choice != 0);
 
-    return 0;
+  return 0;
 }
 
 void displayMenu() {
-    cout << "1. Crear disco" << endl;   // crear archivos y setear data dictionary
+    cout << "1. Cargar Megatron" << endl;   // crear archivos y setear data dictionary
     cout << "2. Leer archivo" << endl;  // leer todo o n registros
 
     // En qué plato, superficie, pista, sector y bloque
@@ -61,6 +61,7 @@ void displayMenu() {
 
     cout << "5. Formatear Disco " << endl;  // Limpiar contenidos de los bloques
     cout << "6. Informacion del Disco " << endl;    // total, libre, ocupada, bloque, sector
+    cout << "7. Configurar disco "<<endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion: ";
 }
@@ -71,7 +72,7 @@ void handleChoice(int choice) {
             cout << "Cerrando Megatron3000." << endl;
             break;
         case 1:
-            cout << "You selected Option 1" << endl;
+            cout << "Cargando Megatron..." << endl;
             break;
         case 2: {
             string filename;
@@ -81,7 +82,7 @@ void handleChoice(int choice) {
             }
             break;
         case 3:
-            cout << "andair registro\n";
+            cout << "añadir registro\n";
             break;
         case 4: {
             string que;
@@ -99,6 +100,14 @@ void handleChoice(int choice) {
         case 6:
             cout << "info\n";
             break;
+        case 7: {
+          int params[6];
+          cout << "Ingresar en orden, numero de:\n platos\n superficies por plato\n pistas por superficie\n sectores por pista\n bytes por sector\n sectores por bloque\n";
+          for(int i=0; i<6; i++)
+            cin >> params[i];
+          megatron.setDisk(params);
+          }
+          break;
         default:
             cout << "Invalid choice. Please try again." << endl;
     }
@@ -189,3 +198,56 @@ void readFile(string &filename) {
 
   file.close();
 }
+
+/*
+vector<int> Disk::getSizes(string table) {
+  ifstream file(route+"scheme.txt");
+  if (!file.is_open()) {
+    cerr << "No se pudo abrir el archivo: " << "scheme.txt" << endl;
+  }
+  // buscar header
+  string line, word;
+  do {
+    getline(file,line);
+  } while (line.compare(0, table.size(), table) != 0);
+  int column = 0;
+  vector<int> maxColumnSizes;
+  istringstream iss(line);
+  while (getline(iss, word, '#')) {
+    if (column>0 && column%3 == 0)
+      maxColumnSizes.push_back(stoi(word));
+    ++column;
+  }
+  return maxColumnSizes;
+}
+*/
+
+
+/*
+void Query::createTable(string &query) {
+  // Remove "create table ", "(", and ")"
+  std::string substringsToRemove[] = {"create table ", "(", ")", ",", };
+  for (const auto& substr : substringsToRemove) {
+    size_t pos = query.find(substr);
+    if (pos != std::string::npos) {
+      query.erase(pos, substr.length());
+    }
+  }
+  MyString::trim(query);
+  replace(query.begin(), query.end(), ' ', '#');
+
+  // Escribir el esquema de la relacion
+  ofstream schemeFile( db.getRoute() + "scheme.txt", ios::app);
+  if (!schemeFile.is_open())
+    cerr << "Error opening scheme file." << endl;
+  schemeFile<<query<<endl;
+  schemeFile.close();
+
+  //crear el archivo de la relacion
+  string str = db.getRoute() + MyString::getSubstringBeforeFirst(query, '#') + ".txt";
+  ofstream relationFile(str, ios::app);
+  if (!relationFile.is_open())
+    cerr << "Error creating relation file: " << str <<endl;
+  relationFile.close();
+}
+ */
