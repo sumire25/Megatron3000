@@ -4,12 +4,22 @@
 
 #include "Megatron.h"
 
-void Megatron::load() {
-    myParser.load();
-    storageMan.load();
-    cout << "Loading\n";
+void Megatron::setDisk(int* measures) {
+    diskMan.setDisk(measures);
+    fileMan.setDataDictionary();
 }
 
-void Megatron::setDisk(int *measures) {
-    storageMan.setDisk(measures);
+void Megatron::loadfromDisk() {
+    diskMan.loadfromDisk();
+}
+
+void Megatron::createRelation(vector<string> &relation) {
+    if(!fileMan.hasRelation(relation[0])) {
+        fileMan.addSchema(relation, diskMan.allocRandomBlock());
+    }
+    cerr<<"Relacion ya existente"<<endl;
+}
+
+void Megatron::insertRecord(vector<string> &record) {
+
 }

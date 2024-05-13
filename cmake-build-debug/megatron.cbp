@@ -106,10 +106,10 @@
 		<Unit filename="D:/Megatron3000/Storage_Manager/FileManager.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/StorageManager.cpp">
+		<Unit filename="D:/Megatron3000/Storage_Manager/Schema.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/StorageManager.h">
+		<Unit filename="D:/Megatron3000/Storage_Manager/Schema.h">
 			<Option target="megatron"/>
 		</Unit>
 		<Unit filename="D:/Megatron3000/Util/myFunc.cpp">

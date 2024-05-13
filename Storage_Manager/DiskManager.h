@@ -6,6 +6,8 @@
 #define DISKMANAGER_H
 
 #include <iostream>
+#include <unordered_map>
+
 #include "../Util/myFunc.h"
 using namespace std;
 
@@ -20,7 +22,7 @@ private:
     int bytesXblock;
     int bytesXsector;
     long long int freeSpace;
-    map<int, string>blockMaps;
+    unordered_map<int, string> blockMaps;
 public:
     void loadfromDisk();
     void savetoDisk();
@@ -28,6 +30,10 @@ public:
     void createBlockMap(const int& track);
     void setDisk(int* measures);
     void formatDisk();
+
+    int allocRandomBlock();
+    bool isBlockFree(const int& track, const int& blockId);
+    void setBlockUsed(const int& track, const int& blockId);
 };
 
 

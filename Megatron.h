@@ -5,16 +5,23 @@
 #ifndef MEGATRON_H
 #define MEGATRON_H
 
-#include "Storage_Manager/StorageManager.h"
+#include "Storage_Manager/DiskManager.h"
+#include "Storage_Manager/FileManager.h"
+
 #include "Query_Processor/Parser.h"
 
 class Megatron {
 private:
-    StorageManager storageMan;
+    DiskManager diskMan;
+    FileManager fileMan;
     Parser myParser;
 public:
-    void load();
     void setDisk(int* measures);
+    void loadfromDisk();
+    void createRelation(vector<string>& relation);
+    void insertRecord(vector<string>& record);
+    void selectRecord(vector<string>& record);
+    void deleteRecord(vector<string>& record);
 };
 
 

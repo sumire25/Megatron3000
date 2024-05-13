@@ -54,3 +54,32 @@ void DiskManager::setDisk(int *measures) {
     saveBlockMap(0);
     cerr<<"free: "<<freeSpace<<endl;
 }
+
+int DiskManager::allocRandomBlock() {
+    bool done = false;
+    int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
+    int track, blockId;
+    do {
+        blockId = myFunc::generateRandomNumber(0, plattes*surfacesXplat*tracksXsurf*blocksXtrack - 1);
+        track = blockId / blocksPerCylinder;
+        if(blockMaps.find(track) == blockMaps.end()) {
+            createBlockMap(track);
+            setBlockUsed(track, blockId % blocksPerCylinder);
+            done = true;
+        } else {
+            if(isBlockFree(track, blockId % blocksPerCylinder)) {
+                setBlockUsed(track, blockId % blocksPerCylinder);
+                done = true;
+            }
+        }
+    }while (!done);
+    return blockId;
+}
+
+bool DiskManager::isBlockFree(const int &track, const int &blockId) {
+    return blockMaps[track][blockId + intSize] == '0';
+}
+
+void DiskManager::setBlockUsed(const int &track, const int &blockId) {
+    blockMaps[track][blockId + intSize] = '1';
+}

@@ -7,13 +7,6 @@
 size_t intSize = 8;
 
 namespace myFunc {
-    void greet() {
-        std::cout << "Hello from MyLibrary!" << std::endl;
-    }
-
-    int add(int a, int b) {
-        return a + b;
-    }
     void trim(string &str) {
         size_t first = str.find_first_not_of(' ');
         size_t last = str.find_last_not_of(' ');
@@ -54,5 +47,12 @@ namespace myFunc {
         } else {
             std::cerr << "Directory already exists." << std::endl;
         }
+    }
+
+    int generateRandomNumber(int lower, int upper) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(lower, upper);
+        return dis(gen);
     }
 }

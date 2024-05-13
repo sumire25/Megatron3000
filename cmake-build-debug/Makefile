@@ -224,29 +224,29 @@ Storage_Manager/FileManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/FileManager.cpp.s
 .PHONY : Storage_Manager/FileManager.cpp.s
 
-Storage_Manager/StorageManager.obj: Storage_Manager/StorageManager.cpp.obj
-.PHONY : Storage_Manager/StorageManager.obj
+Storage_Manager/Schema.obj: Storage_Manager/Schema.cpp.obj
+.PHONY : Storage_Manager/Schema.obj
 
 # target to build an object file
-Storage_Manager/StorageManager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/StorageManager.cpp.obj
-.PHONY : Storage_Manager/StorageManager.cpp.obj
+Storage_Manager/Schema.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.obj
+.PHONY : Storage_Manager/Schema.cpp.obj
 
-Storage_Manager/StorageManager.i: Storage_Manager/StorageManager.cpp.i
-.PHONY : Storage_Manager/StorageManager.i
+Storage_Manager/Schema.i: Storage_Manager/Schema.cpp.i
+.PHONY : Storage_Manager/Schema.i
 
 # target to preprocess a source file
-Storage_Manager/StorageManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/StorageManager.cpp.i
-.PHONY : Storage_Manager/StorageManager.cpp.i
+Storage_Manager/Schema.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.i
+.PHONY : Storage_Manager/Schema.cpp.i
 
-Storage_Manager/StorageManager.s: Storage_Manager/StorageManager.cpp.s
-.PHONY : Storage_Manager/StorageManager.s
+Storage_Manager/Schema.s: Storage_Manager/Schema.cpp.s
+.PHONY : Storage_Manager/Schema.s
 
 # target to generate assembly for a file
-Storage_Manager/StorageManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/StorageManager.cpp.s
-.PHONY : Storage_Manager/StorageManager.cpp.s
+Storage_Manager/Schema.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.s
+.PHONY : Storage_Manager/Schema.cpp.s
 
 Util/myFunc.obj: Util/myFunc.cpp.obj
 .PHONY : Util/myFunc.obj
@@ -317,9 +317,9 @@ help:
 	@echo ... Storage_Manager/FileManager.obj
 	@echo ... Storage_Manager/FileManager.i
 	@echo ... Storage_Manager/FileManager.s
-	@echo ... Storage_Manager/StorageManager.obj
-	@echo ... Storage_Manager/StorageManager.i
-	@echo ... Storage_Manager/StorageManager.s
+	@echo ... Storage_Manager/Schema.obj
+	@echo ... Storage_Manager/Schema.i
+	@echo ... Storage_Manager/Schema.s
 	@echo ... Util/myFunc.obj
 	@echo ... Util/myFunc.i
 	@echo ... Util/myFunc.s
