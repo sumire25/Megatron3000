@@ -1,11 +1,14 @@
 #include <fstream>
-#include <iostream>
+
+
+
 #include "Megatron.h"
 
 void displayMenu();
 void handleChoice(int choice);
 void readFile();
 void configDisco();
+std::vector<std::string> getStringsFromCin();
 
 Megatron megatron;
 
@@ -36,6 +39,8 @@ void displayMenu() {
     cout << "5. Formatear Disco " << endl;  // Limpiar contenidos de los bloques
     cout << "6. Informacion del Disco " << endl;    // total, libre, ocupada, bloque, sector
     cout << "7. Configurar disco "<<endl;
+    cout << "8. Crear tabla "<<endl;
+    cout << "9. Crear disco por defecto "<<endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion: ";
 }
@@ -51,8 +56,10 @@ void handleChoice(int choice) {
         case 2:
         	readFile();
             break;
-        case 3:
-            cout << "añadir registro\n";
+        case 3:{
+            vector<string> relation = {"Student","15","miki"};
+            megatron.insertRecord(relation);
+        }
             break;
         case 4:
             cout << "Consulta: "<<endl;
@@ -61,11 +68,21 @@ void handleChoice(int choice) {
             cout << "format" << endl;
             break;
         case 6:
-            cout << "info\n";
+            megatron.printInfo();
             break;
         case 7:
         	configDisco();
-          break;
+            break;
+        case 8: {
+            vector<string> relation = {"Student","age", "int", "8", "name", "char", "10"};
+            megatron.createRelation(relation);
+            }
+            break;
+        case 9: {
+            int measures[6] = {8, 2, 16384, 128, 4096, 1};
+            megatron.setDisk(measures);
+        }
+        break;
         default:
             cout << "Invalid choice. Please try again." << endl;
     }
@@ -81,67 +98,60 @@ void configDisco() {
 
 // Adicionar N registros de un *.csv
 void readFile() {
-    std::string filename;
-    std::cout << "Enter the file name: ";
-    std::cin >> filename;
-
-    std::ifstream file("../Data/"+filename+".csv");
+    string filename;
+    cout << "nombre del archivo: ";
+    cin >> filename;
+    ifstream file("../Data/" + filename + ".csv");
     if (!file.is_open()) {
-        std::cerr << "Could not open file: " << filename << std::endl;
-        return;
+        cerr << "No se pudo abrir el archivo: " << filename + ".csv" << endl;
     }
 
-    int numRecords;
-    std::cout << "Enter the number of records to read: ";
-    std::cin >> numRecords;
+    string line, word;
+    vector<string> relation = {filename};
+    vector<int> maxColumnSizes;
 
-    std::string line;
-    std::getline(file, line); // read the first line to get the column names
-    std::istringstream iss(line);
-    std::vector<std::string> columnNames;
-    std::string word;
-    while (std::getline(iss, word, ';')) {
-        columnNames.push_back(word);
-    }
-
-    std::vector<std::string> columnTypes(columnNames.size());
-    std::vector<bool> isVariableLength(columnNames.size());
-    for (int i = 0; i < columnNames.size(); ++i) {
-        std::cout << "Enter the data type for column " << columnNames[i] << ": ";
-        std::cin >> columnTypes[i];
-        if (columnTypes[i] == "char") {
-            char variableLength;
-            std::cout << "Is column " << columnNames[i] << " of variable length? (y/n): ";
-            std::cin >> variableLength;
-            isVariableLength[i] = (variableLength == 'y');
+    while (getline(file, line)) {
+        istringstream iss(line);
+        int column = 0;
+        while (getline(iss, word, ';')) {
+            if (column >= maxColumnSizes.size()) {
+                maxColumnSizes.push_back(word.size());
+            } else {
+                maxColumnSizes[column] = max(maxColumnSizes[column], static_cast<int>(word.size()));
+            }
+            ++column;
         }
     }
 
-    std::vector<int> maxLengths(columnNames.size(), 0);
-    for (int i = 0; i < numRecords; ++i) {
-        if (!std::getline(file, line)) {
-            break; // end of file or other error
-        }
+    file.clear();
+    file.seekg(0, ios::beg);
+
+    getline(file, line);
+    istringstream iss(line);
+    int column = 0;
+    while (getline(iss, word, ';')) {
+        relation.push_back(word);
+        cout << "Ingrese el tipo de dato para " << word << ": ";
+        cin >> word;
+        relation.push_back(word);
+        relation.push_back(to_string(maxColumnSizes[column]));
+        ++column;
+    }
+
+    // Escribir en disco
+    megatron.createRelation(relation);
+
+    // Leer cada línea del archivo a partir de la segunda línea
+    getline(file, line);  // Descartar la primera línea
+    while (getline(file, line)) {
         iss.clear();
         iss.str(line);
-        for (int j = 0; j < columnNames.size(); ++j) {
-            if (!std::getline(iss, word, ';')) {
-                break; // end of line or other error
-            }
-            if (!isVariableLength[j]) {
-                maxLengths[j] = std::max(maxLengths[j], static_cast<int>(word.size()));
-            }
+        vector<string> record = {filename};  // Agregar el nombre del archivo al principio del registro
+        while (getline(iss, word, ';')) {
+            record.push_back(word);
         }
+        megatron.insertRecord(record);
     }
 
     file.close();
-
-    // print the column names, types, and lengths
-    for (int i = 0; i < columnNames.size(); ++i) {
-        std::cout << "Column: " << columnNames[i] << ", Type: " << columnTypes[i];
-        if (!isVariableLength[i]) {
-            std::cout << ", Max Length: " << maxLengths[i];
-        }
-        std::cout << std::endl;
-    }
 }

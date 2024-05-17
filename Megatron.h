@@ -18,6 +18,7 @@ private:
 public:
     void setDisk(int* measures);
     void loadfromDisk();
+    void printInfo();
     void createRelation(vector<string>& relation);
     void insertRecord(vector<string>& record);
     void selectRecord(vector<string>& record);

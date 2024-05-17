@@ -21,6 +21,8 @@ public:
   string formatRecord(vector<string>& record);
   string fixedRecord(vector<string>& record, Schema* schema);
   string variableRecord(vector<string>& record, Schema* schema);
+
+  int getBlock(string& relName);
 };
 
 

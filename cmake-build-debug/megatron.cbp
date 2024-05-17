@@ -8,120 +8,120 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="D:/Megatron3000/cmake-build-debug"/>
+				<Option working_dir="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="megatron">
-				<Option output="D:/Megatron3000/cmake-build-debug/megatron.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="D:/Megatron3000/cmake-build-debug"/>
+				<Option output="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/megatron" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../include"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 megatron"/>
-					<CompileFile command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 megatron"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="megatron/fast">
-				<Option output="D:/Megatron3000/cmake-build-debug/megatron.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="D:/Megatron3000/cmake-build-debug"/>
+				<Option output="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/megatron" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../include"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed"/>
-					<Add directory="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/../../../../include/c++/13.2.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 megatron/fast"/>
-					<CompileFile command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 megatron/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="D:/Megatron3000/cmake-build-debug"/>
+				<Option working_dir="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="D:/Megatron3000/cmake-build-debug"/>
+				<Option working_dir="/home/sumire/CLionProjects/Megatron3000/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/bin/mingw32-make.exe -f &quot;D:/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/sumire/CLionProjects/Megatron3000/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="D:/Megatron3000/Megatron.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Megatron.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Megatron.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Megatron.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Query_Processor/Parser.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Query_Processor/Parser.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Query_Processor/Parser.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Query_Processor/Parser.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/DiskManager.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/DiskManager.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/DiskManager.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/DiskManager.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/FileManager.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/FileManager.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/FileManager.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/FileManager.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/Schema.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/Schema.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Storage_Manager/Schema.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Storage_Manager/Schema.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Util/myFunc.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Util/myFunc.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/Util/myFunc.h">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/Util/myFunc.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/main.cpp">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/main.cpp">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/Megatron3000/CMakeLists.txt">
+		<Unit filename="/home/sumire/CLionProjects/Megatron3000/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

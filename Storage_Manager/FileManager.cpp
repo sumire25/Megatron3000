@@ -5,7 +5,7 @@
 #include "FileManager.h"
 
 void FileManager::setDataDictionary() {
-  vector<string> metadata = {"Relation_metadata","relationName","char","20","numAttributes","int","0","recordType","char","8","location","int","8"};
+  vector<string> metadata = {"Relation_metadata","relationName","char","20","numAttributes","int","8","recordType","char","8","location","int","8"};
   addSchema(metadata,1);
   metadata = {"Attribute_metadata","relationName","char","20","attributeName","char","20","type","char","5","pos","int","8","length","int","8"};
   addSchema(metadata,11);
@@ -27,6 +27,7 @@ void FileManager::addSchema(vector<string> &relation, int blockId) {
 void FileManager::addSchematoDisk(string &relName) {
   vector<string> register_ = {relName,to_string(schemas[relName]->numAttributes),schemas[relName]->recordType,to_string(schemas[relName]->location)};
   //save register to disk
+
   for(auto &attribute : schemas[relName]->attributes) {
     register_ = {relName,attribute.first,get<0>(attribute.second),to_string(get<1>(attribute.second)),to_string(get<2>(attribute.second))};
     //save register to disk
@@ -35,28 +36,33 @@ void FileManager::addSchematoDisk(string &relName) {
 
 string FileManager::formatRecord(vector<string> &record) {
   auto& schema = schemas[record[0]];
-  vector<string> newRecord = {record[0]};
   if(schema->recordType == "Fixed") {
-    fixedRecord(record, schema);
+    return fixedRecord(record, schema);
   } else {
-    variableRecord(record, schema);
+    return variableRecord(record, schema);
   }
 }
 
 string FileManager::fixedRecord(vector<string> &record, Schema *schema) {
   string newRecord;
-  int idx;
   tuple<string,int,int> attrInfo;
   for(auto& attribute : schema->attributes) {
     attrInfo = attribute.second;
     if(get<0>(attrInfo) == "int")
       newRecord += myFunc::padString(record[get<1>(attrInfo)+1],get<2>(attrInfo));
-    else if(get<0>(attribute.second) == "float")
+    else if(get<0>(attrInfo) == "float")
       newRecord += myFunc::padString(record[get<1>(attrInfo)+1],get<2>(attrInfo));
     else
-      newRecord += record[get<1>(attrInfo)+1];
+      newRecord += myFunc::padString(record[get<1>(attrInfo)+1], get<2>(attrInfo));
   }
+  return newRecord;
 }
 
 string FileManager::variableRecord(vector<string> &record, Schema *schema) {
+  return "";
+}
+
+int FileManager::getBlock(string &relName) {
+  auto& schema = schemas[relName];
+  return schema->location;
 }

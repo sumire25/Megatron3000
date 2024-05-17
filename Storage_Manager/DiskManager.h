@@ -21,6 +21,7 @@ private:
     int blocksXtrack;
     int bytesXblock;
     int bytesXsector;
+    long long int totalSpace;
     long long int freeSpace;
     unordered_map<int, string> blockMaps;
 public:
@@ -29,11 +30,13 @@ public:
     void saveBlockMap(const int& track);
     void createBlockMap(const int& track);
     void setDisk(int* measures);
-    void formatDisk();
+    void printInfo();
 
     int allocRandomBlock();
     bool isBlockFree(const int& track, const int& blockId);
     void setBlockUsed(const int& track, const int& blockId);
+    string blockfileFromId(int& blockId);
+    void writeBlock(string& content, int blockId);
 };
 
 

@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/Megatron3000/Megatron.cpp" "CMakeFiles/megatron.dir/Megatron.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Megatron.cpp.obj.d"
-  "D:/Megatron3000/Query_Processor/Parser.cpp" "CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.obj.d"
-  "D:/Megatron3000/Storage_Manager/DiskManager.cpp" "CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.obj.d"
-  "D:/Megatron3000/Storage_Manager/FileManager.cpp" "CMakeFiles/megatron.dir/Storage_Manager/FileManager.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/FileManager.cpp.obj.d"
-  "D:/Megatron3000/Storage_Manager/Schema.cpp" "CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.obj.d"
-  "D:/Megatron3000/Util/myFunc.cpp" "CMakeFiles/megatron.dir/Util/myFunc.cpp.obj" "gcc" "CMakeFiles/megatron.dir/Util/myFunc.cpp.obj.d"
-  "D:/Megatron3000/main.cpp" "CMakeFiles/megatron.dir/main.cpp.obj" "gcc" "CMakeFiles/megatron.dir/main.cpp.obj.d"
+  "/home/sumire/CLionProjects/Megatron3000/Megatron.cpp" "CMakeFiles/megatron.dir/Megatron.cpp.o" "gcc" "CMakeFiles/megatron.dir/Megatron.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/Query_Processor/Parser.cpp" "CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.o" "gcc" "CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/Storage_Manager/DiskManager.cpp" "CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.o" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/Storage_Manager/FileManager.cpp" "CMakeFiles/megatron.dir/Storage_Manager/FileManager.cpp.o" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/FileManager.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/Storage_Manager/Schema.cpp" "CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.o" "gcc" "CMakeFiles/megatron.dir/Storage_Manager/Schema.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/Util/myFunc.cpp" "CMakeFiles/megatron.dir/Util/myFunc.cpp.o" "gcc" "CMakeFiles/megatron.dir/Util/myFunc.cpp.o.d"
+  "/home/sumire/CLionProjects/Megatron3000/main.cpp" "CMakeFiles/megatron.dir/main.cpp.o" "gcc" "CMakeFiles/megatron.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

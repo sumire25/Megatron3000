@@ -10,6 +10,10 @@ void DiskManager::loadfromDisk() {
     cout<<"manager\n";
 }
 
+void DiskManager::savetoDisk() {
+    //iterar el blockMaps y guardar en sus archivos
+}
+
 void DiskManager::saveBlockMap(const int &track) {
     ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
     if (!diskMetadata.is_open()) {
@@ -41,7 +45,7 @@ void DiskManager::setDisk(int *measures) {
     bytesXblock = measures[4]*measures[5];
     bytesXsector = measures[4];
     freeSpace = LL(plattes)*LL(surfacesXplat)*LL(tracksXsurf)*LL(blocksXtrack)*LL(bytesXblock);
-    cerr<<"free: "<<freeSpace<<endl;
+    totalSpace = freeSpace;
     createBlockMap(0);
     //Escribir capacidades del disco
     blockMaps[0] += myFunc::padString(to_string(plattes),intSize);
@@ -52,7 +56,16 @@ void DiskManager::setDisk(int *measures) {
     blockMaps[0] += myFunc::padString(to_string(bytesXsector),intSize);
     blockMaps[0] += myFunc::padString(to_string(freeSpace),16);
     saveBlockMap(0);
-    cerr<<"free: "<<freeSpace<<endl;
+    printInfo();
+}
+
+void DiskManager::printInfo() {
+    cout<<"Capacidad del disco: "<<totalSpace<<"B\n";
+    cout<<"Capacidad disponible: "<<freeSpace<<"B\n";
+    cout<<"Capacidad del bloque: "<<bytesXblock<<"B\n";
+    cout<<"Numero de bloques: "<<totalSpace/LL(bytesXblock)<<"\n";
+    cout<<"Capacidad del sector: "<<bytesXsector<<"B\n";
+    cout<<"Numero de sctores: "<<totalSpace/LL(bytesXsector)<<"\n";
 }
 
 int DiskManager::allocRandomBlock() {
@@ -83,3 +96,26 @@ bool DiskManager::isBlockFree(const int &track, const int &blockId) {
 void DiskManager::setBlockUsed(const int &track, const int &blockId) {
     blockMaps[track][blockId + intSize] = '1';
 }
+
+string DiskManager::blockfileFromId(int &blockId) {
+    int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
+    int track = blockId / blocksPerCylinder;
+    int blockInCylinder = blockId % blocksPerCylinder;
+    int plate = blockInCylinder / (surfacesXplat * blocksXtrack);
+    int blockInPlate = blockInCylinder % (surfacesXplat * blocksXtrack);
+    int surface = blockInPlate / blocksXtrack;
+    int block = blockInPlate % blocksXtrack;
+
+    string blockFile = to_string(track) + "/" + to_string(plate) + "_" + to_string(surface) + "_" + to_string(block);
+    return blockFile;
+}
+
+void DiskManager::writeBlock(string &content, int blockId) {
+    ofstream blockFile("../Disk/"+blockfileFromId(blockId)+".txt", ios::app);
+    if (!blockFile.is_open()) {
+        cerr << "Error al abrir el archivo: "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
+    }
+    blockFile << content;
+    blockFile.close();
+}
+
