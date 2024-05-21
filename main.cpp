@@ -42,7 +42,7 @@ void displayMenu() {
     cout << "8. Crear tabla "<<endl;
     cout << "9. Crear disco por defecto "<<endl;
     cout << "0. Cerrar" << endl;
-    cout << "Seleccione una opcion: ";
+    cout << "Seleccione una opcion:" << endl;
 }
 
 void handleChoice(int choice) {
@@ -99,7 +99,7 @@ void configDisco() {
 // Adicionar N registros de un *.csv
 void readFile() {
     string filename;
-    cout << "nombre del archivo: ";
+    cout << "nombre del archivo:" << endl;
     cin >> filename;
     ifstream file("../Data/" + filename + ".csv");
     if (!file.is_open()) {
@@ -131,7 +131,7 @@ void readFile() {
     int column = 0;
     while (getline(iss, word, ';')) {
         relation.push_back(word);
-        cout << "Ingrese el tipo de dato para " << word << ": ";
+        cout << "Ingrese el tipo de dato para " << word << ":" << endl;
         cin >> word;
         relation.push_back(word);
         relation.push_back(to_string(maxColumnSizes[column]));
