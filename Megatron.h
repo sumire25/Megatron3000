@@ -6,14 +6,14 @@
 #define MEGATRON_H
 
 #include "Storage_Manager/DiskManager.h"
-#include "Storage_Manager/FileManager.h"
+#include "Query_Processor/ExecutionEngine.h"
 
 #include "Query_Processor/Parser.h"
 
 class Megatron {
 private:
     DiskManager diskMan;
-    FileManager fileMan;
+    ExecutionEngine excEngine;
     Parser myParser;
 public:
     void setDisk(int* measures);

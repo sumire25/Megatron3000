@@ -6,7 +6,7 @@
 
 void Megatron::setDisk(int* measures) {
     diskMan.setDisk(measures);
-    fileMan.setDataDictionary();
+    excEngine.setDataDictionary();
 }
 
 void Megatron::loadfromDisk() {
@@ -18,15 +18,20 @@ void Megatron::printInfo() {
 }
 
 void Megatron::createRelation(vector<string> &relation) {
-    if(!fileMan.hasRelation(relation[0])) {
-        fileMan.addSchema(relation, diskMan.allocRandomBlock());
+    if(!excEngine.hasRelation(relation[0])) {
+        excEngine.addSchema(relation, diskMan.allocRandomBlock());
     }
     else
         cerr<<"Relacion ya existente"<<endl;
 }
 
 void Megatron::insertRecord(vector<string> &record) {
-    string record_ = fileMan.formatRecord(record);
-    int blockId = fileMan.getBlock(record[0]);
-    diskMan.writeBlock(record_, blockId);
+    string relName = record[0];
+    record.erase(record.begin());
+    excEngine.insertRecord(relName, record);
+    /*string record_;
+    int blockId;
+    record_ = excEngine.formatRecord(record);
+    blockId = excEngine.getBlock(record[0]);
+    diskMan.writeBlock(record_, blockId);*/
 }

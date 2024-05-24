@@ -12,7 +12,10 @@ add_executable(megatron main.cpp
         Storage_Manager/DiskManager.h
         Util/myFunc.h
         Util/myFunc.cpp
-        Storage_Manager/FileManager.cpp
-        Storage_Manager/FileManager.h
-        Storage_Manager/Schema.cpp
-        Storage_Manager/Schema.h)
+        Query_Processor/ExecutionEngine.cpp
+        Query_Processor/ExecutionEngine.h
+        Query_Processor/Schema.cpp
+        Query_Processor/Schema.h
+        Query_Processor/Page.cpp
+        Query_Processor/Page.h
+)

@@ -15,6 +15,7 @@ using namespace std;
 
 class DiskManager {
 private:
+    string diskConfig;
     int plattes;
     int surfacesXplat;
     int tracksXsurf;

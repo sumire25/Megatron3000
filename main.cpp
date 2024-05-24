@@ -1,7 +1,4 @@
 #include <fstream>
-
-
-
 #include "Megatron.h"
 
 void displayMenu();
@@ -74,12 +71,12 @@ void handleChoice(int choice) {
         	configDisco();
             break;
         case 8: {
-            vector<string> relation = {"Student","age", "int", "8", "name", "char", "10"};
+            vector<string> relation = {"Student","Fixed","age", "int", "8", "name", "char", "10"};
             megatron.createRelation(relation);
             }
             break;
         case 9: {
-            int measures[6] = {8, 2, 16384, 128, 4096, 1};
+            int measures[6] = {2, 2, 256, 128, 512, 1};
             megatron.setDisk(measures);
         }
         break;
@@ -98,16 +95,17 @@ void configDisco() {
 
 // Adicionar N registros de un *.csv
 void readFile() {
-    string filename;
+    string filename, recordType;
     cout << "nombre del archivo:" << endl;
     cin >> filename;
     ifstream file("../Data/" + filename + ".csv");
     if (!file.is_open()) {
         cerr << "No se pudo abrir el archivo: " << filename + ".csv" << endl;
     }
+    cin >> recordType;
 
     string line, word;
-    vector<string> relation = {filename};
+    vector<string> relation = {filename, recordType};
     vector<int> maxColumnSizes;
 
     while (getline(file, line)) {
