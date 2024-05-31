@@ -10,6 +10,8 @@ void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
 
 void ExecutionEngine::insertRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
+  //imprime registro
+  cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
   Page* header = buffManRef->getPage(blockId);
   header->data->append(newRecord);
@@ -23,8 +25,7 @@ void ExecutionEngine::setDataDictionary() {
   addSchema(metadata,1);
   metadata = {"Attribute_metadata","Fixed","relationName","char","20","attributeName","char","20","type","char","5","pos","int","8","length","int","8"};
   addSchema(metadata,11);
-  //save schema to disk
-  printSchemas();
+  //printSchemas();
 }
 
 bool ExecutionEngine::hasRelation(string &relName) {
@@ -51,6 +52,11 @@ void ExecutionEngine::addSchematoDisk(string &relName) {
 
 string ExecutionEngine::formatRecord(vector<string> &record) {
   auto& schema = schemas[record[0]];
+  //imprimiendo el vector
+  for(const auto& str : record) {
+    std::cout << str <<"; ";
+  }
+  cout<<endl;
   if(schema->recordType == "Fixed") {
     return fixedRecord(record, schema);
   } else {

@@ -15,6 +15,17 @@ BufferManager::BufferManager() {
 	for(i=0; i<numFrames; i++) freeFrames.push(i);
 }
 
+BufferManager::~BufferManager() {
+	for (const auto& entry : pageTable) {
+		int key = entry.first;
+		const tuple<int, bool, int>& value = entry.second;
+		if(get<1>(value)) {
+			Page* page = buffPool.getFrameDirection(get<0>(value));
+			diskManRef->writeBlock(key, *(page->data));
+		}
+	}
+}
+
 void BufferManager::setDiskManRef(DiskManager *diskManRef) {
 	this->diskManRef = diskManRef;
 }

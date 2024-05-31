@@ -150,7 +150,7 @@ void DiskManager::setBlockUsed(const int &track, const int &blockId) {
 string DiskManager::blockfileFromId(const int &blockId) {
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = blockId / blocksPerCylinder;
-    cerr << "blocksPerCylinder: "<<blocksPerCylinder<<", track: "<<track<<endl;
+    //cerr << "blocksPerCylinder: "<<blocksPerCylinder<<", track: "<<track<<endl;
     int blockInCylinder = blockId % blocksPerCylinder;
     int plate = blockInCylinder / (surfacesXplat * blocksXtrack);
     int blockInPlate = blockInCylinder % (surfacesXplat * blocksXtrack);

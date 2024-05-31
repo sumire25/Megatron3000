@@ -13,7 +13,6 @@ using namespace std;
 class Page {
 public:
 string* data;
-
 	Page();
 	~Page();
 };

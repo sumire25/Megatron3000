@@ -43,6 +43,7 @@ private:
 	bool pinPage(int pageId);
 public:
 	BufferManager();
+	~BufferManager();
 	/**
 	 * Establece la conexion con el disk manager
 	 * @param diskManRef: referencia al disk manager
