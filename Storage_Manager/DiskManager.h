@@ -27,17 +27,21 @@ private:
     unordered_map<int, string> blockMaps;
 public:
     void loadfromDisk();
-    void savetoDisk();
-    void saveBlockMap(const int& track);
-    void createBlockMap(const int& track);
     void setDisk(int* measures);
-    void printInfo();
 
-    int allocRandomBlock();
+    //Guarda el bitmap de los bloques de un track
+    void saveBlockMap(const int& track);
+    void loadBlockMap(const int& track);
+    void createBlockMap(const int& track);
     bool isBlockFree(const int& track, const int& blockId);
     void setBlockUsed(const int& track, const int& blockId);
-    string blockfileFromId(int& blockId);
-    void writeBlock(string& content, int blockId);
+    string blockfileFromId(const int &blockId);
+
+    int allocRandomBlock();
+    int allocNextBlock(const int & blockHeader);
+    string readBlock(const int& blockId);
+    void writeBlock(const int &blockId, const string &content);
+    void printInfo();
 };
 
 

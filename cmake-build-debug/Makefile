@@ -128,6 +128,78 @@ megatron/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/build
 .PHONY : megatron/fast
 
+Buffer/BufferManager.obj: Buffer/BufferManager.cpp.obj
+.PHONY : Buffer/BufferManager.obj
+
+# target to build an object file
+Buffer/BufferManager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj
+.PHONY : Buffer/BufferManager.cpp.obj
+
+Buffer/BufferManager.i: Buffer/BufferManager.cpp.i
+.PHONY : Buffer/BufferManager.i
+
+# target to preprocess a source file
+Buffer/BufferManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.i
+.PHONY : Buffer/BufferManager.cpp.i
+
+Buffer/BufferManager.s: Buffer/BufferManager.cpp.s
+.PHONY : Buffer/BufferManager.s
+
+# target to generate assembly for a file
+Buffer/BufferManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.s
+.PHONY : Buffer/BufferManager.cpp.s
+
+Buffer/BufferPool.obj: Buffer/BufferPool.cpp.obj
+.PHONY : Buffer/BufferPool.obj
+
+# target to build an object file
+Buffer/BufferPool.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj
+.PHONY : Buffer/BufferPool.cpp.obj
+
+Buffer/BufferPool.i: Buffer/BufferPool.cpp.i
+.PHONY : Buffer/BufferPool.i
+
+# target to preprocess a source file
+Buffer/BufferPool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.i
+.PHONY : Buffer/BufferPool.cpp.i
+
+Buffer/BufferPool.s: Buffer/BufferPool.cpp.s
+.PHONY : Buffer/BufferPool.s
+
+# target to generate assembly for a file
+Buffer/BufferPool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.s
+.PHONY : Buffer/BufferPool.cpp.s
+
+Buffer/Page.obj: Buffer/Page.cpp.obj
+.PHONY : Buffer/Page.obj
+
+# target to build an object file
+Buffer/Page.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/Page.cpp.obj
+.PHONY : Buffer/Page.cpp.obj
+
+Buffer/Page.i: Buffer/Page.cpp.i
+.PHONY : Buffer/Page.i
+
+# target to preprocess a source file
+Buffer/Page.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/Page.cpp.i
+.PHONY : Buffer/Page.cpp.i
+
+Buffer/Page.s: Buffer/Page.cpp.s
+.PHONY : Buffer/Page.s
+
+# target to generate assembly for a file
+Buffer/Page.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Buffer/Page.cpp.s
+.PHONY : Buffer/Page.cpp.s
+
 Megatron.obj: Megatron.cpp.obj
 .PHONY : Megatron.obj
 
@@ -176,30 +248,6 @@ Query_Processor/ExecutionEngine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/ExecutionEngine.cpp.s
 .PHONY : Query_Processor/ExecutionEngine.cpp.s
 
-Query_Processor/Page.obj: Query_Processor/Page.cpp.obj
-.PHONY : Query_Processor/Page.obj
-
-# target to build an object file
-Query_Processor/Page.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj
-.PHONY : Query_Processor/Page.cpp.obj
-
-Query_Processor/Page.i: Query_Processor/Page.cpp.i
-.PHONY : Query_Processor/Page.i
-
-# target to preprocess a source file
-Query_Processor/Page.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Page.cpp.i
-.PHONY : Query_Processor/Page.cpp.i
-
-Query_Processor/Page.s: Query_Processor/Page.cpp.s
-.PHONY : Query_Processor/Page.s
-
-# target to generate assembly for a file
-Query_Processor/Page.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Page.cpp.s
-.PHONY : Query_Processor/Page.cpp.s
-
 Query_Processor/Parser.obj: Query_Processor/Parser.cpp.obj
 .PHONY : Query_Processor/Parser.obj
 
@@ -223,30 +271,6 @@ Query_Processor/Parser.s: Query_Processor/Parser.cpp.s
 Query_Processor/Parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Parser.cpp.s
 .PHONY : Query_Processor/Parser.cpp.s
-
-Query_Processor/Record.obj: Query_Processor/Record.cpp.obj
-.PHONY : Query_Processor/Record.obj
-
-# target to build an object file
-Query_Processor/Record.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj
-.PHONY : Query_Processor/Record.cpp.obj
-
-Query_Processor/Record.i: Query_Processor/Record.cpp.i
-.PHONY : Query_Processor/Record.i
-
-# target to preprocess a source file
-Query_Processor/Record.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Record.cpp.i
-.PHONY : Query_Processor/Record.cpp.i
-
-Query_Processor/Record.s: Query_Processor/Record.cpp.s
-.PHONY : Query_Processor/Record.s
-
-# target to generate assembly for a file
-Query_Processor/Record.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\megatron.dir\build.make CMakeFiles/megatron.dir/Query_Processor/Record.cpp.s
-.PHONY : Query_Processor/Record.cpp.s
 
 Query_Processor/Schema.obj: Query_Processor/Schema.cpp.obj
 .PHONY : Query_Processor/Schema.obj
@@ -353,21 +377,24 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... megatron
+	@echo ... Buffer/BufferManager.obj
+	@echo ... Buffer/BufferManager.i
+	@echo ... Buffer/BufferManager.s
+	@echo ... Buffer/BufferPool.obj
+	@echo ... Buffer/BufferPool.i
+	@echo ... Buffer/BufferPool.s
+	@echo ... Buffer/Page.obj
+	@echo ... Buffer/Page.i
+	@echo ... Buffer/Page.s
 	@echo ... Megatron.obj
 	@echo ... Megatron.i
 	@echo ... Megatron.s
 	@echo ... Query_Processor/ExecutionEngine.obj
 	@echo ... Query_Processor/ExecutionEngine.i
 	@echo ... Query_Processor/ExecutionEngine.s
-	@echo ... Query_Processor/Page.obj
-	@echo ... Query_Processor/Page.i
-	@echo ... Query_Processor/Page.s
 	@echo ... Query_Processor/Parser.obj
 	@echo ... Query_Processor/Parser.i
 	@echo ... Query_Processor/Parser.s
-	@echo ... Query_Processor/Record.obj
-	@echo ... Query_Processor/Record.i
-	@echo ... Query_Processor/Record.s
 	@echo ... Query_Processor/Schema.obj
 	@echo ... Query_Processor/Schema.i
 	@echo ... Query_Processor/Schema.s

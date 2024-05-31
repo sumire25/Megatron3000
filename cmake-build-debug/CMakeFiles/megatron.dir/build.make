@@ -166,33 +166,47 @@ CMakeFiles/megatron.dir/Query_Processor/Schema.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Query_Processor/Schema.cpp.s"
 	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Query_Processor\Schema.cpp -o CMakeFiles\megatron.dir\Query_Processor\Schema.cpp.s
 
-CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj: CMakeFiles/megatron.dir/flags.make
-CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj: D:/BD2/Megatron/Query_Processor/Page.cpp
-CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj: CMakeFiles/megatron.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj -MF CMakeFiles\megatron.dir\Query_Processor\Page.cpp.obj.d -o CMakeFiles\megatron.dir\Query_Processor\Page.cpp.obj -c D:\BD2\Megatron\Query_Processor\Page.cpp
+CMakeFiles/megatron.dir/Buffer/Page.cpp.obj: CMakeFiles/megatron.dir/flags.make
+CMakeFiles/megatron.dir/Buffer/Page.cpp.obj: D:/BD2/Megatron/Buffer/Page.cpp
+CMakeFiles/megatron.dir/Buffer/Page.cpp.obj: CMakeFiles/megatron.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/megatron.dir/Buffer/Page.cpp.obj"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/megatron.dir/Buffer/Page.cpp.obj -MF CMakeFiles\megatron.dir\Buffer\Page.cpp.obj.d -o CMakeFiles\megatron.dir\Buffer\Page.cpp.obj -c D:\BD2\Megatron\Buffer\Page.cpp
 
-CMakeFiles/megatron.dir/Query_Processor/Page.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/megatron.dir/Query_Processor/Page.cpp.i"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\BD2\Megatron\Query_Processor\Page.cpp > CMakeFiles\megatron.dir\Query_Processor\Page.cpp.i
+CMakeFiles/megatron.dir/Buffer/Page.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/megatron.dir/Buffer/Page.cpp.i"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\BD2\Megatron\Buffer\Page.cpp > CMakeFiles\megatron.dir\Buffer\Page.cpp.i
 
-CMakeFiles/megatron.dir/Query_Processor/Page.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Query_Processor/Page.cpp.s"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Query_Processor\Page.cpp -o CMakeFiles\megatron.dir\Query_Processor\Page.cpp.s
+CMakeFiles/megatron.dir/Buffer/Page.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Buffer/Page.cpp.s"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Buffer\Page.cpp -o CMakeFiles\megatron.dir\Buffer\Page.cpp.s
 
-CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj: CMakeFiles/megatron.dir/flags.make
-CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj: D:/BD2/Megatron/Query_Processor/Record.cpp
-CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj: CMakeFiles/megatron.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj -MF CMakeFiles\megatron.dir\Query_Processor\Record.cpp.obj.d -o CMakeFiles\megatron.dir\Query_Processor\Record.cpp.obj -c D:\BD2\Megatron\Query_Processor\Record.cpp
+CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj: CMakeFiles/megatron.dir/flags.make
+CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj: D:/BD2/Megatron/Buffer/BufferPool.cpp
+CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj: CMakeFiles/megatron.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj -MF CMakeFiles\megatron.dir\Buffer\BufferPool.cpp.obj.d -o CMakeFiles\megatron.dir\Buffer\BufferPool.cpp.obj -c D:\BD2\Megatron\Buffer\BufferPool.cpp
 
-CMakeFiles/megatron.dir/Query_Processor/Record.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/megatron.dir/Query_Processor/Record.cpp.i"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\BD2\Megatron\Query_Processor\Record.cpp > CMakeFiles\megatron.dir\Query_Processor\Record.cpp.i
+CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.i"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\BD2\Megatron\Buffer\BufferPool.cpp > CMakeFiles\megatron.dir\Buffer\BufferPool.cpp.i
 
-CMakeFiles/megatron.dir/Query_Processor/Record.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Query_Processor/Record.cpp.s"
-	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Query_Processor\Record.cpp -o CMakeFiles\megatron.dir\Query_Processor\Record.cpp.s
+CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.s"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Buffer\BufferPool.cpp -o CMakeFiles\megatron.dir\Buffer\BufferPool.cpp.s
+
+CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj: CMakeFiles/megatron.dir/flags.make
+CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj: D:/BD2/Megatron/Buffer/BufferManager.cpp
+CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj: CMakeFiles/megatron.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj -MF CMakeFiles\megatron.dir\Buffer\BufferManager.cpp.obj.d -o CMakeFiles\megatron.dir\Buffer\BufferManager.cpp.obj -c D:\BD2\Megatron\Buffer\BufferManager.cpp
+
+CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.i"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\BD2\Megatron\Buffer\BufferManager.cpp > CMakeFiles\megatron.dir\Buffer\BufferManager.cpp.i
+
+CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.s"
+	C:\Users\msumi\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\BD2\Megatron\Buffer\BufferManager.cpp -o CMakeFiles\megatron.dir\Buffer\BufferManager.cpp.s
 
 # Object files for target megatron
 megatron_OBJECTS = \
@@ -203,8 +217,9 @@ megatron_OBJECTS = \
 "CMakeFiles/megatron.dir/Util/myFunc.cpp.obj" \
 "CMakeFiles/megatron.dir/Query_Processor/ExecutionEngine.cpp.obj" \
 "CMakeFiles/megatron.dir/Query_Processor/Schema.cpp.obj" \
-"CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj" \
-"CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj"
+"CMakeFiles/megatron.dir/Buffer/Page.cpp.obj" \
+"CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj" \
+"CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj"
 
 # External object files for target megatron
 megatron_EXTERNAL_OBJECTS =
@@ -216,13 +231,14 @@ megatron.exe: CMakeFiles/megatron.dir/Storage_Manager/DiskManager.cpp.obj
 megatron.exe: CMakeFiles/megatron.dir/Util/myFunc.cpp.obj
 megatron.exe: CMakeFiles/megatron.dir/Query_Processor/ExecutionEngine.cpp.obj
 megatron.exe: CMakeFiles/megatron.dir/Query_Processor/Schema.cpp.obj
-megatron.exe: CMakeFiles/megatron.dir/Query_Processor/Page.cpp.obj
-megatron.exe: CMakeFiles/megatron.dir/Query_Processor/Record.cpp.obj
+megatron.exe: CMakeFiles/megatron.dir/Buffer/Page.cpp.obj
+megatron.exe: CMakeFiles/megatron.dir/Buffer/BufferPool.cpp.obj
+megatron.exe: CMakeFiles/megatron.dir/Buffer/BufferManager.cpp.obj
 megatron.exe: CMakeFiles/megatron.dir/build.make
 megatron.exe: CMakeFiles/megatron.dir/linkLibs.rsp
 megatron.exe: CMakeFiles/megatron.dir/objects1.rsp
 megatron.exe: CMakeFiles/megatron.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable megatron.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\BD2\Megatron\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable megatron.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\megatron.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

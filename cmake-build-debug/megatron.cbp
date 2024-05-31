@@ -82,6 +82,24 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/BD2/Megatron/Buffer/BufferManager.cpp">
+			<Option target="megatron"/>
+		</Unit>
+		<Unit filename="D:/BD2/Megatron/Buffer/BufferManager.h">
+			<Option target="megatron"/>
+		</Unit>
+		<Unit filename="D:/BD2/Megatron/Buffer/BufferPool.cpp">
+			<Option target="megatron"/>
+		</Unit>
+		<Unit filename="D:/BD2/Megatron/Buffer/BufferPool.h">
+			<Option target="megatron"/>
+		</Unit>
+		<Unit filename="D:/BD2/Megatron/Buffer/Page.cpp">
+			<Option target="megatron"/>
+		</Unit>
+		<Unit filename="D:/BD2/Megatron/Buffer/Page.h">
+			<Option target="megatron"/>
+		</Unit>
 		<Unit filename="D:/BD2/Megatron/Megatron.cpp">
 			<Option target="megatron"/>
 		</Unit>
@@ -94,22 +112,10 @@
 		<Unit filename="D:/BD2/Megatron/Query_Processor/ExecutionEngine.h">
 			<Option target="megatron"/>
 		</Unit>
-		<Unit filename="D:/BD2/Megatron/Query_Processor/Page.cpp">
-			<Option target="megatron"/>
-		</Unit>
-		<Unit filename="D:/BD2/Megatron/Query_Processor/Page.h">
-			<Option target="megatron"/>
-		</Unit>
 		<Unit filename="D:/BD2/Megatron/Query_Processor/Parser.cpp">
 			<Option target="megatron"/>
 		</Unit>
 		<Unit filename="D:/BD2/Megatron/Query_Processor/Parser.h">
-			<Option target="megatron"/>
-		</Unit>
-		<Unit filename="D:/BD2/Megatron/Query_Processor/Record.cpp">
-			<Option target="megatron"/>
-		</Unit>
-		<Unit filename="D:/BD2/Megatron/Query_Processor/Record.h">
 			<Option target="megatron"/>
 		</Unit>
 		<Unit filename="D:/BD2/Megatron/Query_Processor/Schema.cpp">

@@ -45,7 +45,7 @@ namespace myFunc {
                 std::cerr << "Error creating directory." << std::endl;
             }
         } else {
-            std::cerr << "Directory already exists." << std::endl;
+            std::cerr << "Directory already exists: "<< directoryPath << std::endl;
         }
     }
 

@@ -16,6 +16,9 @@
 #include <random>
 using namespace std;
 
+#define PAGE_SIZE 512
+#define NUM_FRAMES 3
+
 extern size_t intSize;
 
 namespace myFunc {

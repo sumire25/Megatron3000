@@ -16,6 +16,10 @@ add_executable(megatron main.cpp
         Query_Processor/ExecutionEngine.h
         Query_Processor/Schema.cpp
         Query_Processor/Schema.h
-        Query_Processor/Page.cpp
-        Query_Processor/Page.h
+        Buffer/Page.cpp
+        Buffer/Page.h
+        Buffer/BufferPool.cpp
+        Buffer/BufferPool.h
+        Buffer/BufferManager.cpp
+        Buffer/BufferManager.h
 )
