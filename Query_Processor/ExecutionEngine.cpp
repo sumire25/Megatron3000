@@ -4,9 +4,17 @@
 
 #include "ExecutionEngine.h"
 
-void ExecutionEngine::insertRecord(string relName, vector<string> &record) {
+void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
+  this->buffManRef = buffManRef;
+}
+
+void ExecutionEngine::insertRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
-  int blockId = getBlock(relName);
+  int blockId = getBlock(record[0]);
+  Page* header = buffManRef->getPage(blockId);
+  header->data->append(newRecord);
+  buffManRef->setDirtyFlag(blockId);
+  buffManRef->unpinPage(blockId);
   //write record to disk
 }
 
@@ -16,6 +24,7 @@ void ExecutionEngine::setDataDictionary() {
   metadata = {"Attribute_metadata","Fixed","relationName","char","20","attributeName","char","20","type","char","5","pos","int","8","length","int","8"};
   addSchema(metadata,11);
   //save schema to disk
+  printSchemas();
 }
 
 bool ExecutionEngine::hasRelation(string &relName) {
@@ -71,4 +80,19 @@ string ExecutionEngine::variableRecord(vector<string> &record, Schema *schema) {
 int ExecutionEngine::getBlock(string &relName) {
   auto& schema = schemas[relName];
   return schema->location;
+}
+
+void ExecutionEngine::printSchemas() {
+  for (const auto& pair : schemas) {
+    std::cout << "Schema Name: " << pair.first << std::endl;
+    Schema* schema = pair.second;
+    for (const auto& attribute : schema->attributes) {
+      std::cout << "Attribute Name: " << attribute.first << std::endl;
+      std::cout << "Type: " << std::get<0>(attribute.second) << std::endl;
+      std::cout << "Position: " << std::get<1>(attribute.second) << std::endl;
+      std::cout << "Length: " << std::get<2>(attribute.second) << std::endl;
+    }
+    std::cout << "Location: " << schema->location << std::endl;
+    std::cout << "------------------------" << std::endl;
+  }
 }

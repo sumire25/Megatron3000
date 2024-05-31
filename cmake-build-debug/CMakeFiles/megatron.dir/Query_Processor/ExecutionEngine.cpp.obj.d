@@ -63,6 +63,8 @@ CMakeFiles/megatron.dir/Query_Processor/ExecutionEngine.cpp.obj: \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/vadefs.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uses_allocator_args.h \
+ D:/BD2/Megatron/Buffer/BufferManager.h \
+ D:/BD2/Megatron/Buffer/BufferPool.h D:/BD2/Megatron/Buffer/Page.h \
  D:/BD2/Megatron/Util/myFunc.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iostream \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream \
@@ -248,4 +250,11 @@ CMakeFiles/megatron.dir/Query_Processor/ExecutionEngine.cpp.obj: \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numeric \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_numeric.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h \
- D:\BD2\Megatron\Query_Processor\Schema.h
+ D:/BD2/Megatron/Storage_Manager/DiskManager.h \
+ D:/BD2/Megatron/Util/myFunc.h \
+ C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/queue \
+ C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_queue.h \
+ C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/list \
+ C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_list.h \
+ C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/list.tcc \
+ D:\BD2\Megatron\Query_Processor\Schema.h D:/BD2/Megatron/Util/myFunc.h

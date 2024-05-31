@@ -7,14 +7,16 @@
 
 #include <unordered_map>
 
-#include "../Util/myFunc.h"
+#include "../Buffer/BufferManager.h"
 #include "Schema.h"
 
 class ExecutionEngine {
 private:
+  BufferManager* buffManRef;
   unordered_map<string, Schema*> schemas;
 public:
-  void insertRecord(string relName, vector<string>& record);
+  void setBuffManRef(BufferManager* buffManRef);
+  void insertRecord(vector<string>& record);
   void setDataDictionary();
   bool hasRelation(string& relName);
   void addSchema(vector<string>& relation, int blockId);
@@ -24,6 +26,9 @@ public:
   string variableRecord(vector<string>& record, Schema* schema);
 
   int getBlock(string& relName);
+
+  //function which prints all the schemas
+  void printSchemas();
 };
 
 

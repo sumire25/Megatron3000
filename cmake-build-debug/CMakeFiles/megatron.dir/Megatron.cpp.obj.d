@@ -248,9 +248,8 @@ CMakeFiles/megatron.dir/Megatron.cpp.obj: D:\BD2\Megatron\Megatron.cpp \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_numeric.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h \
  D:\BD2\Megatron\Query_Processor/ExecutionEngine.h \
- D:/BD2/Megatron/Util/myFunc.h D:\BD2\Megatron\Query_Processor/Schema.h \
- D:\BD2\Megatron\Buffer/BufferManager.h \
- D:\BD2\Megatron\Buffer/BufferPool.h D:/BD2/Megatron/Buffer/Page.h \
+ D:/BD2/Megatron/Buffer/BufferManager.h \
+ D:/BD2/Megatron/Buffer/BufferPool.h D:/BD2/Megatron/Buffer/Page.h \
  D:/BD2/Megatron/Util/myFunc.h \
  D:/BD2/Megatron/Storage_Manager/DiskManager.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/queue \
@@ -258,4 +257,6 @@ CMakeFiles/megatron.dir/Megatron.cpp.obj: D:\BD2\Megatron\Megatron.cpp \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/list \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_list.h \
  C:/Users/msumi/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/list.tcc \
+ D:\BD2\Megatron\Query_Processor/Schema.h D:/BD2/Megatron/Util/myFunc.h \
+ D:\BD2\Megatron\Buffer/BufferManager.h \
  D:\BD2\Megatron\Query_Processor/Parser.h

@@ -6,6 +6,7 @@
 
 Megatron::Megatron() {
     buffManager.setDiskManRef(&diskMan);
+    excEngine.setBuffManRef(&buffManager);
 }
 
 void Megatron::setDisk(int* measures) {
@@ -28,12 +29,12 @@ void Megatron::createRelation(vector<string> &relation) {
     }
     else
         cerr<<"Relacion ya existente"<<endl;
+    excEngine.printSchemas();
 }
 
 void Megatron::insertRecord(vector<string> &record) {
     string relName = record[0];
-    record.erase(record.begin());
-    excEngine.insertRecord(relName, record);
+    excEngine.insertRecord(record);
     /*string record_;
     int blockId;
     record_ = excEngine.formatRecord(record);

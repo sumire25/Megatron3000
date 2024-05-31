@@ -6,7 +6,8 @@
 
 Page::Page() {
 	char c = ' ';
-	data = new string(PAGE_SIZE, c);
+	//data = new string(PAGE_SIZE, c);
+	data = new string();
 }
 
 Page::~Page() {

@@ -11,7 +11,7 @@ Megatron megatron;
 
 int main()
 {
-    int opc = 1;
+    /*int opc = 1;
     int bloque;
     std::string contenido;
 
@@ -58,10 +58,10 @@ int main()
 
     interfaz.mostrarContadores();
 
-    return 0;
+    return 0; */
 
 
-  /*cout << "Bienvenido a Megatron3000!" << endl;
+  cout << "Bienvenido a Megatron3000!" << endl;
 
   int choice;
   do {
@@ -70,7 +70,7 @@ int main()
       handleChoice(choice);
   } while (choice != 0);
 
-  return 0;*/
+  return 0;
 }
 
 void displayMenu() {
