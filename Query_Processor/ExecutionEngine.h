@@ -16,19 +16,21 @@ private:
   unordered_map<string, Schema*> schemas;
 public:
   void setBuffManRef(BufferManager* buffManRef);
-  void insertRecord(vector<string>& record);
-  void setDataDictionary();
-  bool hasRelation(string& relName);
   void addSchema(vector<string>& relation, int blockId);
-  void addSchematoDisk(string& relName);
+  void insertRecord(vector<string>& record);
+
+  int getBlock(string& relName);//return header page del file de la relacion
+  bool hasRelation(string& relName);
   string formatRecord(vector<string>& record);
   string fixedRecord(vector<string>& record, Schema* schema);
   string variableRecord(vector<string>& record, Schema* schema);
 
-  int getBlock(string& relName);
-
   //function which prints all the schemas
   void printSchemas();
+
+  //POR IMPLEMENTAR
+  void setDataDictionary();
+  void addSchematoDisk(string& relName);
 };
 
 

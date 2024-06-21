@@ -12,9 +12,9 @@
 class Schema {
 public:
 	int numAttributes;
-	int location;
-	string recordType;
-	// <attributeName, <attributeType, offset, length>>
+	int location;//header page
+	string recordType;//fixed or variable
+	// <attributeName, <attributeType, column, length>>
 	unordered_map<string,tuple<string,int,int>> attributes;
 
 	Schema(vector<string>& relation);

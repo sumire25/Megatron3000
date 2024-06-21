@@ -24,9 +24,9 @@ private:
     int bytesXsector;
     long long int totalSpace;
     long long int freeSpace;
-    unordered_map<int, string> blockMaps;
+    unordered_map<int, string> blockMaps;//no se hacen muchas reservas de bloques nuevos(podria eliminarse)
 public:
-    void loadfromDisk();
+    void loadfromDisk();//cargar metadata del disco y sgdb
     void setDisk(int* measures);
 
     //Guarda el bitmap de los bloques de un track

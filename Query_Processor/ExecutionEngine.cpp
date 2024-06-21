@@ -12,6 +12,7 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
   //imprime registro// cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
+  //buffManRef->pinPage(blockId, RequestType::WRITE);
   Page* header = buffManRef->getPage(blockId);
   header->data->append(newRecord);
   buffManRef->setDirtyFlag(blockId);
@@ -19,6 +20,7 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   //write record to disk
 }
 
+//LAST WORK: TO MAKE PERSISTENT DB
 void ExecutionEngine::setDataDictionary() {
   vector<string> metadata = {"Relation_metadata","Fixed","relationName","char","20","numAttributes","int","8","recordType","char","8","location","int","8"};
   addSchema(metadata,1);
@@ -36,7 +38,7 @@ bool ExecutionEngine::hasRelation(string &relName) {
 void ExecutionEngine::addSchema(vector<string> &relation, int blockId) {
   schemas[relation[0]] = new Schema(relation);
   schemas[relation[0]]->location = blockId;
-  addSchematoDisk(relation[0]);
+  addSchematoDisk(relation[0]);//añadir relacion a las tablas de metadata
 }
 
 void ExecutionEngine::addSchematoDisk(string &relName) {

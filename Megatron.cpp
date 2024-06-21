@@ -42,6 +42,7 @@ void Megatron::insertRecord(vector<string> &record) {
     diskMan.writeBlock(record_, blockId);*/
 }
 
+
 void Megatron::leerBloque(int numBlock) {
     if(!buffManager.pinPage(numBlock, RequestType::READ)) return;
     Page* bloque = buffManager.getPage(numBlock);
