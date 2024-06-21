@@ -7,21 +7,28 @@
 
 #include "BufferPool.h"
 #include "../Storage_Manager/DiskManager.h"
+#include "Replacer.h"
 #include <iostream>
 #include <unordered_map>
 #include <queue>
-#include <list>
 
+enum class RequestType {
+	READ,
+	WRITE
+};
 /**
  * Gestiona el buffer, el cual es un conjunto de frames en memoria principal
  */
 class BufferManager {
 private:
 	DiskManager* diskManRef; //Referencia al disk manager
-	//key: pageId, value: <frameId, dirtyBit, pinCount>
-	unordered_map<int,tuple<int, bool, int>> pageTable;
-	list<int> LRUqueue; // cola de frames (unpinned) segun su uso reciente
-	queue<int> freeFrames; // cola de frames libres
+	//key: pageId, value: frameId
+	unordered_map<int,int> pageTable;
+	//key: frameId, value: dirtyBit, pinCount y pinned
+	tuple<bool, int, bool> frameInfo[NUM_FRAMES];
+	//request queue for any page
+	queue<RequestType> requestQueue[NUM_FRAMES];
+	Replacer* replacer;//reemplazador
 	BufferPool buffPool; // instancia del buffer pool
 	int numFrames; // numero de frames
 	int bufferSize; // tamaño del buffer
@@ -29,20 +36,31 @@ private:
 	int hitCount; // contador de hits
 
 	/**
+	* Escribe el contenido de la pagina en disco
+	* @param pageId: id de la pagina
+	* @author Marko
+	*/
+	void writePage(int pageId);
+	/**
  * Libera el frame que contiene a la pagina, escribe en disco si hay cambios
  * @param pageId: id de la pagina
  * @author Todos
  */
-	void flushPage(int pageId);
+	bool flushPage(int pageId);
 	/**
- * Verifica si la pagina esta en el buffer, incrementa el pincount
- * @param pageId: id de la pagina
- * @return true si se pudo pinear la pagina, false en caso contrario
- * @author Todos
+ * Obtiene el id de la pagina que esta en el frame
+ * @param frameId: id del frame
+ * @return id de la pagina que esta en el frame, -1 si no hay ninguna
+ * @author Marko
  */
-	bool pinPage(int pageId);
+	int getPageidfromFrame(int frameId);
 public:
-	BufferManager();
+	/**
+	* Constructor: crea un BufferManager con la estrategia de reemplazo deseada
+	* @param replacerType: LRU(1), Clock(2)
+	* @author Marko
+	*/
+	BufferManager(int replacerType);
 	~BufferManager();
 	/**
 	 * Establece la conexion con el disk manager
@@ -57,6 +75,14 @@ public:
 	 * @author Todos
 	 */
 	Page* getPage(int pageId);
+	/**
+	* Verifica si la pagina esta en el buffer, incrementa el pincount
+	* @param pageId: id de la pagina
+	* @param requestType: tipo de request(READ, WRITE)
+	* @return true si se pudo pinear la pagina, false en caso contrario
+	* @author Todos
+	*/
+	bool pinPage(int pageId, RequestType requestType);
 	/**
 	 * Decrementa el pincount
 	 * @param pageId: id de la pagina
@@ -87,10 +113,13 @@ public:
 	 */
 	void printPageTable();
 	/**
-	* Imprime la LRUqueue
-	* @author Todos
+	* Imprime el estado de las estructuras de reemplazo
+	* @author Marko
 	*/
-	void printLRUqueue();
+	void printReplacer();
+	void printRequestQueue();
+	void pinningPage(int pageId);
+	void unpinningPage(int pageId);
 };
 
 

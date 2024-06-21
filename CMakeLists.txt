@@ -22,4 +22,5 @@ add_executable(megatron main.cpp
         Buffer/BufferPool.h
         Buffer/BufferManager.cpp
         Buffer/BufferManager.h
+        Buffer/Replacer.h
 )

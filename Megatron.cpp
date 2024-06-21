@@ -4,7 +4,7 @@
 
 #include "Megatron.h"
 
-Megatron::Megatron() {
+Megatron::Megatron(): buffManager(2){//2: clockreplacer
     buffManager.setDiskManRef(&diskMan);
     excEngine.setBuffManRef(&buffManager);
 }
@@ -43,31 +43,36 @@ void Megatron::insertRecord(vector<string> &record) {
 }
 
 void Megatron::leerBloque(int numBlock) {
-    Page* page = buffManager.getPage(numBlock);
-    if(page != nullptr) {
-        cout<<*(page->data)<<endl;
-        buffManager.printPageTable();
-        buffManager.printLRUqueue();
-    }
+    if(!buffManager.pinPage(numBlock, RequestType::READ)) return;
+    Page* bloque = buffManager.getPage(numBlock);
+    cout<<*(bloque->data)<<endl;
 }
 
-void Megatron::escribirBloque(int numBloque, string contenido) {
-    Page* page = buffManager.getPage(numBloque);
-    if(page != nullptr) {
-        *(page->data) = std::move(contenido);
-        buffManager.setDirtyFlag(numBloque);
-        buffManager.printPageTable();
-        buffManager.printLRUqueue();
-    }
+void Megatron::escribirBloque(int numBloque) {
+    if(!buffManager.pinPage(numBloque, RequestType::WRITE)) return;
+    Page* bloque = buffManager.getPage(numBloque);
+    cout<<*(bloque->data)<<endl;
 }
 
 void Megatron::liberarBloque(int numBloque) {
     buffManager.unpinPage(numBloque);
-    buffManager.printPageTable();
-    buffManager.printLRUqueue();
 }
 
 void Megatron::mostrarContadores() {
     cout << "Total Misscount: " << buffManager.getMissCount();
     cout << ", Total Hitcount: " << buffManager.getHitcount() << endl;
+}
+
+void Megatron::pinPage(int numBloque) {
+    buffManager.pinningPage(numBloque);
+}
+
+void Megatron::unpinPage(int numBloque) {
+    buffManager.unpinningPage(numBloque);
+}
+
+void Megatron::print() {
+    buffManager.printRequestQueue();
+    buffManager.printPageTable();
+    buffManager.printReplacer();
 }
