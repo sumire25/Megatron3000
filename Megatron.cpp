@@ -29,7 +29,7 @@ void Megatron::createRelation(vector<string> &relation) {
     }
     else
         cerr<<"Relacion ya existente"<<endl;
-    excEngine.printSchemas();
+    //excEngine.printSchemas();
 }
 
 void Megatron::insertRecord(vector<string> &record) {

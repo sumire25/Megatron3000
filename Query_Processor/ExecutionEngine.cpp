@@ -10,8 +10,7 @@ void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
 
 void ExecutionEngine::insertRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
-  //imprime registro
-  cerr << "Record: " << newRecord << "\n";
+  //imprime registro// cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
   Page* header = buffManRef->getPage(blockId);
   header->data->append(newRecord);
@@ -52,11 +51,13 @@ void ExecutionEngine::addSchematoDisk(string &relName) {
 
 string ExecutionEngine::formatRecord(vector<string> &record) {
   auto& schema = schemas[record[0]];
+
   //imprimiendo el vector
-  for(const auto& str : record) {
+  /*for(const auto& str : record) {
     std::cout << str <<"; ";
   }
-  cout<<endl;
+  cout<<endl;*/
+
   if(schema->recordType == "Fixed") {
     return fixedRecord(record, schema);
   } else {
