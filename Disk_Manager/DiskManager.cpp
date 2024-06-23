@@ -96,6 +96,9 @@ int DiskManager::allocRandomBlock() {
             }
         }
     }while (!done);
+    //Crear archivo de bloque
+    std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
+    createFile.close();
     return blockId;
 }
 
@@ -103,17 +106,24 @@ int DiskManager::allocNextBlock(const int &blockHeader) {
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = (blockHeader+1) / blocksPerCylinder;
     int blockCylinder = blockHeader % blocksPerCylinder;
+    int blockId;
 
     for(; track<tracksXsurf*surfacesXplat*plattes; track++) {
         if(blockMaps.find(track) == blockMaps.end()) {
             createBlockMap(track);
-            setBlockUsed(track, track*blocksPerCylinder + 1);
-            return track*blocksPerCylinder + 1;
+            blockId = track*blocksPerCylinder + 1;
+            setBlockUsed(track, 1);
+            std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
+            createFile.close();
+            return blockId;
         }
         for(; blockCylinder<blocksPerCylinder; blockCylinder++) {
             if(isBlockFree(track, blockCylinder)) {
                 setBlockUsed(track, blockCylinder);
-                return track*blocksPerCylinder + blockCylinder;
+                blockId = track*blocksPerCylinder + blockCylinder;
+                std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
+                createFile.close();
+                return blockId;
             }
         }
         blockCylinder = 0;
@@ -127,10 +137,9 @@ string DiskManager::readBlock(const int &blockId) {
     if(blockMaps.find(track) == blockMaps.end()) {
         loadBlockMap(track);
     }
-    //
     ifstream blockFile("../Disk/"+blockfileFromId(blockId)+".txt");
     if (!blockFile.is_open()) {
-        cerr << "Error al abrir el archivo: "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
+        cerr << "Error al abrir el archivo(read): "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
     }
     string content;
     blockFile >> content;
@@ -162,15 +171,16 @@ string DiskManager::blockfileFromId(const int &blockId) {
 }
 
 void DiskManager::writeBlock(const int &blockId, const string &content) {
+    //To load blockMap of the next cilynder wich could have pages from the same file
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = (blockId+1) / blocksPerCylinder;
     if(blockMaps.find(track) == blockMaps.end()) {
         loadBlockMap(track);
     }
-    //
+
     ofstream blockFile("../Disk/"+blockfileFromId(blockId)+".txt");
     if (!blockFile.is_open()) {
-        cerr << "Error al abrir el archivo: "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
+        cerr << "Error al abrir el archivo(write): "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
     }
     blockFile << content;
     blockFile.close();

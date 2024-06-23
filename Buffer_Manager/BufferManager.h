@@ -6,28 +6,27 @@
 #define BUFFERMANAGER_H
 
 #include "BufferPool.h"
-#include "../Storage_Manager/DiskManager.h"
+#include "../Disk_Manager/DiskManager.h"
 #include "Replacer.h"
 #include <iostream>
 #include <unordered_map>
 #include <queue>
 
+//tipo de request que pinea la pagina (WRITE, READ)
 enum class RequestType {
 	READ,
 	WRITE
 };
-/**
- * Gestiona el buffer, el cual es un conjunto de frames en memoria principal
- */
+
+//Gestiona el buffer, el cual es un conjunto de frames en memoria principal
 class BufferManager {
 private:
 	DiskManager* diskManRef; //Referencia al disk manager
+	queue<RequestType> requestQueue[NUM_FRAMES];//request queue for any page
 	//key: pageId, value: frameId
 	unordered_map<int,int> pageTable;
 	//key: frameId, value: dirtyBit, pinCount y pinned
 	tuple<bool, int, bool> frameInfo[NUM_FRAMES];
-	//request queue for any page
-	queue<RequestType> requestQueue[NUM_FRAMES];
 	Replacer* replacer;//reemplazador
 	BufferPool buffPool; // instancia del buffer pool
 	int numFrames; // numero de frames

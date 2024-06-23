@@ -2,7 +2,7 @@
 // Created by msumi on 31/05/2024.
 //
 
-#include "../Buffer/Page.h"
+#include "../Buffer_Manager/Page.h"
 
 #ifndef BUFFERPOOL_H
 #define BUFFERPOOL_H
