@@ -31,11 +31,11 @@ private:
     void saveFreeBlockMap(const int& track);
     void loadFreeBlockMap(const int& track);
     void createFreeBlockMap(const int& track);
-    bool existFreeBlockMap(const int& track);
-
-
     bool isBlockFree(const int& track, const int& blockId);
+
+    bool existFreeBlockMap(const int& track);
     void setBlockUsed(const int& track, const int& blockId);
+    string getFreeBlockMap(const int& track);
 
     /**
     * @brief Genera el path del primer sector sobre el cual esta algun bloque
@@ -48,7 +48,7 @@ private:
     void incrementSectorPath(string& sectorPath);
 public:
     /**
-    * @brief Reserva un bloque aleatorio del disco
+    * @brief Reserva un bloque aleatorio del disco (usarse solo para el headerPage de un File, al crearse una nueva relacion)
         * @return Identificador del bloque reservado
     * @author Marko
     */

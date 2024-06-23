@@ -8,6 +8,56 @@ void configDisco();
 std::vector<std::string> getStringsFromCin();
 
 Megatron megatron;
+DiskManager diskMan;
+
+void displayMenu_() {
+    cout << "1. Random" << endl;   // crear archivos y setear data dictionary
+    cout << "2. Next" << endl;  // leer todo o n registros
+    cout << "3. read" << endl; //
+    cout << "4. write" << endl;
+    cout << "5. Formatear Disco " << endl;  // Limpiar contenidos de los bloques
+    cout << "6. Informacion del Disco " << endl;    // total, libre, ocupada, bloque, sector
+    cout << "0. Cerrar" << endl;
+    cout << "Seleccione una opcion:" << endl;
+}
+
+void handleChoice_(int choice) {
+    switch(choice) {
+        case 0:
+            cout << "Cerrando Megatron3000." << endl;
+        break;
+        case 1: {
+            int blockId = diskMan.allocRandomBlock();
+            cout<<"\tReservado: "<<blockId<<endl;
+        }
+        break;
+        case 2: {
+            int head;
+            cin>>head;
+            int blockId = diskMan.allocNextBlock(head);
+            cout<<"\tReservado: "<<blockId<<endl;
+        }
+        break;
+        case 3:{
+            int head;
+            cin>>head;
+            string content = diskMan.readBlock(head);
+            cout<<"'"<<content<<"'"<<endl;
+        }
+        break;
+        case 4:{
+            int head;
+            cin>>head;
+            char c;
+            cin >> c;
+            string content = string(PAGE_SIZE, c);
+            diskMan.writeBlock(head, content);
+        }
+        break;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+    }
+}
 
 int main()
 {
@@ -60,15 +110,22 @@ int main()
 
     return 0; */
 
-
+    int sectorXblock = 2;
+    int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
+    diskMan.setDisk(measures);
   cout << "Bienvenido a Megatron3000!" << endl;
-
-  int choice;
+    int choice;
+    do {
+        displayMenu_();
+        cin >> choice;
+        handleChoice_(choice);
+    } while (choice != 0);
+  /*int choice;
   do {
       displayMenu();
       cin >> choice;
       handleChoice(choice);
-  } while (choice != 0);
+  } while (choice != 0);*/
 
   return 0;
 }
@@ -126,7 +183,8 @@ void handleChoice(int choice) {
             }
             break;
         case 9: {
-            int measures[6] = {2, 2, 256, 128, 512, 1};
+            int sectorXblock = 1;
+            int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
             megatron.setDisk(measures);
         }
         break;

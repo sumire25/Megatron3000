@@ -33,6 +33,7 @@ void DiskManager::loadFreeBlockMap(const int &track) {
 void DiskManager::createFreeBlockMap(const int &track) {
     int blocksXcillinder = plattes*surfacesXplat*blocksXtrack;
     string freeblockMap = "1" + string(blocksXcillinder-1, '0');
+    FreeblockMaps[track] = freeblockMap;
     //crear archivo de bitmap
     myFunc::createDirectory("../Disk/"+to_string(track));
     ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
@@ -87,16 +88,18 @@ int DiskManager::allocRandomBlock() {
     bool done = false;
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track, blockId;
+    string freeBlockMap;
     do {
         blockId = myFunc::generateRandomNumber(0, plattes*surfacesXplat*tracksXsurf*blocksXtrack - 1);
         track = blockId / blocksPerCylinder;
-        if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+        if(!existFreeBlockMap(track)) {
             //REFACTOR
             createFreeBlockMap(track);
             setBlockUsed(track, blockId % blocksPerCylinder);
             done = true;
         } else {
-            if(isBlockFree(track, blockId % blocksPerCylinder)) {
+            freeBlockMap = getFreeBlockMap(track);
+            if(freeBlockMap[blockId % blocksPerCylinder] == '0') {
                 setBlockUsed(track, blockId % blocksPerCylinder);
                 done = true;
             }
@@ -108,9 +111,11 @@ int DiskManager::allocRandomBlock() {
 
 int DiskManager::allocNextBlock(const int &blockHeader) {
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
-    int track = (blockHeader+1) / blocksPerCylinder;
-    int blockCylinder = blockHeader % blocksPerCylinder;
+    int blockCylinder = blockHeader + 1;
+    int track = blockCylinder / blocksPerCylinder;
+    blockCylinder = blockCylinder % blocksPerCylinder;
     int blockId;
+    string freeBlockMap;
 
     for(; track<tracksXsurf; track++) {
         if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
@@ -120,8 +125,9 @@ int DiskManager::allocNextBlock(const int &blockHeader) {
             createBlockFile(blockId);
             return blockId;
         }
+        freeBlockMap = getFreeBlockMap(track);
         for(; blockCylinder<blocksPerCylinder; blockCylinder++) {
-            if(isBlockFree(track, blockCylinder)) {
+            if(freeBlockMap[blockCylinder] == '0') {
                 setBlockUsed(track, blockCylinder);
                 blockId = track*blocksPerCylinder + blockCylinder;
                 createBlockFile(blockId);
@@ -151,8 +157,10 @@ string DiskManager::readBlock(const int &blockId) {
             cerr << "Error al abrir el archivo(read): "<<"../Disk/"+sectorFile+".txt"<< endl;
         }
         else {
-            file >> line;
+            std::getline(file, line);
             content += line;
+            cerr<<"line: '"<<line<<"'"<<endl;
+            cerr<<"content: '"<<content<<"'"<<endl;
             file.close();
         }
         incrementSectorPath(sectorFile);
@@ -172,8 +180,40 @@ bool DiskManager::isBlockFree(const int &track, const int &blockId) {
 }
 
 void DiskManager::setBlockUsed(const int &track, const int &blockId) {
-    FreeblockMaps[track][blockId] = '1';
-    saveFreeBlockMap(track);
+    string filePath = "../Disk/"+to_string(track)+"/0_0_0.txt";
+    std::fstream freeBlockMapFile;
+    std::string content;
+    // Step 1: Open the file in read mode
+    freeBlockMapFile.open(filePath, std::ios::in);
+    if (!freeBlockMapFile) {
+        cerr << "Error al abrir el archivo: "<<filePath<< endl;
+        return;
+    }
+    getline(freeBlockMapFile, content);
+    freeBlockMapFile.close();
+    // Step 2: Modify the string
+    content[blockId] = '1';
+    // Step 3: Open the file in write mode and write the modified string back to the file
+    freeBlockMapFile.open(filePath, std::ios::out | std::ios::trunc);
+    if (!freeBlockMapFile) {
+        cerr << "Error al abrir el archivo: "<<filePath<< endl;
+        return;
+    }
+    freeBlockMapFile << content;
+    freeBlockMapFile.close();
+}
+
+string DiskManager::getFreeBlockMap(const int &track) {
+    string filePath = "../Disk/"+to_string(track)+"/0_0_0.txt";
+    std::fstream freeBlockMapFile;
+    std::string content;
+    // Step 1: Open the file in read mode
+    freeBlockMapFile.open(filePath, std::ios::in);
+    if (!freeBlockMapFile) {
+        cerr << "Error al abrir el archivo: "<<filePath<< endl;
+    }
+    getline(freeBlockMapFile, content);
+    return content;
 }
 
 string DiskManager::firstSectorFileFromId(const int &blockId) {
