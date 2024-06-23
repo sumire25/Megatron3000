@@ -29,6 +29,7 @@ namespace myFunc {
   bool startsWith(const std::string& str, const std::string& prefix);
   //files
   void createDirectory(const std::string& directoryPath);
+  bool doesFolderExist(const std::string& folderPath);
   //Random number
   int generateRandomNumber(int lower, int upper);
 }

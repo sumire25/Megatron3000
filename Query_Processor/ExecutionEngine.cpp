@@ -12,11 +12,16 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
   //imprime registro// cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
-  //buffManRef->pinPage(blockId, RequestType::WRITE);
+  if(!buffManRef->pinPage(blockId, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
   Page* header = buffManRef->getPage(blockId);
   header->data->append(newRecord);
   buffManRef->setDirtyFlag(blockId);
   buffManRef->unpinPage(blockId);
+  buffManRef->printPageTable();
+  buffManRef->printReplacer();
   //write record to disk
 }
 

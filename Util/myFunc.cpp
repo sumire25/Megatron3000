@@ -49,6 +49,10 @@ namespace myFunc {
         }
     }
 
+    bool doesFolderExist(const std::string& folderPath) {
+        return std::filesystem::exists(folderPath);
+    }
+
     int generateRandomNumber(int lower, int upper) {
         std::random_device rd;
         std::mt19937 gen(rd());

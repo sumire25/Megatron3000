@@ -8,19 +8,19 @@ add_executable(megatron main.cpp
         Megatron.h
         Query_Processor/Parser.cpp
         Query_Processor/Parser.h
-        Storage_Manager/DiskManager.cpp
-        Storage_Manager/DiskManager.h
+        Disk_Manager/DiskManager.cpp
+        Disk_Manager/DiskManager.h
         Util/myFunc.h
         Util/myFunc.cpp
         Query_Processor/ExecutionEngine.cpp
         Query_Processor/ExecutionEngine.h
         Query_Processor/Schema.cpp
         Query_Processor/Schema.h
-        Buffer/Page.cpp
-        Buffer/Page.h
-        Buffer/BufferPool.cpp
-        Buffer/BufferPool.h
-        Buffer/BufferManager.cpp
-        Buffer/BufferManager.h
-        Buffer/Replacer.h
+        Buffer_Manager/Page.cpp
+        Buffer_Manager/Page.h
+        Buffer_Manager/BufferPool.cpp
+        Buffer_Manager/BufferPool.h
+        Buffer_Manager/BufferManager.cpp
+        Buffer_Manager/BufferManager.h
+        Buffer_Manager/Replacer.h
 )

@@ -5,9 +5,9 @@
 #ifndef MEGATRON_H
 #define MEGATRON_H
 
-#include "Storage_Manager/DiskManager.h"
+#include "Disk_Manager/DiskManager.h"
 #include "Query_Processor/ExecutionEngine.h"
-#include "Buffer/BufferManager.h"
+#include "Buffer_Manager/BufferManager.h"
 
 #include "Query_Processor/Parser.h"
 

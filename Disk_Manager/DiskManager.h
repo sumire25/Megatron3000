@@ -25,15 +25,27 @@ private:
     int bytesXsector;
     long long int totalSpace;
     long long int freeSpace;
-    unordered_map<int, string> blockMaps;//no se hacen muchas reservas de bloques nuevos(podria eliminarse)
+    unordered_map<int, string> FreeblockMaps;//no se hacen muchas reservas de bloques nuevos(podria eliminarse)
 
     //Guarda el bitmap de los bloques de un track
-    void saveBlockMap(const int& track);
-    void loadBlockMap(const int& track);
-    void createBlockMap(const int& track);
+    void saveFreeBlockMap(const int& track);
+    void loadFreeBlockMap(const int& track);
+    void createFreeBlockMap(const int& track);
+    bool existFreeBlockMap(const int& track);
+
+
     bool isBlockFree(const int& track, const int& blockId);
     void setBlockUsed(const int& track, const int& blockId);
-    string blockfileFromId(const int &blockId);
+
+    /**
+    * @brief Genera el path del primer sector sobre el cual esta algun bloque
+        * @param blockId Identificador del bloque
+        * @return "track/plate_surface_sector"
+    * @author Marko
+    */
+    string firstSectorFileFromId(const int &blockId);
+    void createBlockFile(const int& blockId);
+    void incrementSectorPath(string& sectorPath);
 public:
     /**
     * @brief Reserva un bloque aleatorio del disco
@@ -51,14 +63,14 @@ public:
     /**
     * @brief Lee un bloque del disco
         * @param blockId Identificador del bloque a leer
-        * @return Contenido leido del bloque
+        * @return Contenido leido del bloque: string[bytesXblock]
     * @author Marko
     */
     string readBlock(const int& blockId);
     /**
     * @brief Escribe en un bloque del disco
         * @param blockId Identificador del bloque donde escribir
-        * @param content Contenido a escribir en el bloque
+        * @param content Contenido a escribir en el bloque: string[bytesXblock]
     * @author Marko
     */
     void writeBlock(const int &blockId, const string &content);

@@ -10,37 +10,42 @@ void DiskManager::loadfromDisk() {
     cout<<"manager\n";
 }
 
-void DiskManager::saveBlockMap(const int &track) {
+void DiskManager::saveFreeBlockMap(const int &track) {
     ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
     if (!diskMetadata.is_open()) {
         cerr << "Error al abrir el archivo: "<<"../Disk/"+to_string(track)+"/0_0_0.txt"<< endl;
     }
-    diskMetadata << blockMaps[track];
+    diskMetadata << FreeblockMaps[track];
     diskMetadata.close();
 }
 
-void DiskManager::loadBlockMap(const int &track) {
+void DiskManager::loadFreeBlockMap(const int &track) {
     ifstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
     if (!diskMetadata.is_open()) {
         cerr << "Error al abrir el archivo: "<<"../Disk/"+to_string(track)+"/0_0_0.txt"<< endl;
     }
-    string blockMap;
-    diskMetadata >> blockMap;
-    blockMaps[track] = blockMap;
+    string FreeblockMap;
+    diskMetadata >> FreeblockMap;
+    FreeblockMaps[track] = FreeblockMap;
     diskMetadata.close();
 }
 
-void DiskManager::createBlockMap(const int &track) {
-    int blocksXcillinder = plattes*surfacesXplat*blocksXtrack - 1;
+void DiskManager::createFreeBlockMap(const int &track) {
+    int blocksXcillinder = plattes*surfacesXplat*blocksXtrack;
+    string freeblockMap = "1" + string(blocksXcillinder-1, '0');
+    //crear archivo de bitmap
     myFunc::createDirectory("../Disk/"+to_string(track));
     ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
     if (!diskMetadata.is_open()) {
         cerr << "Error al abrir el archivo: "<<"../Disk/"+to_string(track)+"/0_0_0.txt"<< endl;
     }
-    blockMaps[track] = "1" + string(blocksXcillinder, '0');
-    diskMetadata << blockMaps[track];
+    diskMetadata << freeblockMap;
     diskMetadata.close();
     freeSpace -= bytesXblock;
+}
+
+bool DiskManager::existFreeBlockMap(const int &track) {
+    return myFunc::doesFolderExist("../Disk/"+to_string(track));
 }
 
 void DiskManager::setDisk(int *measures) {
@@ -52,7 +57,7 @@ void DiskManager::setDisk(int *measures) {
     bytesXsector = measures[4];
     freeSpace = LL(plattes)*LL(surfacesXplat)*LL(tracksXsurf)*LL(blocksXtrack)*LL(bytesXblock);
     totalSpace = freeSpace;
-    createBlockMap(0);
+    createFreeBlockMap(0);
     //Escribir capacidades del disco
     ofstream diskConfig("../Disk/config.txt");
     if (!diskConfig.is_open()) {
@@ -85,8 +90,9 @@ int DiskManager::allocRandomBlock() {
     do {
         blockId = myFunc::generateRandomNumber(0, plattes*surfacesXplat*tracksXsurf*blocksXtrack - 1);
         track = blockId / blocksPerCylinder;
-        if(blockMaps.find(track) == blockMaps.end()) {
-            createBlockMap(track);
+        if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+            //REFACTOR
+            createFreeBlockMap(track);
             setBlockUsed(track, blockId % blocksPerCylinder);
             done = true;
         } else {
@@ -96,9 +102,7 @@ int DiskManager::allocRandomBlock() {
             }
         }
     }while (!done);
-    //Crear archivo de bloque
-    std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
-    createFile.close();
+    createBlockFile(blockId);
     return blockId;
 }
 
@@ -108,55 +112,71 @@ int DiskManager::allocNextBlock(const int &blockHeader) {
     int blockCylinder = blockHeader % blocksPerCylinder;
     int blockId;
 
-    for(; track<tracksXsurf*surfacesXplat*plattes; track++) {
-        if(blockMaps.find(track) == blockMaps.end()) {
-            createBlockMap(track);
+    for(; track<tracksXsurf; track++) {
+        if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+            createFreeBlockMap(track);
             blockId = track*blocksPerCylinder + 1;
             setBlockUsed(track, 1);
-            std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
-            createFile.close();
+            createBlockFile(blockId);
             return blockId;
         }
         for(; blockCylinder<blocksPerCylinder; blockCylinder++) {
             if(isBlockFree(track, blockCylinder)) {
                 setBlockUsed(track, blockCylinder);
                 blockId = track*blocksPerCylinder + blockCylinder;
-                std::ofstream createFile("../Disk/" + blockfileFromId(blockId) + ".txt");
-                createFile.close();
+                createBlockFile(blockId);
                 return blockId;
             }
         }
         blockCylinder = 0;
     }
-    return -1;//no hay bloques libres
+    cerr<<"allocNextBlock: No hay bloques libres"<<endl;
+    return -1;
 }
 
 string DiskManager::readBlock(const int &blockId) {
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = (blockId+1) / blocksPerCylinder;
-    if(blockMaps.find(track) == blockMaps.end()) {
-        loadBlockMap(track);
+    if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+        loadFreeBlockMap(track);
     }
-    ifstream blockFile("../Disk/"+blockfileFromId(blockId)+".txt");
+
+    int sectorXblock = bytesXblock/bytesXsector;
+    ifstream file;
+    string content, line;
+    string sectorFile = firstSectorFileFromId(blockId);
+    for(int i=0; i<sectorXblock; i++) {
+        file.open("../Disk/"+sectorFile+".txt");
+        if (!file.is_open()) {
+            cerr << "Error al abrir el archivo(read): "<<"../Disk/"+sectorFile+".txt"<< endl;
+        }
+        else {
+            file >> line;
+            content += line;
+            file.close();
+        }
+        incrementSectorPath(sectorFile);
+    }
+    sectorFile = firstSectorFileFromId(blockId);
+    ofstream blockFile("../Disk/"+sectorFile+"_b"+to_string(blockId)+".txt");
     if (!blockFile.is_open()) {
-        cerr << "Error al abrir el archivo(read): "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
+        cerr << "Error al abrir el archivo(read): "<<"../Disk/"+sectorFile+"_b"+to_string(blockId)+".txt"<< endl;
     }
-    string content;
-    blockFile >> content;
+    blockFile << content;
     blockFile.close();
     return content;
 }
 
 bool DiskManager::isBlockFree(const int &track, const int &blockId) {
-    return blockMaps[track][blockId] == '0';
+    return FreeblockMaps[track][blockId] == '0';
 }
 
 void DiskManager::setBlockUsed(const int &track, const int &blockId) {
-    blockMaps[track][blockId] = '1';
-    saveBlockMap(track);
+    FreeblockMaps[track][blockId] = '1';
+    saveFreeBlockMap(track);
 }
 
-string DiskManager::blockfileFromId(const int &blockId) {
+string DiskManager::firstSectorFileFromId(const int &blockId) {
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = blockId / blocksPerCylinder;
     //cerr << "blocksPerCylinder: "<<blocksPerCylinder<<", track: "<<track<<endl;
@@ -165,24 +185,61 @@ string DiskManager::blockfileFromId(const int &blockId) {
     int blockInPlate = blockInCylinder % (surfacesXplat * blocksXtrack);
     int surface = blockInPlate / blocksXtrack;
     int block = blockInPlate % blocksXtrack;
-
-    string blockFile = to_string(track) + "/" + to_string(plate) + "_" + to_string(surface) + "_" + to_string(block);
+    int sector = block * (bytesXblock/bytesXsector);
+    string blockFile = to_string(track) + "/" + to_string(plate) + "_" + to_string(surface) + "_" + to_string(sector);
     return blockFile;
 }
 
+void DiskManager::createBlockFile(const int &blockId) {
+    std::ofstream createFile;
+    string sectorFile = firstSectorFileFromId(blockId);
+    createFile.open("../Disk/"+sectorFile+"_b"+to_string(blockId)+".txt");
+    createFile << string(bytesXblock, ' ');
+    createFile.close();
+    int sectorXblock = bytesXblock/bytesXsector;
+    for(int i=0; i<sectorXblock; i++) {
+        createFile.open("../Disk/"+sectorFile+".txt");
+        createFile << string(bytesXsector, ' ');
+        createFile.close();
+        incrementSectorPath(sectorFile);
+    }
+}
+
+void DiskManager::incrementSectorPath(string& sectorPath) {
+    size_t lastUnderscore = sectorPath.find_last_of('_');
+    int lastNumber = std::stoi(sectorPath.substr(lastUnderscore + 1));
+    sectorPath.replace(lastUnderscore + 1, std::string::npos, std::to_string(++lastNumber));
+}
+
 void DiskManager::writeBlock(const int &blockId, const string &content) {
-    //To load blockMap of the next cilynder wich could have pages from the same file
+    //To load FreeblockMap of the next cilynder wich could have pages from the same file
     int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
     int track = (blockId+1) / blocksPerCylinder;
-    if(blockMaps.find(track) == blockMaps.end()) {
-        loadBlockMap(track);
+    if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+        loadFreeBlockMap(track);
     }
 
-    ofstream blockFile("../Disk/"+blockfileFromId(blockId)+".txt");
-    if (!blockFile.is_open()) {
-        cerr << "Error al abrir el archivo(write): "<<"../Disk/"+blockfileFromId(blockId)+".txt"<< endl;
+    int sectorXblock = bytesXblock/bytesXsector;
+    string sectorFile = firstSectorFileFromId(blockId);
+    ofstream file;
+    file.open("../Disk/"+sectorFile+"_b"+to_string(blockId)+".txt");
+    if (!file.is_open()) {
+        cerr << "Error al abrir el archivo(write): "<<"../Disk/"+sectorFile+"_b"+to_string(blockId)+".txt"<< endl;
     }
-    blockFile << content;
-    blockFile.close();
+    file << content;
+    file.close();
+    for(int i=0; i<sectorXblock; i++) {
+        file.open("../Disk/"+sectorFile+".txt");
+        if (!file.is_open()) {
+            cerr << "Error al abrir el archivo(write): "<<"../Disk/"+sectorFile+".txt"<< endl;
+        }
+        else {
+            string sub = content.substr(i*bytesXsector, bytesXsector);
+            cerr << "Write: '"<<sub<<"'"<<endl;
+            file << sub;
+            file.close();
+        }
+        incrementSectorPath(sectorFile);
+    }
 }
 
