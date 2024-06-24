@@ -75,8 +75,8 @@ public:
     */
     void setDisk(int* measures);
     /**
-    * @brief (NOT_IMPLEMENTED): Carga la configuracion del disco, y la informacion del sgdb
-    * @author
+    * @brief Carga la configuracion del disco, y la informacion del sgdb
+    * @author Marko
     */
     void loadfromDisk();
     /**

@@ -171,8 +171,73 @@ string ExecutionEngine::fixedRecord(vector<string> &recordQuery, Schema *schema)
   return newRecord;
 }
 
-string ExecutionEngine::variableRecord(vector<string> &record, Schema *schema) {
-  return "";
+string ExecutionEngine::variableRecord(vector<string> record, const Schema &schema) {
+  vector<Attribute> atributos = schema.attributes;
+
+    // eliminando el primer elemento del vector (relationName)
+    record.erase(record.begin());
+
+    std::string convertedRecord;
+    // encontrar el tamaño de la parte fija (atributos de longitud fija, offset y length de los atributos de longitud variable)
+    int fixedPartSize = 0;
+    for (int i = 0; i < record.size(); ++i) {
+        if(record[i] == "NULL") {
+            continue;
+        }
+       if(atributos[i].type != "VARCHAR" && atributos[i].type != "CHAR") {
+           fixedPartSize += atributos[i].size;
+       }else {
+           fixedPartSize += OFFSET_SIZE + LENGTH_SIZE;
+       }
+    }
+
+    // se le suma el nullbitmap = size
+    int endOfRecord = fixedPartSize + record.size();
+    convertedRecord = std::string(fixedPartSize, ' '); //la parte de tamaño fijo se incializa con espacios en blanco
+
+    //actualizar datos para cada atributo
+
+    int stringIndex = 0; //indice a recorrer en el string record
+    std::string nullbitmap = "";
+    for (int i = 0; i < record.size(); ++i) {
+
+        //actualizar el nullbitmap
+        if(record[i] == "NULL") {
+            nullbitmap += "1";
+            continue;
+        }else{
+            nullbitmap += "0";
+        }
+
+        // verifica si es un atributo de longitud variable y oepra
+        //   añade el valor al final
+        //   añade ubicación y tamaño
+        if (atributos[i].type== "VARCHAR" || atributos[i].type == "CHAR"){
+            // Añadiendo Offset
+            convertedRecord.replace(stringIndex,OFFSET_SIZE,myFunc::padString(to_string(endOfRecord),OFFSET_SIZE));
+            // Añadiendo Length
+            int token_size = static_cast<int>(record[i].size());
+            convertedRecord.replace(stringIndex+OFFSET_SIZE,LENGTH_SIZE,myFunc::padString(to_string(token_size),LENGTH_SIZE) );
+            // Actualizando final del registro
+            endOfRecord += token_size;
+            // Añadiendolo al final de la cadena
+            convertedRecord += record[i];
+            // Actualizando Index
+            stringIndex += OFFSET_SIZE + LENGTH_SIZE;
+        }
+
+        // Inserta el valor fijo directamente en el registro
+         else {
+
+            // Reemplazamos solo el tamaño del token porque por defecto el resto está con espacios en blanco
+            convertedRecord.replace(stringIndex,static_cast<int>(record[i].size()), record[i]);
+            // Actualizando Index
+            stringIndex += atributos[i].size;
+        }
+
+    }
+    convertedRecord = nullbitmap + convertedRecord;
+    return convertedRecord;
 }
 
 int ExecutionEngine::getBlock(string &relName) {

@@ -6,13 +6,17 @@
 #include <vector>
 #include "../Util/myFunc.h"
 
+#define NUM_RECORDS_SIZE 2
+
+#define NUM_PAIRS_SIZE 3
 #define FREESPACE_SIZE 3
 #define PAGEID_SIZE 8
+//offset y length de slottedPage
 #define VAR_OFFSET_SIZE 3
 #define VAR_LENGTH_SIZE 3
-#define NUM_PAIRS_SIZE 3
-
-#define NUM_RECORDS_SIZE 2
+//offset y length de registros variables
+#define OFFSET_SIZE 2
+#define LENGTH_SIZE 2
 
 namespace pageEdit {
     //UNPACKED PAGE

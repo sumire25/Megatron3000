@@ -132,20 +132,15 @@ int main()
 }
 
 void displayMenu() {
-    cout << "1. Cargar Megatron" << endl;   // crear archivos y setear data dictionary
-    cout << "2. Leer archivo" << endl;  // leer todo o n registros
-
-    // En qué plato, superficie, pista, sector y bloque
-    // Al crear relacion definir longitud fija o varaiable
-    cout << "3. Añadir nuevo registro" << endl; //
-    cout << "4. Hacer una consulta" << endl;    //
-        // eliminar registro
-
-    cout << "5. Formatear Disco " << endl;  // Limpiar contenidos de los bloques
-    cout << "6. Informacion del Disco " << endl;    // total, libre, ocupada, bloque, sector
-    cout << "7. Configurar disco "<<endl;
-    cout << "8. Crear tabla "<<endl;
-    cout << "9. Crear disco por defecto "<<endl;
+    cout << "1. Crear disco por defecto" << endl;
+    cout << "2. Cargar Megatron" << endl;
+    cout << "3. Crear tabla" << endl;
+    cout << "4. Añadir nuevo registro" << endl;
+    cout << "5. Leer archivo" << endl;
+    cout << "6. Hacer una consulta" << endl;
+    cout << "7. Formatear Disco " << endl;
+    cout << "8. Informacion del Disco " << endl;
+    cout << "9. Configurar disco " << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -154,40 +149,40 @@ void handleChoice(int choice) {
     switch(choice) {
         case 0:
             cout << "Cerrando Megatron3000." << endl;
-            break;
-        case 1:
-            cout << "Cargando Megatron..." << endl;
-            break;
-        case 2:
-        	readFile();
-            break;
-        case 3:{
-            vector<string> relation = {"Student","15","miki"};
-            megatron.insertRecord(relation);
-        }
-            break;
-        case 4:
-            cout << "Consulta: "<<endl;
-            break;
-        case 5:
-            cout << "format" << endl;
-            break;
-        case 6:
-            megatron.printInfo();
-            break;
-        case 7:
-        	configDisco();
-            break;
-        case 8: {
-            vector<string> relation = {"Student","Fixed","age", "int", "8", "name", "char", "10"};
-            megatron.createRelation(relation);
-            }
-            break;
-        case 9: {
+        break;
+        case 1: {
             int sectorXblock = 1;
             int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
             megatron.setDisk(measures);
         }
+        break;
+        case 2:
+            cout << "Cargando Megatron..." << endl;
+        break;
+        case 3: {
+            vector<string> relation = {"Student","Fixed","age", "int", "8", "name", "char", "10"};
+            megatron.createRelation(relation);
+        }
+        break;
+        case 4:{
+            vector<string> relation = {"Student","15","miki"};
+            megatron.insertRecord(relation);
+        }
+        break;
+        case 5:
+            readFile();
+        break;
+        case 6:
+            cout << "Consulta: "<<endl;
+        break;
+        case 7:
+            cout << "format" << endl;
+        break;
+        case 8:
+            megatron.printInfo();
+        break;
+        case 9:
+            configDisco();
         break;
         default:
             cout << "Invalid choice. Please try again." << endl;

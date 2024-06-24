@@ -7,7 +7,19 @@
 #include <fstream>
 
 void DiskManager::loadfromDisk() {
-    cout<<"manager\n";
+    ifstream diskConfig("../Disk/config.txt");
+    if (!diskConfig.is_open()) {
+        cerr << "Error al abrir el archivo: "<<"../Disk/config.txt"<< endl;
+    }
+    diskConfig >> plattes;
+    diskConfig >> surfacesXplat;
+    diskConfig >> tracksXsurf;
+    diskConfig >> blocksXtrack;
+    diskConfig >> bytesXblock;
+    diskConfig >> bytesXsector;
+    diskConfig >> freeSpace;
+    diskConfig.close();
+    totalSpace = LL(plattes)*LL(surfacesXplat)*LL(tracksXsurf)*LL(blocksXtrack)*LL(bytesXblock);
 }
 
 void DiskManager::createFreeBlockMap(const int &track) {

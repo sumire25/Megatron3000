@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "../Buffer_Manager/BufferManager.h"
+#include "../Util/myFunc.h"
 #include "pageEdit.h"
 #include "Schema.h"
 
@@ -29,10 +30,14 @@ public:
   bool hasVarRecords(string& relName);
   string formatRecord(vector<string>& record);
   string fixedRecord(vector<string>& record, Schema* schema);
-  string variableRecord(vector<string>& record, Schema* schema);
+  string variableRecord(vector<string> record,const Schema& schema);
 
   //function which prints all the schemas
   void printSchemas();
+  string schemaToString(Schema* schema);
+  void writeSchemasToFile();
+  void readSchemasFromFile();
+  vector<string> readSchemaFromFile();
 
   //POR IMPLEMENTAR
   void setDataDictionary();
