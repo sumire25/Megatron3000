@@ -4,7 +4,7 @@
 
 #include "Megatron.h"
 
-Megatron::Megatron(): buffManager(2){//2: clockreplacer
+Megatron::Megatron(): buffManager(REPLACER_TYPE){//2: clockreplacer
     buffManager.setDiskManRef(&diskMan);
     excEngine.setBuffManRef(&buffManager);
     excEngine.setDiskManRef(&diskMan);
@@ -12,11 +12,12 @@ Megatron::Megatron(): buffManager(2){//2: clockreplacer
 
 void Megatron::setDisk(int* measures) {
     diskMan.setDisk(measures);
-    excEngine.setDataDictionary();
+    //excEngine.setDataDictionary();
 }
 
 void Megatron::loadfromDisk() {
     diskMan.loadfromDisk();
+    excEngine.readSchemasFromFile();
 }
 
 void Megatron::printInfo() {
@@ -34,15 +35,13 @@ void Megatron::createRelation(vector<string> &relation) {
 }
 
 void Megatron::insertRecord(vector<string> &record) {
-    string relName = record[0];
     excEngine.insertRecord(record);
-    /*string record_;
-    int blockId;
-    record_ = excEngine.formatRecord(record);
-    blockId = excEngine.getBlock(record[0]);
-    diskMan.writeBlock(record_, blockId);*/
 }
 
+void Megatron::printBlock(int &PageId) {
+    string block = excEngine.getPageContent(PageId);
+    cout << "Bloque: '" <<block<<"'" << endl;
+}
 
 void Megatron::leerBloque(int numBlock) {
     if(!buffManager.pinPage(numBlock, RequestType::READ)) return;

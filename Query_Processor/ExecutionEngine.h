@@ -17,27 +17,33 @@ private:
   BufferManager* buffManRef;
   DiskManager* diskManRef;
   unordered_map<string, Schema*> schemas;
-public:
-  void setBuffManRef(BufferManager* buffManRef);
-  void setDiskManRef(DiskManager* diskManRef);
-  void addSchema(vector<string>& relation, int blockId);
-  void insertRecord(vector<string>& record);
+
+  //Insercion de registros
   void insertVariableRecord(vector<string>& record);
   void insertFixedRecord(vector<string>& record);
-
-  int getBlock(string& relName);//return header page del file de la relacion
-  bool hasRelation(string& relName);
-  bool hasVarRecords(string& relName);
+  //Formateo de registros
   string formatRecord(vector<string>& record);
   string fixedRecord(vector<string>& record, Schema* schema);
   string variableRecord(vector<string> record,const Schema& schema);
+  //helpers
+  int getBlock(string& relName);//return header page del file de la relacion
+  bool hasVarRecords(string& relName);
+  string schemaToString(Schema* schema);
+  vector<string> stringToVector(string &schemaStr, int &pageId);
+public:
+  ~ExecutionEngine();
+  void setBuffManRef(BufferManager* buffManRef);
+  void setDiskManRef(DiskManager* diskManRef);
+  void readSchemasFromFile();
+  void writeSchemasToFile();
+
+  void addSchema(vector<string>& relation, int blockId);//crea y agrega un esquema a la tabla de esquemas
+  void insertRecord(vector<string>& record);
+  string getPageContent(int& blockId);
+  bool hasRelation(string& relName);
 
   //function which prints all the schemas
   void printSchemas();
-  string schemaToString(Schema* schema);
-  void writeSchemasToFile();
-  void readSchemasFromFile();
-  vector<string> readSchemaFromFile();
 
   //POR IMPLEMENTAR
   void setDataDictionary();

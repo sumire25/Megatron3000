@@ -1,0 +1,5 @@
+1
+5
+Housing Variable
+int int int int int char char char char char int char char
+0

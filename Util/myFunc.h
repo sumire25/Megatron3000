@@ -17,7 +17,12 @@
 using namespace std;
 
 #define PAGE_SIZE 512
-#define NUM_FRAMES 3
+#define SECTOR_X_BLOCK 1
+
+#define NUM_FRAMES 5
+#define REPLACER_TYPE 2 //2: clockreplacer, 1: lru
+
+#define SCHEMA_PATH "../Disk/schemas.txt"
 
 extern size_t intSize;
 

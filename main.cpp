@@ -137,10 +137,9 @@ void displayMenu() {
     cout << "3. Crear tabla" << endl;
     cout << "4. Añadir nuevo registro" << endl;
     cout << "5. Leer archivo" << endl;
-    cout << "6. Hacer una consulta" << endl;
-    cout << "7. Formatear Disco " << endl;
+    cout << "6. Imprimir Bloque/Pagina" << endl;
+    cout << "7. ---" << endl;
     cout << "8. Informacion del Disco " << endl;
-    cout << "9. Configurar disco " << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -151,13 +150,14 @@ void handleChoice(int choice) {
             cout << "Cerrando Megatron3000." << endl;
         break;
         case 1: {
-            int sectorXblock = 1;
-            int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
+            int measures[6] = {2, 2, 256, 128, PAGE_SIZE/SECTOR_X_BLOCK, SECTOR_X_BLOCK};
             megatron.setDisk(measures);
         }
         break;
-        case 2:
+        case 2: {
             cout << "Cargando Megatron..." << endl;
+            megatron.loadfromDisk();
+        }
         break;
         case 3: {
             vector<string> relation = {"Student","Fixed","age", "int", "8", "name", "char", "10"};
@@ -172,8 +172,11 @@ void handleChoice(int choice) {
         case 5:
             readFile();
         break;
-        case 6:
-            cout << "Consulta: "<<endl;
+        case 6: {
+            int pageId;
+            cin >> pageId;
+            megatron.printBlock(pageId);
+        }
         break;
         case 7:
             cout << "format" << endl;
@@ -189,15 +192,6 @@ void handleChoice(int choice) {
     }
 }
 
-void configDisco() {
-	int params[6];
-	cout << "Ingresar en orden, numero de:\n platos\n superficies por plato\n pistas por superficie\n sectores por pista\n bytes por sector\n sectores por bloque\n";
-	for(int i=0; i<6; i++)
-		cin >> params[i];
-	megatron.setDisk(params);
-}
-
-// Adicionar N registros de un *.csv
 void readFile() {
     string filename, recordType;
     cout << "nombre del archivo:" << endl;
@@ -256,4 +250,12 @@ void readFile() {
     }
 
     file.close();
+}
+
+void configDisco() {
+	int params[6];
+	cout << "Ingresar en orden, numero de:\n platos\n superficies por plato\n pistas por superficie\n sectores por pista\n bytes por sector\n sectores por bloque\n";
+	for(int i=0; i<6; i++)
+		cin >> params[i];
+	megatron.setDisk(params);
 }

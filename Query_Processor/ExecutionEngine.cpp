@@ -13,10 +13,13 @@ void ExecutionEngine::setDiskManRef(DiskManager *diskManRef) {
 }
 
 void ExecutionEngine::insertRecord(vector<string> &record) {
-  if(!hasVarRecords(record[0]))
+  if(hasVarRecords(record[0]))
     insertVariableRecord(record);
   else
     insertFixedRecord(record);
+  buffManRef->printRequestQueue();
+  buffManRef->printPageTable();
+  buffManRef->printReplacer();
   /*string newRecord = formatRecord(record);
   cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
@@ -33,8 +36,20 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   //write record to disk*/
 }
 
+string ExecutionEngine::getPageContent(int &blockId) {
+  if(!buffManRef->pinPage(blockId, RequestType::READ)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return "";
+  }
+  Page* page = buffManRef->getPage(blockId);
+  string content = *page->data;
+  buffManRef->unpinPage(blockId);
+  return content;
+}
+
 void ExecutionEngine::insertVariableRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
+  //cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
   int recordSize = newRecord.size();
   //solicitar headerPage
   int headerBlockId = getBlock(record[0]);
@@ -62,7 +77,6 @@ void ExecutionEngine::insertVariableRecord(vector<string> &record) {
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
   *(pageToWrite->data) = pageEdit::insertSlotted(*(pageToWrite->data),newRecord);
-  cerr<<"insertSlotted: '"<<*(pageToWrite->data)<<"'"<<endl;
   buffManRef->setDirtyFlag(freePage);
   buffManRef->unpinPage(freePage);
   //actualizar headerPage y liberarla
@@ -73,6 +87,7 @@ void ExecutionEngine::insertVariableRecord(vector<string> &record) {
 void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
   int recordSize = newRecord.size();
+  //cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
   //solicitar headerPage
   int headerBlockId = getBlock(record[0]);
   if(!buffManRef->pinPage(headerBlockId, RequestType::WRITE)) {
@@ -99,7 +114,6 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
   pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);
-  cerr<<"insertUnpacked: '"<<*(pageToWrite->data)<<"'"<<endl;
   buffManRef->setDirtyFlag(freePage);
   buffManRef->unpinPage(freePage);
   //actualizar headerPage y liberarla
@@ -155,7 +169,7 @@ string ExecutionEngine::formatRecord(vector<string> &record) {
   if(!schema->isVarLength) {
     return fixedRecord(record, schema);
   } else {
-    return variableRecord(record, schema);
+    return variableRecord(record, *schema);
   }
 }
 
@@ -184,7 +198,7 @@ string ExecutionEngine::variableRecord(vector<string> record, const Schema &sche
         if(record[i] == "NULL") {
             continue;
         }
-       if(atributos[i].type != "VARCHAR" && atributos[i].type != "CHAR") {
+       if(atributos[i].type != "VARCHAR" && atributos[i].type != "char") {
            fixedPartSize += atributos[i].size;
        }else {
            fixedPartSize += OFFSET_SIZE + LENGTH_SIZE;
@@ -212,7 +226,7 @@ string ExecutionEngine::variableRecord(vector<string> record, const Schema &sche
         // verifica si es un atributo de longitud variable y oepra
         //   añade el valor al final
         //   añade ubicación y tamaño
-        if (atributos[i].type== "VARCHAR" || atributos[i].type == "CHAR"){
+        if (atributos[i].type== "VARCHAR" || atributos[i].type == "char"){
             // Añadiendo Offset
             convertedRecord.replace(stringIndex,OFFSET_SIZE,myFunc::padString(to_string(endOfRecord),OFFSET_SIZE));
             // Añadiendo Length
@@ -243,4 +257,69 @@ string ExecutionEngine::variableRecord(vector<string> record, const Schema &sche
 int ExecutionEngine::getBlock(string &relName) {
   auto& schema = schemas[relName];
   return schema->headerPageId;
+}
+
+void ExecutionEngine::readSchemasFromFile() {
+  // leer cada linea del archivo y añadirlo al schema
+  ifstream file(SCHEMA_PATH);
+  if(!file.is_open()) {
+    cerr<<"Error al abrir el archivo"<<endl;
+    return;
+  }
+  string line;
+  while(getline(file, line)) {
+    int pageId;
+    vector<string> schemaVec = stringToVector(line, pageId);
+    addSchema(schemaVec, pageId);
+  }
+  file.close();
+}
+
+string ExecutionEngine::schemaToString(Schema *schema) {
+  // tiene la forma:
+  // relationName isVarLength headerPageId attr1Name attr1Type attr1Size ... attrNName attrNType attrNSize
+  // A partir de un esquema se genera un string con la información de los atributos
+  string schemaStr = schema->relationName + "," + to_string(schema->isVarLength) + ",";
+  // añadir headerPageId
+  schemaStr += to_string(schema->headerPageId) + ",";
+  for (int i = 0; i < schema->numAttr-1; ++i) {
+    schemaStr += schema->attributes[i].name + "," + schema->attributes[i].type + "," + to_string(schema->attributes[i].size) + ",";
+  }
+  schemaStr += schema->attributes[schema->numAttr-1].name + "," + schema->attributes[schema->numAttr-1].type + "," + to_string(schema->attributes[schema->numAttr-1].size);
+  return schemaStr;
+}
+
+void ExecutionEngine::writeSchemasToFile() {
+  ofstream file(SCHEMA_PATH);
+  if(!file.is_open()) {
+    cerr<<"Error al abrir el archivo"<<endl;
+    return;
+  }
+  for(auto& schema : schemas) {
+    file << schemaToString(schema.second) << endl;
+  }
+  file.close();
+}
+
+vector<string> ExecutionEngine::stringToVector(string &schemaStr, int &pageId) {
+  // leer un string formado por schemaToString y convertirlo a un vector de strings de la forma:
+  //relName,recordType,attr1Name,attr1Type,attr1Size,attr2Name,attr2Type,attr2Size,....
+  vector<string> schemaVec;
+  stringstream ss(schemaStr);
+  string token;
+  int i = 0;
+  while(getline(ss, token, ',')) {
+    if( i == 2) {
+      // al ser el headerPageId no se añade a schemaVec
+      pageId = stoi(token);
+      continue;
+    }
+    schemaVec.push_back(token);
+    i++;
+  }
+  return schemaVec;
+}
+
+ExecutionEngine::~ExecutionEngine() {
+  writeSchemasToFile();
 }

@@ -79,12 +79,10 @@ bool BufferManager::pinPage(int pageId, RequestType requestType) {
 		pageTable[pageId] = frameId;
 		frameInfo[frameId] = make_tuple(false, 0, false);
 		*(buffPool.getFrameDirection(frameId)->data) = diskManRef->readBlock(pageId);
-		cerr<<"misscount ++"<<endl;
 		missCount++;
 	}
 	else {// Si la pagina esta en el BufferPool
 		frameId = pageTable[pageId];
-		cout<<"hitcount ++"<<endl;
 		hitCount++;
 	}
 	//pinnear la pagina
