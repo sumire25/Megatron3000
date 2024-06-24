@@ -49,7 +49,7 @@ string ExecutionEngine::getPageContent(int &blockId) {
 
 void ExecutionEngine::insertVariableRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
-  //cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
+  cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
   int recordSize = newRecord.size();
   //solicitar headerPage
   int headerBlockId = getBlock(record[0]);
@@ -87,7 +87,7 @@ void ExecutionEngine::insertVariableRecord(vector<string> &record) {
 void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   string newRecord = formatRecord(record);
   int recordSize = newRecord.size();
-  //cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
+  cerr<<"newRecord: '"<<newRecord<<"'"<<endl;
   //solicitar headerPage
   int headerBlockId = getBlock(record[0]);
   if(!buffManRef->pinPage(headerBlockId, RequestType::WRITE)) {
@@ -134,6 +134,22 @@ bool ExecutionEngine::hasRelation(string &relName) {
   if (schemas.find(relName) != schemas.end())
     return 1;
   return 0;
+}
+
+void ExecutionEngine::printSchemas() {
+  // imprimir todos los esquemas
+  for(auto& schema : schemas) {
+    //cout << schemaToString(schema.second) << endl;
+    cout << "-----------------------------------" << endl;
+    cout << "Relation: " << schema.second->relationName << endl;
+    cout << "IsVarLength: " << schema.second->isVarLength << endl;
+    cout << "HeaderPageId: " << schema.second->headerPageId << endl;
+    cout << "Attributes: " << endl;
+    for(auto& attr : schema.second->attributes) {
+      cout << "Name: " << attr.name << " Type: " << attr.type << " Size: " << attr.size << endl;
+    }
+    cout << "-----------------------------------" << endl;
+  }
 }
 
 bool ExecutionEngine::hasVarRecords(string &relName) {
@@ -273,6 +289,7 @@ void ExecutionEngine::readSchemasFromFile() {
     addSchema(schemaVec, pageId);
   }
   file.close();
+  printSchemas();
 }
 
 string ExecutionEngine::schemaToString(Schema *schema) {

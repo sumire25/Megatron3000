@@ -4,7 +4,7 @@
 
 #ifndef SCHEMA_H
 #define SCHEMA_H
-
+gi
 #include "../Util/myFunc.h"
 
 struct Attribute {
@@ -18,7 +18,11 @@ public:
 	int numAttr = 0;
 	bool isVarLength = false;
 	int headerPageId;
+
 	vector<Attribute> attributes;
+	/**
+	 * @author Chullunquia Alonso
+	 */
 	Schema(const vector<string>& createQuery);
 };
 

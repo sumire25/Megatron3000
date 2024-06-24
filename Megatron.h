@@ -10,6 +10,10 @@
 #include "Buffer_Manager/BufferManager.h"
 
 
+/**
+* @author  Sumire Marko
+*/
+
 class Megatron {
 private:
   DiskManager diskMan;

@@ -13,6 +13,9 @@
 #include "Schema.h"
 
 class ExecutionEngine {
+  /**
+   *@author Suni Yanira
+   */
 private:
   BufferManager* buffManRef;
   DiskManager* diskManRef;
@@ -31,6 +34,9 @@ private:
   string schemaToString(Schema* schema);
   vector<string> stringToVector(string &schemaStr, int &pageId);
 public:
+  /**
+   *@author Chullunquia Alonso
+   */
   ~ExecutionEngine();
   void setBuffManRef(BufferManager* buffManRef);
   void setDiskManRef(DiskManager* diskManRef);

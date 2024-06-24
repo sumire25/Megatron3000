@@ -15,11 +15,13 @@
 #include <filesystem>
 #include <random>
 using namespace std;
-
+/**
+ * @author  Sumire Marko
+ */
 #define PAGE_SIZE 512
-#define SECTOR_X_BLOCK 1
+#define SECTOR_X_BLOCK 2
 
-#define NUM_FRAMES 5
+#define NUM_FRAMES 3
 #define REPLACER_TYPE 2 //2: clockreplacer, 1: lru
 
 #define SCHEMA_PATH "../Disk/schemas.txt"

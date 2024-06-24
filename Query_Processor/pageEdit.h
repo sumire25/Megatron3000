@@ -19,13 +19,22 @@
 #define LENGTH_SIZE 2
 
 namespace pageEdit {
-    //UNPACKED PAGE
+    /**
+     *@author Chullunquia Alonso
+     */
+    // HEADER PAGE
     int getAndUpdateFreePage(std::string &page, int recordSize, bool isVar);
     void setNewPageHeader(std::string &page);
     void addNewPageToDirectory(std::string &page, const int PageID, const int freeSpace);
+    // UNPACKED PAGE
     int getTotalNumRecords( const std::string &page, int recordSize);
     void setNewUnpacked(std::string &page, int recordSize);
     void insertUnpacked(std::string &page, const std::string &record);
+
+
+    /**
+     *@author Suni Yanira
+     */
     //SLOTTED PAGE
     struct Cabecera;
     void writeHeader(std::ostringstream& outStream, int value, size_t size);

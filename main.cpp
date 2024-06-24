@@ -8,56 +8,6 @@ void configDisco();
 std::vector<std::string> getStringsFromCin();
 
 Megatron megatron;
-DiskManager diskMan;
-
-void displayMenu_() {
-    cout << "1. Random" << endl;   // crear archivos y setear data dictionary
-    cout << "2. Next" << endl;  // leer todo o n registros
-    cout << "3. read" << endl; //
-    cout << "4. write" << endl;
-    cout << "5. Formatear Disco " << endl;  // Limpiar contenidos de los bloques
-    cout << "6. Informacion del Disco " << endl;    // total, libre, ocupada, bloque, sector
-    cout << "0. Cerrar" << endl;
-    cout << "Seleccione una opcion:" << endl;
-}
-
-void handleChoice_(int choice) {
-    switch(choice) {
-        case 0:
-            cout << "Cerrando Megatron3000." << endl;
-        break;
-        case 1: {
-            int blockId = diskMan.allocRandomBlock();
-            cout<<"\tReservado: "<<blockId<<endl;
-        }
-        break;
-        case 2: {
-            int head;
-            cin>>head;
-            int blockId = diskMan.allocNextBlock(head);
-            cout<<"\tReservado: "<<blockId<<endl;
-        }
-        break;
-        case 3:{
-            int head;
-            cin>>head;
-            string content = diskMan.readBlock(head);
-            cout<<"'"<<content<<"'"<<endl;
-        }
-        break;
-        case 4:{
-            int head;
-            cin>>head;
-            char c;
-            cin >> c;
-            string content = string(PAGE_SIZE, c);
-            diskMan.writeBlock(head, content);
-        }
-        break;
-        default:
-            cout << "Invalid choice. Please try again." << endl;
-    }
-}
 
 int main()
 {
@@ -137,9 +87,9 @@ void displayMenu() {
     cout << "3. Crear tabla" << endl;
     cout << "4. Añadir nuevo registro" << endl;
     cout << "5. Leer archivo" << endl;
-    cout << "6. Imprimir Bloque/Pagina" << endl;
-    cout << "7. ---" << endl;
-    cout << "8. Informacion del Disco " << endl;
+    cout << "6. Leer Pagina" << endl;
+    cout << "7. Escribir Pagina" << endl;
+    cout << "8. Liberar Pagina" << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -175,14 +125,20 @@ void handleChoice(int choice) {
         case 6: {
             int pageId;
             cin >> pageId;
-            megatron.printBlock(pageId);
+            megatron.leerBloque(pageId);
         }
         break;
-        case 7:
-            cout << "format" << endl;
+        case 7:{
+            int pageId;
+            cin >> pageId;
+            megatron.escribirBloque(pageId);
+        }
         break;
-        case 8:
-            megatron.printInfo();
+        case 8:{
+            int pageId;
+            cin >> pageId;
+            megatron.liberarBloque(pageId);
+        }
         break;
         case 9:
             configDisco();

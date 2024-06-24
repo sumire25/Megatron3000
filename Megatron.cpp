@@ -31,7 +31,7 @@ void Megatron::createRelation(vector<string> &relation) {
     }
     else
         cerr<<"Relacion ya existente"<<endl;
-    //excEngine.printSchemas();
+    excEngine.printSchemas();
 }
 
 void Megatron::insertRecord(vector<string> &record) {
@@ -47,16 +47,25 @@ void Megatron::leerBloque(int numBlock) {
     if(!buffManager.pinPage(numBlock, RequestType::READ)) return;
     Page* bloque = buffManager.getPage(numBlock);
     cout<<*(bloque->data)<<endl;
+    buffManager.printRequestQueue();
+    buffManager.printPageTable();
+    buffManager.printReplacer();
 }
 
 void Megatron::escribirBloque(int numBloque) {
     if(!buffManager.pinPage(numBloque, RequestType::WRITE)) return;
     Page* bloque = buffManager.getPage(numBloque);
     cout<<*(bloque->data)<<endl;
+    buffManager.printRequestQueue();
+    buffManager.printPageTable();
+    buffManager.printReplacer();
 }
 
 void Megatron::liberarBloque(int numBloque) {
     buffManager.unpinPage(numBloque);
+    buffManager.printRequestQueue();
+    buffManager.printPageTable();
+    buffManager.printReplacer();
 }
 
 void Megatron::mostrarContadores() {

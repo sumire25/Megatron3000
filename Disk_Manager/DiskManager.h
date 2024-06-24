@@ -26,9 +26,22 @@ private:
     long long int freeSpace;
 
     //Guarda el bitmap de los bloques de un track
+    /**
+     * @author Suni Yanira
+     */
     void createFreeBlockMap(const int& track);
+
+    /**
+     * @author Suni Yanira
+     */
     bool existFreeBlockMap(const int& track);
+    /**
+     * @author Suni Yanira
+     */
     void setBlockUsed(const int& track, const int& blockId);
+    /**
+     * @author Suni Yanira
+     */
     string getFreeBlockMap(const int& track);
 
     /**
