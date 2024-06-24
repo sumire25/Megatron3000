@@ -279,7 +279,12 @@ string ExecutionEngine::schemaToString(Schema *schema) {
   // tiene la forma:
   // relationName isVarLength headerPageId attr1Name attr1Type attr1Size ... attrNName attrNType attrNSize
   // A partir de un esquema se genera un string con la información de los atributos
-  string schemaStr = schema->relationName + "," + to_string(schema->isVarLength) + ",";
+  string schemaStr = schema->relationName + ",";
+  if(schema->isVarLength)
+    schemaStr += "Variable,";
+  else
+    schemaStr += "Fixed,";
+
   // añadir headerPageId
   schemaStr += to_string(schema->headerPageId) + ",";
   for (int i = 0; i < schema->numAttr-1; ++i) {
@@ -312,6 +317,7 @@ vector<string> ExecutionEngine::stringToVector(string &schemaStr, int &pageId) {
     if( i == 2) {
       // al ser el headerPageId no se añade a schemaVec
       pageId = stoi(token);
+      i++;
       continue;
     }
     schemaVec.push_back(token);
