@@ -110,7 +110,7 @@ int main()
 
     return 0; */
 
-    int sectorXblock = 2;
+    /*int sectorXblock = 2;
     int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
     diskMan.setDisk(measures);
   cout << "Bienvenido a Megatron3000!" << endl;
@@ -119,13 +119,14 @@ int main()
         displayMenu_();
         cin >> choice;
         handleChoice_(choice);
-    } while (choice != 0);
-  /*int choice;
+    } while (choice != 0);*/
+
+    int choice;
   do {
       displayMenu();
       cin >> choice;
       handleChoice(choice);
-  } while (choice != 0);*/
+  } while (choice != 0);
 
   return 0;
 }

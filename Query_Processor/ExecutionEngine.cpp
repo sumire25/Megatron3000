@@ -8,9 +8,17 @@ void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
   this->buffManRef = buffManRef;
 }
 
+void ExecutionEngine::setDiskManRef(DiskManager *diskManRef) {
+  this->diskManRef = diskManRef;
+}
+
 void ExecutionEngine::insertRecord(vector<string> &record) {
-  string newRecord = formatRecord(record);
-  //imprime registro// cerr << "Record: " << newRecord << "\n";
+  if(!hasVarRecords(record[0]))
+    insertVariableRecord(record);
+  else
+    insertFixedRecord(record);
+  /*string newRecord = formatRecord(record);
+  cerr << "Record: " << newRecord << "\n";
   int blockId = getBlock(record[0]);
   if(!buffManRef->pinPage(blockId, RequestType::WRITE)) {
     cerr<<"Error al pinnear pagina"<<endl;
@@ -22,15 +30,89 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   buffManRef->unpinPage(blockId);
   buffManRef->printPageTable();
   buffManRef->printReplacer();
-  //write record to disk
+  //write record to disk*/
+}
+
+void ExecutionEngine::insertVariableRecord(vector<string> &record) {
+  string newRecord = formatRecord(record);
+  int recordSize = newRecord.size();
+  //solicitar headerPage
+  int headerBlockId = getBlock(record[0]);
+  if(!buffManRef->pinPage(headerBlockId, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
+  Page* header = buffManRef->getPage(headerBlockId);
+  //buscar pagina con espacio disponible
+  bool allocated = false;
+  int freePage = pageEdit::getAndUpdateFreePage(*(header->data),recordSize,true);
+  if(freePage == -1) {
+    freePage = diskManRef->allocNextBlock(headerBlockId);
+    allocated = true;
+  }
+  //solicitar pagina con espacio disponible, y añadir registro
+  if(!buffManRef->pinPage(freePage, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
+  Page* pageToWrite = buffManRef->getPage(freePage);
+  if(allocated) {
+    *(pageToWrite->data) = pageEdit::setNewSlotted(PAGE_SIZE);
+    int freeSpace = PAGE_SIZE - (NUM_RECORDS_SIZE+VAR_OFFSET_SIZE) - (VAR_OFFSET_SIZE+VAR_LENGTH_SIZE) - recordSize;
+    pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
+  }
+  *(pageToWrite->data) = pageEdit::insertSlotted(*(pageToWrite->data),newRecord);
+  cerr<<"insertSlotted: '"<<*(pageToWrite->data)<<"'"<<endl;
+  buffManRef->setDirtyFlag(freePage);
+  buffManRef->unpinPage(freePage);
+  //actualizar headerPage y liberarla
+  buffManRef->setDirtyFlag(headerBlockId);
+  buffManRef->unpinPage(headerBlockId);
+}
+
+void ExecutionEngine::insertFixedRecord(vector<string> &record) {
+  string newRecord = formatRecord(record);
+  int recordSize = newRecord.size();
+  //solicitar headerPage
+  int headerBlockId = getBlock(record[0]);
+  if(!buffManRef->pinPage(headerBlockId, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
+  Page* header = buffManRef->getPage(headerBlockId);
+  //buscar pagina con espacio disponible
+  bool allocated = false;
+  int freePage = pageEdit::getAndUpdateFreePage(*(header->data),recordSize,false);
+  if(freePage == -1) {
+    freePage = diskManRef->allocNextBlock(headerBlockId);
+    allocated = true;
+  }
+  //solicitar pagina con espacio disponible, y añadir registro
+  if(!buffManRef->pinPage(freePage, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
+  Page* pageToWrite = buffManRef->getPage(freePage);
+  if(allocated) {
+    pageEdit::setNewUnpacked(*(pageToWrite->data),recordSize);
+    int freeSpace = PAGE_SIZE - recordSize - pageEdit::getTotalNumRecords(*(pageToWrite->data),recordSize)-NUM_RECORDS_SIZE - 1;
+    pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
+  }
+  pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);
+  cerr<<"insertUnpacked: '"<<*(pageToWrite->data)<<"'"<<endl;
+  buffManRef->setDirtyFlag(freePage);
+  buffManRef->unpinPage(freePage);
+  //actualizar headerPage y liberarla
+  buffManRef->setDirtyFlag(headerBlockId);
+  buffManRef->unpinPage(headerBlockId);
 }
 
 //LAST WORK: TO MAKE PERSISTENT DB
 void ExecutionEngine::setDataDictionary() {
   vector<string> metadata = {"Relation_metadata","Fixed","relationName","char","20","numAttributes","int","8","recordType","char","8","location","int","8"};
-  addSchema(metadata,1);
+  //addSchema(metadata,1);
   metadata = {"Attribute_metadata","Fixed","relationName","char","20","attributeName","char","20","type","char","5","pos","int","8","length","int","8"};
-  addSchema(metadata,11);
+  //addSchema(metadata,11);
   //printSchemas();
 }
 
@@ -40,20 +122,25 @@ bool ExecutionEngine::hasRelation(string &relName) {
   return 0;
 }
 
-void ExecutionEngine::addSchema(vector<string> &relation, int blockId) {
-  schemas[relation[0]] = new Schema(relation);
-  schemas[relation[0]]->location = blockId;
-  addSchematoDisk(relation[0]);//añadir relacion a las tablas de metadata
+bool ExecutionEngine::hasVarRecords(string &relName) {
+  auto& schema = schemas[relName];
+  return schema->isVarLength;
+}
+
+void ExecutionEngine::addSchema(vector<string> &createQuery, int blockId) {
+  schemas[createQuery[0]] = new Schema(createQuery);
+  schemas[createQuery[0]]->headerPageId = blockId;
+  if(!buffManRef->pinPage(blockId, RequestType::WRITE)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+    return;
+  }
+  Page* header = buffManRef->getPage(blockId);
+  pageEdit::setNewPageHeader(*(header->data));
+  buffManRef->setDirtyFlag(blockId);
+  buffManRef->unpinPage(blockId);
 }
 
 void ExecutionEngine::addSchematoDisk(string &relName) {
-  vector<string> register_ = {relName,to_string(schemas[relName]->numAttributes),schemas[relName]->recordType,to_string(schemas[relName]->location)};
-  //save register to disk
-
-  for(auto &attribute : schemas[relName]->attributes) {
-    register_ = {relName,attribute.first,get<0>(attribute.second),to_string(get<1>(attribute.second)),to_string(get<2>(attribute.second))};
-    //save register to disk
-  }
 }
 
 string ExecutionEngine::formatRecord(vector<string> &record) {
@@ -65,24 +152,21 @@ string ExecutionEngine::formatRecord(vector<string> &record) {
   }
   cout<<endl;*/
 
-  if(schema->recordType == "Fixed") {
+  if(!schema->isVarLength) {
     return fixedRecord(record, schema);
   } else {
     return variableRecord(record, schema);
   }
 }
 
-string ExecutionEngine::fixedRecord(vector<string> &record, Schema *schema) {
+string ExecutionEngine::fixedRecord(vector<string> &recordQuery, Schema *schema) {
+  //recordQuery: {relName,val1,val2,...}
   string newRecord;
-  tuple<string,int,int> attrInfo;
-  for(auto& attribute : schema->attributes) {
-    attrInfo = attribute.second;
-    if(get<0>(attrInfo) == "int")
-      newRecord += myFunc::padString(record[get<1>(attrInfo)+1],get<2>(attrInfo));
-    else if(get<0>(attrInfo) == "float")
-      newRecord += myFunc::padString(record[get<1>(attrInfo)+1],get<2>(attrInfo));
+  for(int i=0; i<schema->numAttr; i++) {
+    if(recordQuery[1+i] == "NULL")
+      newRecord += string(schema->attributes[i].size, ' ');
     else
-      newRecord += myFunc::padString(record[get<1>(attrInfo)+1], get<2>(attrInfo));
+      newRecord += myFunc::padString(recordQuery[i+1],schema->attributes[i].size);
   }
   return newRecord;
 }
@@ -93,20 +177,5 @@ string ExecutionEngine::variableRecord(vector<string> &record, Schema *schema) {
 
 int ExecutionEngine::getBlock(string &relName) {
   auto& schema = schemas[relName];
-  return schema->location;
-}
-
-void ExecutionEngine::printSchemas() {
-  for (const auto& pair : schemas) {
-    std::cout << "Schema Name: " << pair.first << std::endl;
-    Schema* schema = pair.second;
-    for (const auto& attribute : schema->attributes) {
-      std::cout << "Attribute Name: " << attribute.first << std::endl;
-      std::cout << "Type: " << std::get<0>(attribute.second) << std::endl;
-      std::cout << "Position: " << std::get<1>(attribute.second) << std::endl;
-      std::cout << "Length: " << std::get<2>(attribute.second) << std::endl;
-    }
-    std::cout << "Location: " << schema->location << std::endl;
-    std::cout << "------------------------" << std::endl;
-  }
+  return schema->headerPageId;
 }

@@ -4,18 +4,15 @@
 
 #include "Schema.h"
 
-Schema::Schema(vector<string>& relation) {
+Schema::Schema(const vector<string>& createQuery) {
 	//layout:relName,recordType,attr1Name,attr1Type,attr1Size,attr2Name,attr2Type,attr2Size,....
-	recordType = relation[1];
+	relationName = createQuery[0];
+	if(createQuery[1] == "Variable")
+		isVarLength = true;
+	numAttr = (createQuery.size()-2) / 3;
 	int idx;
-	int lenght;
-	for (idx=2; idx<relation.size(); idx=idx+3) {
-		cout<<relation[idx]<<relation[idx+1]<<relation[idx+2]<<endl;
-		if(relation[idx + 1] == "int" || relation[idx + 1] == "float") {
-			lenght = 8;
-		} else {
-			lenght = stoi(relation[idx + 2]);
-		}
-		attributes[relation[idx]] = make_tuple(relation[idx + 1], (idx-2)/3, lenght);
+	for(int i = 0; i < numAttr; i++) {
+		idx = 2 + i*3;
+		attributes.push_back({createQuery[idx],createQuery[idx+1],stoi(createQuery[idx+2])});
 	}
 }

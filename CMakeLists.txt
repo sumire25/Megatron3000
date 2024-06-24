@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(megatron main.cpp
         Megatron.cpp
         Megatron.h
-        Query_Processor/Parser.cpp
-        Query_Processor/Parser.h
         Disk_Manager/DiskManager.cpp
         Disk_Manager/DiskManager.h
         Util/myFunc.h
@@ -23,4 +21,6 @@ add_executable(megatron main.cpp
         Buffer_Manager/BufferManager.cpp
         Buffer_Manager/BufferManager.h
         Buffer_Manager/Replacer.h
+        Query_Processor/pageEdit.cpp
+        Query_Processor/pageEdit.h
 )

@@ -9,14 +9,12 @@
 #include "Query_Processor/ExecutionEngine.h"
 #include "Buffer_Manager/BufferManager.h"
 
-#include "Query_Processor/Parser.h"
 
 class Megatron {
 private:
   DiskManager diskMan;
   BufferManager buffManager;
   ExecutionEngine excEngine;
-  Parser myParser;
 public:
   Megatron();
   void setDisk(int* measures);

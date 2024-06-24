@@ -10,30 +10,9 @@ void DiskManager::loadfromDisk() {
     cout<<"manager\n";
 }
 
-void DiskManager::saveFreeBlockMap(const int &track) {
-    ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
-    if (!diskMetadata.is_open()) {
-        cerr << "Error al abrir el archivo: "<<"../Disk/"+to_string(track)+"/0_0_0.txt"<< endl;
-    }
-    diskMetadata << FreeblockMaps[track];
-    diskMetadata.close();
-}
-
-void DiskManager::loadFreeBlockMap(const int &track) {
-    ifstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
-    if (!diskMetadata.is_open()) {
-        cerr << "Error al abrir el archivo: "<<"../Disk/"+to_string(track)+"/0_0_0.txt"<< endl;
-    }
-    string FreeblockMap;
-    diskMetadata >> FreeblockMap;
-    FreeblockMaps[track] = FreeblockMap;
-    diskMetadata.close();
-}
-
 void DiskManager::createFreeBlockMap(const int &track) {
     int blocksXcillinder = plattes*surfacesXplat*blocksXtrack;
     string freeblockMap = "1" + string(blocksXcillinder-1, '0');
-    FreeblockMaps[track] = freeblockMap;
     //crear archivo de bitmap
     myFunc::createDirectory("../Disk/"+to_string(track));
     ofstream diskMetadata("../Disk/"+to_string(track)+"/0_0_0.txt");
@@ -58,7 +37,6 @@ void DiskManager::setDisk(int *measures) {
     bytesXsector = measures[4];
     freeSpace = LL(plattes)*LL(surfacesXplat)*LL(tracksXsurf)*LL(blocksXtrack)*LL(bytesXblock);
     totalSpace = freeSpace;
-    createFreeBlockMap(0);
     //Escribir capacidades del disco
     ofstream diskConfig("../Disk/config.txt");
     if (!diskConfig.is_open()) {
@@ -118,7 +96,7 @@ int DiskManager::allocNextBlock(const int &blockHeader) {
     string freeBlockMap;
 
     for(; track<tracksXsurf; track++) {
-        if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
+        if(!existFreeBlockMap(track)) {
             createFreeBlockMap(track);
             blockId = track*blocksPerCylinder + 1;
             setBlockUsed(track, 1);
@@ -141,12 +119,6 @@ int DiskManager::allocNextBlock(const int &blockHeader) {
 }
 
 string DiskManager::readBlock(const int &blockId) {
-    int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
-    int track = (blockId+1) / blocksPerCylinder;
-    if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
-        loadFreeBlockMap(track);
-    }
-
     int sectorXblock = bytesXblock/bytesXsector;
     ifstream file;
     string content, line;
@@ -159,8 +131,8 @@ string DiskManager::readBlock(const int &blockId) {
         else {
             std::getline(file, line);
             content += line;
-            cerr<<"line: '"<<line<<"'"<<endl;
-            cerr<<"content: '"<<content<<"'"<<endl;
+            //cerr<<"line: '"<<line<<"'"<<endl;
+            //cerr<<"content: '"<<content<<"'"<<endl;
             file.close();
         }
         incrementSectorPath(sectorFile);
@@ -173,10 +145,6 @@ string DiskManager::readBlock(const int &blockId) {
     blockFile << content;
     blockFile.close();
     return content;
-}
-
-bool DiskManager::isBlockFree(const int &track, const int &blockId) {
-    return FreeblockMaps[track][blockId] == '0';
 }
 
 void DiskManager::setBlockUsed(const int &track, const int &blockId) {
@@ -252,13 +220,6 @@ void DiskManager::incrementSectorPath(string& sectorPath) {
 }
 
 void DiskManager::writeBlock(const int &blockId, const string &content) {
-    //To load FreeblockMap of the next cilynder wich could have pages from the same file
-    int blocksPerCylinder = plattes * surfacesXplat * blocksXtrack;
-    int track = (blockId+1) / blocksPerCylinder;
-    if(FreeblockMaps.find(track) == FreeblockMaps.end()) {
-        loadFreeBlockMap(track);
-    }
-
     int sectorXblock = bytesXblock/bytesXsector;
     string sectorFile = firstSectorFileFromId(blockId);
     ofstream file;
@@ -275,7 +236,7 @@ void DiskManager::writeBlock(const int &blockId, const string &content) {
         }
         else {
             string sub = content.substr(i*bytesXsector, bytesXsector);
-            cerr << "Write: '"<<sub<<"'"<<endl;
+            //cerr << "Write: '"<<sub<<"'"<<endl;
             file << sub;
             file.close();
         }

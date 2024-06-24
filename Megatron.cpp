@@ -7,6 +7,7 @@
 Megatron::Megatron(): buffManager(2){//2: clockreplacer
     buffManager.setDiskManRef(&diskMan);
     excEngine.setBuffManRef(&buffManager);
+    excEngine.setDiskManRef(&diskMan);
 }
 
 void Megatron::setDisk(int* measures) {

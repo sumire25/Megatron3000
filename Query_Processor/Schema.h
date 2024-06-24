@@ -5,32 +5,21 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
-#include <unordered_map>
-
 #include "../Util/myFunc.h"
 
+struct Attribute {
+	string name;
+	string type;
+	int size;
+};
 class Schema {
 public:
-	int numAttributes;
-	int location;//header page
-	string recordType;//fixed or variable
-	// <attributeName, <attributeType, column, length>>
-	unordered_map<string,tuple<string,int,int>> attributes;
-
-	Schema(vector<string>& relation);
-
-	// Attribute access
-	tuple<string, int, int> getAttribute(const string& attributeName);
-	tuple<string, int, int> getAttribute(int index);
-
-	// Record conversion
-	string recordToString(const unordered_map<string, string>& record);
-	unordered_map<string, string> stringToRecord(const string& recordString);
-
-	// Search
-	vector<unordered_map<string, string>> searchRecords(const string& condition);
+	string relationName;
+	int numAttr = 0;
+	bool isVarLength = false;
+	int headerPageId;
+	vector<Attribute> attributes;
+	Schema(const vector<string>& createQuery);
 };
-
-
 
 #endif //SCHEMA_H

@@ -13,7 +13,6 @@ using namespace std;
 
 #define LL static_cast<long long>
 
-
 class DiskManager {
 private:
     string diskConfig;//ruta del archivo de configuracion del disco
@@ -25,14 +24,9 @@ private:
     int bytesXsector;
     long long int totalSpace;
     long long int freeSpace;
-    unordered_map<int, string> FreeblockMaps;//no se hacen muchas reservas de bloques nuevos(podria eliminarse)
 
     //Guarda el bitmap de los bloques de un track
-    void saveFreeBlockMap(const int& track);
-    void loadFreeBlockMap(const int& track);
     void createFreeBlockMap(const int& track);
-    bool isBlockFree(const int& track, const int& blockId);
-
     bool existFreeBlockMap(const int& track);
     void setBlockUsed(const int& track, const int& blockId);
     string getFreeBlockMap(const int& track);
