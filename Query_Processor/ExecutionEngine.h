@@ -1,7 +1,3 @@
-//
-// Created by msumi on 12/05/2024.
-//
-
 #ifndef EXECUTIONENGINE_H
 #define EXECUTIONENGINE_H
 
@@ -33,9 +29,9 @@ private:
   string variableRecord(vector<string> record,const Schema& schema);
   //helpers
   int getBlock(string& relName);//return header page del file de la relacion
-  bool hasVarRecords(string& relName);
-  string schemaToString(Schema* schema);
-  vector<string> stringToVector(string &schemaStr, int &pageId);
+  bool hasVarRecords(string& relName); //verifica si existe regustros de longitud variable en la relacion
+  string schemaToString(Schema* schema); //del objeto schema convierte a string
+  vector<string> stringToVector(string &schemaStr, int &pageId); //de un string convierte en un schema
 public:
   /**
    *@author Chullunquia Alonso
