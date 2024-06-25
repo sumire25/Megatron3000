@@ -116,9 +116,21 @@ public:
 	* @author Marko
 	*/
 	void printReplacer();
+	/**
+	* Imprime la estrategia de reemplazo que estamos usando
+	*/
 	void printRequestQueue();
+	/**
+	* Imprime la cola de requisitos para una pagina
+	*/
 	void pinningPage(int pageId);
+	/**
+	* Pinnea la pagina 
+	*/
 	void unpinningPage(int pageId);
+	/**
+	* Despinea la pagina
+	*/
 };
 
 
