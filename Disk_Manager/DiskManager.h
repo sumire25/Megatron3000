@@ -1,7 +1,3 @@
-//
-// Created by sumire on 5/10/24.
-//
-
 #ifndef DISKMANAGER_H
 #define DISKMANAGER_H
 
@@ -25,18 +21,20 @@ private:
     long long int totalSpace;
     long long int freeSpace;
 
-    //Guarda el bitmap de los bloques de un track
     /**
      * @author Suni Yanira
+     Crea el bitmap del pagedirectory y los guarda en un track
      */
     void createFreeBlockMap(const int& track);
 
     /**
      * @author Suni Yanira
+    Verifica que ya exista un bitmap
      */
     bool existFreeBlockMap(const int& track);
     /**
      * @author Suni Yanira
+     
      */
     void setBlockUsed(const int& track, const int& blockId);
     /**
