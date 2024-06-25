@@ -21,12 +21,15 @@ private:
   DiskManager* diskManRef;
   unordered_map<string, Schema*> schemas;
 
-  //Insercion de registros
+  //Insercion de registros de longitud variable en bloque (slotted page)
   void insertVariableRecord(vector<string>& record);
+  //Insercion de registros de longitud fija en bloque (unpacked)
   void insertFixedRecord(vector<string>& record);
-  //Formateo de registros
+  //formatRecord devuelte un string ya con el formato indicado ya sea registro de longitud variable o registro de longitud fija
   string formatRecord(vector<string>& record);
+  //Da el formato para registo de longitud fija
   string fixedRecord(vector<string>& record, Schema* schema);
+  //Da el formato para registo de longitud variable
   string variableRecord(vector<string> record,const Schema& schema);
   //helpers
   int getBlock(string& relName);//return header page del file de la relacion
