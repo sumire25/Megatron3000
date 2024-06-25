@@ -36,11 +36,11 @@ namespace pageEdit {
      *@author Suni Yanira
      */
     //SLOTTED PAGE
-    struct Cabecera;
-    void writeHeader(std::ostringstream& outStream, int value, size_t size);
-    std::string setNewSlotted(size_t blockSize);
-    Cabecera leerCabecera(const std::string& data);
-    std::string insertSlotted(const std::string& data, const std::string& registro);
+    struct Cabecera; //Se usa esta structurra para poder acceder a la cabecera del bloque
+    void writeHeader(std::ostringstream& outStream, int value, size_t size); //se usa para escribir el header del bloque
+    std::string setNewSlotted(size_t blockSize); //Inicializa el formato de un nuevo bloque con la estructura del slotted page
+    Cabecera leerCabecera(const std::string& data); //Nos permite leer el bloque y extraer la cabecera en un struct Cabecera
+    std::string insertSlotted(const std::string& data, const std::string& registro); //inserta un registro de longitud variable al bloque
 }
 
 #endif //PAGEEDIT_H
