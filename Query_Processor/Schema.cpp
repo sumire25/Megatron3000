@@ -5,7 +5,9 @@
 #include "Schema.h"
 
 Schema::Schema(const vector<string>& createQuery) {
+
 	//layout:relName,recordType,attr1Name,attr1Type,attr1Size,attr2Name,attr2Type,attr2Size,....
+
 	relationName = createQuery[0];
 	if(createQuery[1] == "Variable")
 		isVarLength = true;

@@ -39,7 +39,7 @@ void Megatron::insertRecord(vector<string> &record) {
 void Megatron::leerBloque(int numBlock) {
     if(!buffManager.pinPage(numBlock, RequestType::READ)) return;
     Page* bloque = buffManager.getPage(numBlock);
-    cout<<*(bloque->data)<<endl;
+    cout<<"["<<*(bloque->data)<<"]"<<endl;
     buffManager.printRequestQueue();
     buffManager.printPageTable();
     buffManager.printReplacer();
@@ -48,7 +48,7 @@ void Megatron::leerBloque(int numBlock) {
 void Megatron::escribirBloque(int numBloque) {
     if(!buffManager.pinPage(numBloque, RequestType::WRITE)) return;
     Page* bloque = buffManager.getPage(numBloque);
-    cout<<*(bloque->data)<<endl;
+    cout<<"["<<*(bloque->data)<<"]"<<endl;
     buffManager.printRequestQueue();
     buffManager.printPageTable();
     buffManager.printReplacer();

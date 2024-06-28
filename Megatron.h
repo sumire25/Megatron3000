@@ -25,18 +25,37 @@ public:
   void loadfromDisk();
   void printInfo();
 
+  /**
+   * Crea una relación en el disco y le asigana un page header
+   * @param relation vector relación {nombre, tipo, atributo1, tipo1, longitud1, atributo2, tipo2, longitud2, ...}
+   * @author Alonso
+   */
   void createRelation(vector<string>& relation);
-  void insertRecord(vector<string>& record);
-	void printBlock(int& blockId);
 
   /**
- * Imprime el contenido del bloque dado su identificador
+   * inserta un registro dado el formato de un vector de strings
+   * @param record vector de strings que representa el registro {relName, valor1, valor2, ...}
+   * @author Alonso
+   */
+  void insertRecord(vector<string>& record);
+
+  /**
+   *
+   * @param blockId muestra el contenido del bloque
+   */
+  // void printBlock(int& blockId);
+
+  /**
+ * Lee e imprime el contenido del bloque dado su identificador subiendolo a memoria si es necesario
+  * Imprime info del BufferMan al momento
  * @param numBlock: identificador del bloque
  * @author Todos
  */
   void leerBloque(int numBlock);// Deberia de retornar el contenido de un bloque, consultando al buffermanager
+
   /**
-  * Escribe en el bloque cuyo identificador es dado
+  * Escribe en el bloque cuyo identificador es dado subiendo el bloque a memoria si es necesario.
+  * Imprime info del BufferMan al momento
   * @param numBlock: identificador del bloque
   * @author Todos
   */
@@ -53,8 +72,25 @@ public:
    * @author Todos
    */
   void mostrarContadores();
+
+  /**
+   * Fija una página desde BufferManager
+   * @param numBloque identificador del bloque
+   * @author  todos
+   */
   void pinPage(int numBloque);
+
+  /**
+   * Remueve fijar de una página
+   * @param numBloque identificador del bloque
+   * @author  todos
+   */
   void unpinPage(int numBloque);
+
+  /**
+   * Imprime la cola de solicitudes, page table, y el reemplazador
+   * @author todos
+   */
   void print();
 };
 

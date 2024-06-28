@@ -7,6 +7,8 @@ void handleChoice(int choice);
 
 void readFile();
 
+void resetMegatron();
+
 Megatron megatron;
 
 int main() {
@@ -15,7 +17,7 @@ int main() {
         displayMenu();
         cin >> choice;
         handleChoice(choice);
-    } while (choice != 0);
+    } while (choice != 0 && choice != 9);
 
     return 0;
 }
@@ -29,6 +31,7 @@ void displayMenu() {
     cout << "6. Leer Pagina" << endl;
     cout << "7. Escribir Pagina" << endl;
     cout << "8. Liberar Pagina" << endl;
+    cout << "9. Reset Megatron and quit" << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -77,6 +80,11 @@ void handleChoice(int choice) {
             int pageId;
             cin >> pageId;
             megatron.liberarBloque(pageId);
+        }
+        case 9: {
+            resetMegatron();
+            cout << "Megatron reseteado." << endl;
+            break;
         }
         break;
         default:
@@ -144,3 +152,12 @@ void readFile() {
     file.close();
 }
 
+void resetMegatron() {
+
+    std::string path = "../Disk/*";
+    std::string command = "rm -rf " + path;
+    system(command.c_str());
+    // crea un nuevo file schemas.txt
+    ofstream file("../Disk/schemas.txt");
+    file.close();
+}

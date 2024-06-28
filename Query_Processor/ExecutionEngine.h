@@ -104,10 +104,6 @@ private:
  */
   vector<string> stringToVector(string &schemaStr, int &pageId);
 public:
-  /**
-   *@author Chullunquia Alonso
-   */
-
     /**
    * Destructor de la clase ExecutionEngine.
    * Escribe los esquemas en un archivo al destruir el objeto.
@@ -118,42 +114,50 @@ public:
     /**
      * Establece la referencia al BufferManager.
      * @param buffManRef: puntero al BufferManager.
+     * @author Alonso
      */
   void setBuffManRef(BufferManager* buffManRef);
 
     /**
  * Establece la referencia al DiskManager.
  * @param diskManRef: puntero al DiskManager.
+ * @author Alonso
  */
   void setDiskManRef(DiskManager* diskManRef);
 
     /**
  * Lee los esquemas desde un archivo y los carga en la tabla de esquemas.
+ * @author Alonso
  */
   void readSchemasFromFile();
 
     /**
-* Escribe los esquemas en un archivo.
+* Escribe los esquemas cargados en memoria a su archivo.
+* @author Alonso
 */
   void writeSchemasToFile();
 
     /**
    * Crea y agrega un esquema a la tabla de esquemas.
-   * @param createQuery: vector de strings que representa la relación.
+   * @param relation: vector de strings que representa la relación.
    * @param headerPageId: el headerPageId de la relación.
+* @author Alonso
    */
-  void addSchema(vector<string>& createQuery, int headerPageId);
+  void addSchema(vector<string>& relation, int headerPageId);
 
   /**
-   * Carga un esquema en la tabla de esquemas.
-   * @param relation vector de strings que representa la relación.
+   * CARGA un esquema en la tabla de esquemas.
+   * @param relation vector de strings que representa la relación con su metadata.
    * @param headerPageId el headerPageId de la relación.
+* @author Alonso
    */
   void loadSchema(vector<string> &relation, int headerPageId);
 
     /**
  * Inserta un registro en la relación correspondiente.
  * @param record: vector de strings que representa el registro.
+ * relName,Val1,Val2,...ValN
+* @author Alonso
  */
   void insertRecord(vector<string>& record);
 
@@ -161,6 +165,7 @@ public:
  * Obtiene el contenido de una página en el buffer.
  * @param blockId: ID del bloque.
  * @return string con el contenido de la página.
+* @author Alonso
  */
   string getPageContent(int& blockId);
 
@@ -168,11 +173,13 @@ public:
  * Verifica si existe una relación con el nombre dado.
  * @param relName: nombre de la relación.
  * @return true si la relación existe, false en caso contrario.
+* @author Alonso
  */
   bool hasRelation(string& relName);
 
     /**
      * Imprime todos los esquemas almacenados.
+* @author Alonso
      */
   void printSchemas();
 
@@ -187,10 +194,12 @@ public:
      * @param relation Un vector de strings que contiene el nombre de la relación seguido de los detalles de sus atributos.
      *                 Por ejemplo: {"nombreRelacion", "tipoAtributo1", "nombreAtributo1", "tipoAtributo2", "nombreAtributo2", ...}.
      * @param blockId El identificador del bloque en el disco donde se almacenará la cabecera de la nueva relación.
+     * @author  Suni Yanira
      */
   void createRelation(vector<string> &relation, int blockId);
 
   //POR IMPLEMENTAR
+  // funciones para crear un diccionario correctamente
   void setDataDictionary();
   void addSchematoDisk(string& relName);
 

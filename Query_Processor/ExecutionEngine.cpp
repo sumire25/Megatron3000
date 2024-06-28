@@ -153,14 +153,16 @@ bool ExecutionEngine::hasVarRecords(string &relName) {
   return schema->isVarLength;
 }
 
-void ExecutionEngine::addSchema(vector<string> &createQuery, int headerPageId) {
-  loadSchema(createQuery, headerPageId);
+void ExecutionEngine::addSchema(vector<string> &relation, int headerPageId) {
+  loadSchema(relation, headerPageId);
   if(!buffManRef->pinPage(headerPageId, RequestType::WRITE)) {
     cerr<<"Error al pinnear pagina"<<endl;
     return;
   }
+  // extrae y edita el contenido de la pagina header
   Page* header = buffManRef->getPage(headerPageId);
   pageEdit::setNewPageHeader(*(header->data));
+  // liberar la pagina
   buffManRef->setDirtyFlag(headerPageId);
   buffManRef->unpinPage(headerPageId);
 }
