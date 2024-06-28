@@ -153,20 +153,21 @@ bool ExecutionEngine::hasVarRecords(string &relName) {
   return schema->isVarLength;
 }
 
-void ExecutionEngine::addSchema(vector<string> &createQuery, int blockId) {
-  schemas[createQuery[0]] = new Schema(createQuery);
-  schemas[createQuery[0]]->headerPageId = blockId;
-  if(!buffManRef->pinPage(blockId, RequestType::WRITE)) {
+void ExecutionEngine::addSchema(vector<string> &createQuery, int headerPageId) {
+  loadSchema(createQuery, headerPageId);
+  if(!buffManRef->pinPage(headerPageId, RequestType::WRITE)) {
     cerr<<"Error al pinnear pagina"<<endl;
     return;
   }
-  Page* header = buffManRef->getPage(blockId);
+  Page* header = buffManRef->getPage(headerPageId);
   pageEdit::setNewPageHeader(*(header->data));
-  buffManRef->setDirtyFlag(blockId);
-  buffManRef->unpinPage(blockId);
+  buffManRef->setDirtyFlag(headerPageId);
+  buffManRef->unpinPage(headerPageId);
 }
-// loadSchema
-// newSchema
+void ExecutionEngine::loadSchema(vector<string> &createQuery, int headerPageId) {
+  schemas[createQuery[0]] = new Schema(createQuery);
+  schemas[createQuery[0]]->headerPageId = headerPageId;
+}
 
 void ExecutionEngine::addSchematoDisk(string &relName) {
 }
@@ -285,7 +286,7 @@ void ExecutionEngine::readSchemasFromFile() {
     int pageId;
     vector<string> schemaVec = stringToVector(line, pageId);
 
-    addSchema(schemaVec, pageId);//ERROR: se aplica el seteo a cero de la cantidad de paginas en el header page
+    loadSchema(schemaVec, pageId);//ERROR: se aplica el seteo a cero de la cantidad de paginas en el header page
   }
   file.close();
   printSchemas();

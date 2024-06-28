@@ -76,6 +76,7 @@ namespace pageEdit {
     void insertUnpacked(std::string &page, const std::string &record) {
         const int recordSize = static_cast<int>(record.length());
         const int totalNumRecords = getTotalNumRecords(page, recordSize);
+        const int numRecords = std::stoi(page.substr(0,NUM_RECORDS_SIZE));
         //nroDeRegistros(2) bitmap(1 por registro)
         int headerSize = NUM_RECORDS_SIZE + totalNumRecords + 1;
         for (int i = NUM_RECORDS_SIZE; page[i] != '&'; ++i) {
@@ -83,6 +84,8 @@ namespace pageEdit {
                 page.replace(i, 1, "1");
                 const int index = (i - NUM_RECORDS_SIZE) * (recordSize);
                 page.replace(headerSize + index, recordSize, record);
+                // incrementando el nro de registros
+                page.replace(0,NUM_RECORDS_SIZE, myFunc::padString(std::to_string(numRecords + 1),NUM_RECORDS_SIZE));
                 return;
             }
         }

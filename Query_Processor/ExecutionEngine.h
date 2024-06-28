@@ -139,10 +139,17 @@ public:
 
     /**
    * Crea y agrega un esquema a la tabla de esquemas.
-   * @param relation: vector de strings que representa la relación.
-   * @param blockId: ID del bloque.
+   * @param createQuery: vector de strings que representa la relación.
+   * @param headerPageId: el headerPageId de la relación.
    */
-  void addSchema(vector<string>& relation, int blockId);
+  void addSchema(vector<string>& createQuery, int headerPageId);
+
+  /**
+   * Carga un esquema en la tabla de esquemas.
+   * @param relation vector de strings que representa la relación.
+   * @param headerPageId el headerPageId de la relación.
+   */
+  void loadSchema(vector<string> &relation, int headerPageId);
 
     /**
  * Inserta un registro en la relación correspondiente.

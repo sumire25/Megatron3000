@@ -20,13 +20,15 @@ void Megatron::printInfo() {
     diskMan.printInfo();
 }
 
-void ExecutionEngine::createRelation(vector<string> &relation, int blockId) {
-  if (!hasRelation(relation[0])) {
-    addSchema(relation, blockId);
-  } else {
-    cerr << "Relacion ya existente" << endl;
-  }
-  printSchemas();
+void Megatron::createRelation(vector<string> &relation) {
+    int blockId = diskMan.allocRandomBlock();
+    excEngine.createRelation(relation, blockId);
+  // if (!hasRelation(relation[0])) {
+  //   addSchema(relation, blockId);
+  // } else {
+  //   cerr << "Relacion ya existente" << endl;
+  // }
+  // printSchemas();
 }
 
 void Megatron::insertRecord(vector<string> &record) {
