@@ -26,18 +26,21 @@ private:
     /**
  * Tabla hash que almacena los esquemas de las relaciones.
  * La clave es el nombre de la relación y el valor es un puntero al esquema correspondiente.
+ * @author Suni Yanira
  */
   unordered_map<string, Schema*> schemas;
 
     /**
    * Inserta un registro de longitud variable en un bloque (slotted page).
    * @param record: vector de strings que representa el registro.
+   * @author Suni Yanira
    */
   void insertVariableRecord(vector<string>& record);
 
     /**
      * Inserta un registro de longitud fija en un bloque (unpacked).
      * @param record: vector de strings que representa el registro.
+     * @author Suni Yanira
      */
   void insertFixedRecord(vector<string>& record);
 
@@ -46,6 +49,7 @@ private:
      * Devuelve un string con el formato indicado para un registro, ya sea de longitud variable o fija.
      * @param record: vector de strings que representa el registro.
      * @return string con el registro formateado.
+     * @author Suni Yanira
      */
   string formatRecord(vector<string>& record);
 
@@ -54,6 +58,7 @@ private:
     * @param record: vector de strings que representa el registro.
     * @param schema: esquema de la relación.
     * @return string con el registro formateado.
+    * @author Suni Yanira
     */
   string fixedRecord(vector<string>& record, Schema* schema);
 
@@ -62,6 +67,7 @@ private:
  * @param record: vector de strings que representa el registro.
  * @param schema: esquema de la relación.
  * @return string con el registro formateado.
+ * @author Suni Yanira
  */
   string variableRecord(vector<string> record,const Schema& schema);
 
@@ -69,6 +75,7 @@ private:
  * Obtiene el bloque de encabezado de la relación.
  * @param relName: nombre de la relación.
  * @return ID del bloque de encabezado.
+ * @author Suni Yanira
  */
   int getBlock(string& relName);
 
@@ -76,6 +83,7 @@ private:
  * Verifica si existen registros de longitud variable en la relación.
  * @param relName: nombre de la relación.
  * @return true si la relación tiene registros de longitud variable, false en caso contrario.
+ * @author Suni Yanira
  */
   bool hasVarRecords(string& relName);
 
@@ -83,6 +91,7 @@ private:
   * Convierte un esquema a una cadena.
   * @param schema: puntero al esquema.
   * @return string que representa el esquema.
+  * @author Suni Yanira
   */
   string schemaToString(Schema* schema);
 
@@ -91,6 +100,7 @@ private:
  * @param schemaStr: cadena que representa el esquema.
  * @param pageId: referencia al ID de la página.
  * @return vector de strings que representa el esquema.
+ * @author Suni Yanira
  */
   vector<string> stringToVector(string &schemaStr, int &pageId);
 public:
