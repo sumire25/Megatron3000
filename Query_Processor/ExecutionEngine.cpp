@@ -1,7 +1,3 @@
-//
-// Created by msumi on 12/05/2024.
-//
-
 #include "ExecutionEngine.h"
 
 void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
@@ -344,6 +340,15 @@ vector<string> ExecutionEngine::stringToVector(string &schemaStr, int &pageId) {
     i++;
   }
   return schemaVec;
+}
+
+void ExecutionEngine::createRelation(vector<string> &relation, int blockId) {
+  if (!hasRelation(relation[0])) {
+    addSchema(relation, blockId);
+  } else {
+    cerr << "Relacion ya existente" << endl;
+  }
+  printSchemas();
 }
 
 ExecutionEngine::~ExecutionEngine() {
