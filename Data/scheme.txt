@@ -1,4 +1,0 @@
-titanic#PassengerId#in#2#Survived#in#1#Pclass#in#1#Name#in#57#Sex#in#6#Age#in#2#SibSp#in#1#Parch#in#1#Ticket#in#16#Fare#in#9#Cabin#in#11#Embarked#in#1
-titanic#PassengerId#in#2#Survived#in#1#Pclass#in#1#Name#in#57#Sex#ni#6#Age#in#2#SibSp#in#1#Parch#ni#1#Ticket#in#16#Fare#in#9#Cabin#in#11#Embarked#in#1
-titanic#PassengerId#qwe#2#Survived#qwe#1#Pclass#qwe#1#Name#qwe#57#Sex#qwe#6#Age#qwe#2#SibSp#qwe#1#Parch#qwe#1#Ticket#qwe#16#Fare#qwe#9#Cabin#qwe#11#Embarked#qwe#1
-titanic#PassengerId#ert#2#Survived#ert#1#Pclass#ert#1#Name#ert#57#Sex#ert#6#Age#ert#2#SibSp#ert#1#Parch#ert#1#Ticket#ert#16#Fare#ert#9#Cabin#ert#11#Embarked#ert#1

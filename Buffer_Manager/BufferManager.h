@@ -60,6 +60,10 @@ public:
 	* @author Marko
 	*/
 	BufferManager(int replacerType);
+	/**
+	* Destructor: escribir todas las paginas en disco antes de cerrar el buffer
+	* @author Marko
+	*/
 	~BufferManager();
 	/**
 	 * Establece la conexion con el disk manager

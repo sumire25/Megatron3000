@@ -286,7 +286,7 @@ void ExecutionEngine::readSchemasFromFile() {
   while(getline(file, line)) {
     int pageId;
     vector<string> schemaVec = stringToVector(line, pageId);
-    addSchema(schemaVec, pageId);
+    addSchema(schemaVec, pageId);//ERROR: se aplica el seteo a cero de la cantidad de paginas en el header page
   }
   file.close();
   printSchemas();

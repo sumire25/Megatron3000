@@ -2,16 +2,17 @@
 #define DISKMANAGER_H
 
 #include <iostream>
-#include <unordered_map>
 
 #include "../Util/myFunc.h"
 using namespace std;
 
 #define LL static_cast<long long>
 
+//Se encarga de la escritura y lectura del disco, mapea cada blockId a sus sectores en disco
 class DiskManager {
 private:
-    string diskConfig;//ruta del archivo de configuracion del disco
+    //Datos que usa la funcion firstSectorFileFromId
+    //para mapear cada blockId con el primer sector que contiene
     int plattes;
     int surfacesXplat;
     int tracksXsurf;
@@ -20,13 +21,11 @@ private:
     int bytesXsector;
     long long int totalSpace;
     long long int freeSpace;
-
     /**
      * @author Suni Yanira
      Crea el bitmap del pagedirectory y los guarda en un track
      */
     void createFreeBlockMap(const int& track);
-
     /**
      * @author Suni Yanira
     Verifica que ya exista un bitmap
@@ -34,14 +33,12 @@ private:
     bool existFreeBlockMap(const int& track);
     /**
      * @author Suni Yanira
-     
      */
     void setBlockUsed(const int& track, const int& blockId);
     /**
      * @author Suni Yanira
      */
     string getFreeBlockMap(const int& track);
-
     /**
     * @brief Genera el path del primer sector sobre el cual esta algun bloque
         * @param blockId Identificador del bloque
@@ -49,7 +46,17 @@ private:
     * @author Marko
     */
     string firstSectorFileFromId(const int &blockId);
+    /**
+    * @brief Genera el los archivos correspondientes para cada bloque, y sus sectores
+        * @param blockId Identificador del bloque
+    * @author Marko
+    */
     void createBlockFile(const int& blockId);
+    /**
+    * @brief Modifica el path al siguiente sector adyacente
+        * @param sectorPath Path del sector
+    * @author Marko
+    */
     void incrementSectorPath(string& sectorPath);
 public:
     /**

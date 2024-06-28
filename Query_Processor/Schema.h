@@ -4,7 +4,6 @@
 
 #ifndef SCHEMA_H
 #define SCHEMA_H
-gi
 #include "../Util/myFunc.h"
 
 struct Attribute {
