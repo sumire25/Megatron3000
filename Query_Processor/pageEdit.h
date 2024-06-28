@@ -32,15 +32,45 @@ namespace pageEdit {
     void insertUnpacked(std::string &page, const std::string &record);
 
 
-    /**
+   /**
      *@author Suni Yanira
      */
     //SLOTTED PAGE
-    struct Cabecera; //Se usa esta structurra para poder acceder a la cabecera del bloque
-    void writeHeader(std::ostringstream& outStream, int value, size_t size); //se usa para escribir el header del bloque
-    std::string setNewSlotted(size_t blockSize); //Inicializa el formato de un nuevo bloque con la estructura del slotted page
-    Cabecera leerCabecera(const std::string& data); //Nos permite leer el bloque y extraer la cabecera en un struct Cabecera
+    /**
+    * Estructura que representa la cabecera de una página slotted.
+    */
+    struct Cabecera;
+
+    /**
+     * Escribe un valor en la cabecera de una página con un tamaño fijo.
+     * @param outStream: flujo de salida para escribir.
+     * @param value: valor a escribir.
+     * @param size: tamaño del valor a escribir.
+     */
+    void writeHeader(std::ostringstream& outStream, int value, size_t size);
+
+ /**
+  * Inicializa un bloque nuevo con formato slotted page.
+  * @param blockSize: tamaño del bloque.
+  * @return cadena que representa el bloque inicializado.
+  */
+    std::string setNewSlotted(size_t blockSize);
+
+ /**
+    * Lee la cabecera de una página slotted.
+    * @param data: cadena que representa la página.
+    * @return estructura Cabecera que contiene los datos de la cabecera.
+    */
+    Cabecera leerCabecera(const std::string& data);
+
+ /**
+ * Inserta un registro en una página slotted.
+ * @param data: cadena que representa la página.
+ * @param registro: cadena que representa el nuevo registro.
+ * @return cadena actualizada que representa la página con el nuevo registro.
+ */
     std::string insertSlotted(const std::string& data, const std::string& registro); //inserta un registro de longitud variable al bloque
 }
+
 
 #endif //PAGEEDIT_H
