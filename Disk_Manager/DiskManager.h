@@ -22,21 +22,23 @@ private:
     long long int totalSpace;
     long long int freeSpace;
     /**
-     * @author Suni Yanira
-     Crea el bitmap del pagedirectory y los guarda en un track
+     * @brief Crea el bitmap del pagedirectory y los guarda en un track
+     * @author Marko
      */
     void createFreeBlockMap(const int& track);
     /**
-     * @author Suni Yanira
-    Verifica que ya exista un bitmap
+     * @brief Verifica que ya exista un bitmap
+     * @author Marko
      */
     bool existFreeBlockMap(const int& track);
     /**
-     * @author Suni Yanira
+     * @brief setea el bit correspondiente al bloque usado
+     * @author Marko
      */
     void setBlockUsed(const int& track, const int& blockId);
     /**
-     * @author Suni Yanira
+     * @brief Obtiene el freeblockmap de un cilindro
+     * @author Marko
      */
     string getFreeBlockMap(const int& track);
     /**

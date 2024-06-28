@@ -2,83 +2,22 @@
 #include "Megatron.h"
 
 void displayMenu();
+
 void handleChoice(int choice);
+
 void readFile();
-void configDisco();
-std::vector<std::string> getStringsFromCin();
 
 Megatron megatron;
 
-int main()
-{
-    /*int opc = 1;
-    int bloque;
-    std::string contenido;
-
-    //Interfaz interfaz(5, 10, 3);
-    Megatron interfaz;
-    int measures[6] = {2, 2, 256, 128, 512, 1};
-    interfaz.setDisk(measures);
-
-    do {
-        std::cout << "----------- Operaciones -----------" <<std::endl;
-        std::cout << "1. Leer bloque " <<std::endl;
-        std::cout << "2. Escribir bloque " <<std::endl;
-        std::cout << "3. Liberar bloque " <<std::endl;
-        std::cin >> opc;
-        std::cout << "\n Indique el id del bloque: " <<std::endl;
-
-        switch (opc)
-        {
-            case 1: {
-                std::cin >> bloque;
-                interfaz.leerBloque(bloque);
-            }
-            break;
-
-            case 2:{
-                std::cin >> bloque;
-                std::cin >> contenido;
-                interfaz.escribirBloque(bloque,contenido);
-            }
-            break;
-
-            case 3:{
-                std::cin >> bloque;
-                interfaz.liberarBloque(bloque);
-            }
-            break;
-
-            default:
-                break;
-        }
-
-
-    } while (opc);
-
-    interfaz.mostrarContadores();
-
-    return 0; */
-
-    /*int sectorXblock = 2;
-    int measures[6] = {2, 2, 256, 128, PAGE_SIZE/sectorXblock, sectorXblock};
-    diskMan.setDisk(measures);
-  cout << "Bienvenido a Megatron3000!" << endl;
+int main() {
     int choice;
     do {
-        displayMenu_();
+        displayMenu();
         cin >> choice;
-        handleChoice_(choice);
-    } while (choice != 0);*/
+        handleChoice(choice);
+    } while (choice != 0);
 
-    int choice;
-  do {
-      displayMenu();
-      cin >> choice;
-      handleChoice(choice);
-  } while (choice != 0);
-
-  return 0;
+    return 0;
 }
 
 void displayMenu() {
@@ -95,12 +34,12 @@ void displayMenu() {
 }
 
 void handleChoice(int choice) {
-    switch(choice) {
+    switch (choice) {
         case 0:
             cout << "Cerrando Megatron3000." << endl;
-        break;
+            break;
         case 1: {
-            int measures[6] = {2, 2, 256, 128, PAGE_SIZE/SECTOR_X_BLOCK, SECTOR_X_BLOCK};
+            int measures[6] = {2, 2, 256, 128, PAGE_SIZE / SECTOR_X_BLOCK, SECTOR_X_BLOCK};
             megatron.setDisk(measures);
         }
         break;
@@ -110,38 +49,35 @@ void handleChoice(int choice) {
         }
         break;
         case 3: {
-            vector<string> relation = {"Student","Fixed","age", "int", "8", "name", "char", "10"};
+            vector<string> relation = {"Student", "Fixed", "age", "int", "8", "name", "char", "10"};
             megatron.createRelation(relation);
         }
         break;
-        case 4:{
-            vector<string> relation = {"Student","15","miki"};
+        case 4: {
+            vector<string> relation = {"Student", "15", "miki"};
             megatron.insertRecord(relation);
         }
         break;
         case 5:
             readFile();
-        break;
+            break;
         case 6: {
             int pageId;
             cin >> pageId;
             megatron.leerBloque(pageId);
         }
         break;
-        case 7:{
+        case 7: {
             int pageId;
             cin >> pageId;
             megatron.escribirBloque(pageId);
         }
         break;
-        case 8:{
+        case 8: {
             int pageId;
             cin >> pageId;
             megatron.liberarBloque(pageId);
         }
-        break;
-        case 9:
-            configDisco();
         break;
         default:
             cout << "Invalid choice. Please try again." << endl;
@@ -194,11 +130,11 @@ void readFile() {
     megatron.createRelation(relation);
 
     // Leer cada línea del archivo a partir de la segunda línea
-    getline(file, line);  // Descartar la primera línea
+    getline(file, line); // Descartar la primera línea
     while (getline(file, line)) {
         iss.clear();
         iss.str(line);
-        vector<string> record = {filename};  // Agregar el nombre del archivo al principio del registro
+        vector<string> record = {filename}; // Agregar el nombre del archivo al principio del registro
         while (getline(iss, word, ';')) {
             record.push_back(word);
         }
@@ -208,10 +144,3 @@ void readFile() {
     file.close();
 }
 
-void configDisco() {
-	int params[6];
-	cout << "Ingresar en orden, numero de:\n platos\n superficies por plato\n pistas por superficie\n sectores por pista\n bytes por sector\n sectores por bloque\n";
-	for(int i=0; i<6; i++)
-		cin >> params[i];
-	megatron.setDisk(params);
-}

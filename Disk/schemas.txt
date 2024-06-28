@@ -1,0 +1,2 @@
+Student,Fixed,23,age,int,8,name,char,10
+titanic,Fixed,44,PassengerId,int,11,Survived,int,8,Pclass,int,6,Name,char,57,Sex,char,6,Age,float,3,SibSp,int,5,Parch,int,5,Ticket,char,16,Fare,float,8,Cabin,char,11,Embarked,char,8

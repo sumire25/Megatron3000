@@ -28,8 +28,6 @@ public:
   void createRelation(vector<string>& relation);
   void insertRecord(vector<string>& record);
 	void printBlock(int& blockId);
-  void selectRecord(vector<string>& record);
-  void deleteRecord(vector<string>& record);
 
   /**
  * Imprime el contenido del bloque dado su identificador

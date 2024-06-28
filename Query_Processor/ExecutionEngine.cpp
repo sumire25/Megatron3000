@@ -169,6 +169,8 @@ void ExecutionEngine::addSchema(vector<string> &createQuery, int blockId) {
   buffManRef->setDirtyFlag(blockId);
   buffManRef->unpinPage(blockId);
 }
+// loadSchema
+// newSchema
 
 void ExecutionEngine::addSchematoDisk(string &relName) {
 }
@@ -286,6 +288,7 @@ void ExecutionEngine::readSchemasFromFile() {
   while(getline(file, line)) {
     int pageId;
     vector<string> schemaVec = stringToVector(line, pageId);
+
     addSchema(schemaVec, pageId);//ERROR: se aplica el seteo a cero de la cantidad de paginas en el header page
   }
   file.close();

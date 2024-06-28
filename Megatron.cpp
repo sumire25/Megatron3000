@@ -38,10 +38,6 @@ void Megatron::insertRecord(vector<string> &record) {
     excEngine.insertRecord(record);
 }
 
-void Megatron::printBlock(int &PageId) {
-    string block = excEngine.getPageContent(PageId);
-    cout << "Bloque: '" <<block<<"'" << endl;
-}
 
 void Megatron::leerBloque(int numBlock) {
     if(!buffManager.pinPage(numBlock, RequestType::READ)) return;
