@@ -1,7 +1,3 @@
-//
-// Created by sumire on 5/10/24.
-//
-
 #include "Megatron.h"
 
 Megatron::Megatron(): buffManager(REPLACER_TYPE){//2: clockreplacer
