@@ -46,8 +46,28 @@ namespace pageEdit {
     */
     void addNewPageToDirectory(std::string &page, const int PageID, const int freeSpace);
     // UNPACKED PAGE
+    /**
+     *
+     * @param page una página de longitud fija
+     * @param recordSize el tamaño fijo que fué designado esa página
+     * @return el nro total de registros que puede tener esta página si está llena
+     */
     int getTotalNumRecords( const std::string &page, int recordSize);
+
+    /**
+     * establece "configuración" de una página de longitud fija dado un tamaño fijo asignado
+     * @param page una página que será configurada a longitud fija
+     * @param recordSize el tamaño fijo que vamos a determinar para la página
+     *
+     */
     void setNewUnpacked(std::string &page, int recordSize);
+
+    /**
+     * inserta un registro ya formateado para longitud fija
+     * @param page una página de longitud fija
+     * @param record el registro ya configurado a longitud fija que se quiere insertar
+     * @author Alonso
+     */
     void insertUnpacked(std::string &page, const std::string &record);
 
 
