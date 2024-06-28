@@ -107,23 +107,86 @@ public:
   /**
    *@author Chullunquia Alonso
    */
+
+    /**
+   * Destructor de la clase ExecutionEngine.
+   * Escribe los esquemas en un archivo al destruir el objeto.
+   */
   ~ExecutionEngine();
+
+
+    /**
+     * Establece la referencia al BufferManager.
+     * @param buffManRef: puntero al BufferManager.
+     */
   void setBuffManRef(BufferManager* buffManRef);
+
+    /**
+ * Establece la referencia al DiskManager.
+ * @param diskManRef: puntero al DiskManager.
+ */
   void setDiskManRef(DiskManager* diskManRef);
+
+    /**
+ * Lee los esquemas desde un archivo y los carga en la tabla de esquemas.
+ */
   void readSchemasFromFile();
+
+    /**
+* Escribe los esquemas en un archivo.
+*/
   void writeSchemasToFile();
 
-  void addSchema(vector<string>& relation, int blockId);//crea y agrega un esquema a la tabla de esquemas
+    /**
+   * Crea y agrega un esquema a la tabla de esquemas.
+   * @param relation: vector de strings que representa la relación.
+   * @param blockId: ID del bloque.
+   */
+  void addSchema(vector<string>& relation, int blockId);
+
+    /**
+ * Inserta un registro en la relación correspondiente.
+ * @param record: vector de strings que representa el registro.
+ */
   void insertRecord(vector<string>& record);
+
+    /**
+ * Obtiene el contenido de una página en el buffer.
+ * @param blockId: ID del bloque.
+ * @return string con el contenido de la página.
+ */
   string getPageContent(int& blockId);
+
+    /**
+ * Verifica si existe una relación con el nombre dado.
+ * @param relName: nombre de la relación.
+ * @return true si la relación existe, false en caso contrario.
+ */
   bool hasRelation(string& relName);
 
-  //function which prints all the schemas
+    /**
+     * Imprime todos los esquemas almacenados.
+     */
   void printSchemas();
+
+    /**
+     * @brief Crea una nueva relación en el motor de ejecución.
+     *
+     * Esta función añade un nuevo esquema a la colección de esquemas.
+     * Si la relación especificada no existe, se asigna un nuevo bloque de cabecera para almacenar
+     * los datos de la relación y se inicializa la cabecera de la página correspondiente.
+     * Si la relación ya existe, la función no realiza ninguna acción adicional.
+     *
+     * @param relation Un vector de strings que contiene el nombre de la relación seguido de los detalles de sus atributos.
+     *                 Por ejemplo: {"nombreRelacion", "tipoAtributo1", "nombreAtributo1", "tipoAtributo2", "nombreAtributo2", ...}.
+     * @param blockId El identificador del bloque en el disco donde se almacenará la cabecera de la nueva relación.
+     */
+  void createRelation(vector<string> &relation, int blockId);
 
   //POR IMPLEMENTAR
   void setDataDictionary();
   void addSchematoDisk(string& relName);
+
 };
 
 
