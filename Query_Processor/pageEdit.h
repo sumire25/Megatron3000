@@ -66,9 +66,10 @@ namespace pageEdit {
      * inserta un registro ya formateado para longitud fija
      * @param page una página de longitud fija
      * @param record el registro ya configurado a longitud fija que se quiere insertar
+     * @return slot number in page
      * @author Alonso
      */
-    void insertUnpacked(std::string &page, const std::string &record);
+    int insertUnpacked(std::string &page, const std::string &record);
 
 
     //SLOTTED PAGE

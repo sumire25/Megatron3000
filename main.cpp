@@ -10,6 +10,7 @@ void readFile();
 void resetMegatron();
 
 Megatron megatron;
+int postid = 0;
 
 int main() {
     int choice;
@@ -52,13 +53,14 @@ void handleChoice(int choice) {
         }
         break;
         case 3: {
-            vector<string> relation = {"Student", "Fixed", "age", "int", "8", "name", "char", "10"};
+            vector<string> relation = {"Post", "Fixed", "postid", "int", "8", "userid", "int", "8", "pdate", "int", "8", "content", "char", "5"};
             megatron.createRelation(relation);
         }
         break;
         case 4: {
-            vector<string> relation = {"Student", "15", "miki"};
+            vector<string> relation = {"Post", to_string(postid),"1","13", "miki"};
             megatron.insertRecord(relation);
+            postid++;
         }
         break;
         case 5:

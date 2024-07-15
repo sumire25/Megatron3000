@@ -23,4 +23,7 @@ add_executable(megatron main.cpp
         Buffer_Manager/Replacer.h
         Query_Processor/pageEdit.cpp
         Query_Processor/pageEdit.h
+        Query_Processor/Rid.h
+        Query_Processor/BPlusTree.cpp
+        Query_Processor/BPlusTree.h
 )

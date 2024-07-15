@@ -109,12 +109,15 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
     int freeSpace = PAGE_SIZE - recordSize - pageEdit::getTotalNumRecords(*(pageToWrite->data),recordSize)-NUM_RECORDS_SIZE - 1;
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
-  pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);
+  int slot = pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);
   buffManRef->setDirtyFlag(freePage);
   buffManRef->unpinPage(freePage);
   //actualizar headerPage y liberarla
   buffManRef->setDirtyFlag(headerBlockId);
   buffManRef->unpinPage(headerBlockId);
+  //create Rid;
+  RID rid = RID(freePage,slot);
+  cerr<<"RID: "<<rid<<endl;
 }
 
 //LAST WORK: TO MAKE PERSISTENT DB

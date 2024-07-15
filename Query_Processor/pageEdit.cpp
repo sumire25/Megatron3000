@@ -72,8 +72,8 @@ namespace pageEdit {
         page.replace(NUM_RECORDS_SIZE, totalNumRecords, totalNumRecords, '0');
         page.replace(NUM_RECORDS_SIZE + totalNumRecords, 1, "&"); // separadorxc
     }
-
-    void insertUnpacked(std::string &page, const std::string &record) {
+    //ERROR IN LAST BIT
+    int insertUnpacked(std::string &page, const std::string &record) {
         const int recordSize = static_cast<int>(record.length());
         const int totalNumRecords = getTotalNumRecords(page, recordSize);
         const int numRecords = std::stoi(page.substr(0,NUM_RECORDS_SIZE));
@@ -86,10 +86,11 @@ namespace pageEdit {
                 page.replace(headerSize + index, recordSize, record);
                 // incrementando el nro de registros
                 page.replace(0,NUM_RECORDS_SIZE, myFunc::padString(std::to_string(numRecords + 1),NUM_RECORDS_SIZE));
-                return;
+                return i - NUM_RECORDS_SIZE;
             }
         }
         std::cerr << "no hay espacio suficiente en la página" << std::endl;
+        return -1;
     }
 
     //SLOTTED PAGE//

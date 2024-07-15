@@ -7,6 +7,7 @@
 #include "../Util/myFunc.h"
 #include "pageEdit.h"
 #include "Schema.h"
+#include "Rid.h"
 
 class ExecutionEngine {
   /**
