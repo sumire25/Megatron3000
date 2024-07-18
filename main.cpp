@@ -1,4 +1,67 @@
-#include <fstream>
+#include <iostream>
+#include "Query_Processor/BPlusTree.h"
+
+int main() {
+    int degree;
+    std::cout << "Enter the degree of the B+ Tree: ";
+    std::cin >> degree;
+
+    BPlusTree<int> tree(degree);
+    int choice, key;
+    std::vector<int> rangeResult;
+
+    while (true) {
+        std::cout << "\n1. Insert\n2. Search\n3. Remove\n4. Range Query\n5. Print Tree\n6. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                std::cout << "Enter key to insert: ";
+            std::cin >> key;
+            tree.insert(key);
+            break;
+            case 2:
+                std::cout << "Enter key to search: ";
+            std::cin >> key;
+            if (tree.search(key)) {
+                std::cout << "Key found\n";
+            } else {
+                std::cout << "Key not found\n";
+            }
+            break;
+            case 3:
+                std::cout << "Enter key to remove: ";
+            std::cin >> key;
+            tree.remove(key);
+            break;
+            case 4:
+                int lower, upper;
+            std::cout << "Enter lower and upper bounds for range query: ";
+            std::cin >> lower >> upper;
+            rangeResult = tree.rangeQuery(lower, upper);
+            std::cout << "Keys in range: ";
+            for (int key : rangeResult) {
+                std::cout << key << " ";
+            }
+            std::cout << "\n";
+            break;
+            case 5:
+                std::cout << "Printing tree:\n";
+            tree.printTree();
+            break;
+            case 6:
+                return 0;
+            default:
+                std::cout << "Invalid choice. Please choose a valid operation.\n";
+        }
+    }
+
+    return 0;
+}
+
+
+/*#include <fstream>
 #include "Megatron.h"
 
 void displayMenu();
@@ -163,3 +226,4 @@ void resetMegatron() {
     ofstream file("../Disk/schemas.txt");
     file.close();
 }
+*/
