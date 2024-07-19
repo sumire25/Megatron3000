@@ -13,7 +13,7 @@ namespace pageEdit {
         if (isVar)
             neededSpace = recordSize + VAR_OFFSET_SIZE + VAR_LENGTH_SIZE;
         else
-            neededSpace = recordSize;
+            neededSpace = recordSize + 1;
 
         // recorrer byte por byte la página
         int numPairs = std::stoi(page.substr(0,NUM_PAIRS_SIZE));
@@ -59,6 +59,7 @@ namespace pageEdit {
 
     int getTotalNumRecords(const std::string &page, int recordSize) {
         const int totalNumRecords = (int(page.length()) - NUM_RECORDS_SIZE - 1) / (recordSize + 1); // +1 por el bitmap
+        cerr << "Total Num Records: " << totalNumRecords <<", recorsizew:"<<recordSize<< endl;
         return totalNumRecords;
     }
 

@@ -106,7 +106,7 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   Page* pageToWrite = buffManRef->getPage(freePage);
   if(allocated) {
     pageEdit::setNewUnpacked(*(pageToWrite->data),recordSize);
-    int freeSpace = PAGE_SIZE - recordSize - pageEdit::getTotalNumRecords(*(pageToWrite->data),recordSize)-NUM_RECORDS_SIZE - 1;
+    int freeSpace = PAGE_SIZE - (recordSize+1) - NUM_RECORDS_SIZE - 1;
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
   int slot = pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);

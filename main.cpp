@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include "Query_Processor/BPlusTree.h"
 
 int main() {
@@ -61,9 +61,9 @@ int main() {
     return 0;
 
     return 0;
-}
+}*/
 
-/*
+
 #include <fstream>
 #include "Megatron.h"
 
@@ -228,4 +228,4 @@ void resetMegatron() {
     // crea un nuevo file schemas.txt
     ofstream file("../Disk/schemas.txt");
     file.close();
-}*/
+}
