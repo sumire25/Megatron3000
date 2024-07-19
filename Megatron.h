@@ -92,6 +92,8 @@ public:
    * @author todos
    */
   void print();
+
+  string selectPost(int postId);
 };
 
 

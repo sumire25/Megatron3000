@@ -79,3 +79,9 @@ void Megatron::print() {
     buffManager.printPageTable();
     buffManager.printReplacer();
 }
+
+string Megatron::selectPost(int postId) {
+    string record = excEngine.selectPost(postId);
+    print();
+    return record;
+}

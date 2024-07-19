@@ -59,7 +59,6 @@ namespace pageEdit {
 
     int getTotalNumRecords(const std::string &page, int recordSize) {
         const int totalNumRecords = (int(page.length()) - NUM_RECORDS_SIZE - 1) / (recordSize + 1); // +1 por el bitmap
-        cerr << "Total Num Records: " << totalNumRecords <<", recorsizew:"<<recordSize<< endl;
         return totalNumRecords;
     }
 
@@ -205,5 +204,14 @@ namespace pageEdit {
         newData.replace(posicion, registro.size(), registro);
 
         return newData;
+    }
+
+    string getRecord(string &data, int slotnum, int recordSize) {
+        int numRecords = getTotalNumRecords(data, recordSize);
+        if (slotnum >= numRecords) {
+            std::cerr << "No existe el registro en la página.\n";
+            return "";
+        }
+        return data.substr(NUM_RECORDS_SIZE+numRecords+1 + slotnum*recordSize, recordSize);
     }
 }

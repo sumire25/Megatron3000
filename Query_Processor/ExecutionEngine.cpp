@@ -116,8 +116,9 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   buffManRef->setDirtyFlag(headerBlockId);
   buffManRef->unpinPage(headerBlockId);
   //create Rid;
-  RID rid = RID(freePage,slot);
-  cerr<<"RID: "<<rid.ToString()<<endl;
+  RID* rid =  new RID(freePage,slot);
+  cerr<<"RID: "<<rid->GetPageId()<<", "<<rid->GetSlotNum()<<endl;
+  postIndex->insert(stoi(record[1]), rid);
 }
 
 //LAST WORK: TO MAKE PERSISTENT DB
@@ -175,6 +176,18 @@ void ExecutionEngine::loadSchema(vector<string> &createQuery, int headerPageId) 
 }
 
 void ExecutionEngine::addSchematoDisk(string &relName) {
+}
+
+string ExecutionEngine::selectPost(int postId) {
+  RID* rid =  postIndex->search(postId);
+  if(!buffManRef->pinPage(rid->GetPageId(), RequestType::READ)) {
+    cerr<<"Error al pinnear pagina"<<endl;
+  }
+  Page* page = buffManRef->getPage(rid->GetPageId());
+  Schema* schema = schemas["Post"];
+  string record = pageEdit::getRecord(*(page->data),rid->GetSlotNum(), schema->recordSize());
+  buffManRef->unpinPage(rid->GetPageId());
+  return record;
 }
 
 string ExecutionEngine::formatRecord(vector<string> &record) {
@@ -346,6 +359,10 @@ vector<string> ExecutionEngine::stringToVector(string &schemaStr, int &pageId) {
     i++;
   }
   return schemaVec;
+}
+
+ExecutionEngine::ExecutionEngine() {
+  postIndex = new BPlusTree<int>(4);
 }
 
 void ExecutionEngine::createRelation(vector<string> &relation, int blockId) {

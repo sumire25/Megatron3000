@@ -8,6 +8,7 @@
 #include "pageEdit.h"
 #include "Schema.h"
 #include "Rid.h"
+#include "BPlusTree.h"
 
 class ExecutionEngine {
   /**
@@ -30,6 +31,8 @@ private:
  * @author Suni Yanira
  */
   unordered_map<string, Schema*> schemas;
+
+	BPlusTree<int>* postIndex;
 
     /**
    * Inserta un registro de longitud variable en un bloque (slotted page).
@@ -105,6 +108,7 @@ private:
  */
   vector<string> stringToVector(string &schemaStr, int &pageId);
 public:
+	ExecutionEngine();
     /**
    * Destructor de la clase ExecutionEngine.
    * Escribe los esquemas en un archivo al destruir el objeto.
@@ -204,6 +208,7 @@ public:
   void setDataDictionary();
   void addSchematoDisk(string& relName);
 
+	string selectPost(int postId);
 };
 
 

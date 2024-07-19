@@ -113,6 +113,7 @@ namespace pageEdit {
  * @author Suni Yanira
  */
     std::string insertSlotted(const std::string& data, const std::string& registro); //inserta un registro de longitud variable al bloque
+ string getRecord(string& data, int slotnum, int recordSize);
 }
 
 #endif //PAGEEDIT_H

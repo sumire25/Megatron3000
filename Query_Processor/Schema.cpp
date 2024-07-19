@@ -18,3 +18,11 @@ Schema::Schema(const vector<string>& createQuery) {
 		attributes.push_back({createQuery[idx],createQuery[idx+1],stoi(createQuery[idx+2])});
 	}
 }
+
+int Schema::recordSize() const {
+	int recordSize = 0;
+	for(const auto& attr : attributes) {
+		recordSize += attr.size;
+	}
+	return recordSize;
+}

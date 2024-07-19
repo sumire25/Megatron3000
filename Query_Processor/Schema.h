@@ -23,6 +23,11 @@ public:
 	 * @author Chullunquia Alonso
 	 */
 	Schema(const vector<string>& createQuery);
+	/**
+	 * Devuelve el tamaño total de un registro.
+	 * @return tamaño total del registro.
+	 */
+	int recordSize() const;
 };
 
 #endif //SCHEMA_H

@@ -99,6 +99,7 @@ void displayMenu() {
     cout << "7. Escribir Pagina" << endl;
     cout << "8. Liberar Pagina" << endl;
     cout << "9. Reset Megatron and quit" << endl;
+    cout << "10. Seleccionar Post dado id" << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -153,6 +154,11 @@ void handleChoice(int choice) {
             resetMegatron();
             cout << "Megatron reseteado." << endl;
             break;
+        }
+        case 10: {
+            int postId;
+            cin >> postId;
+            cout << "<" <<megatron.selectPost(postId)<<">"<<endl;
         }
         break;
         default:
@@ -221,7 +227,6 @@ void readFile() {
 }
 
 void resetMegatron() {
-
     std::string path = "../Disk/*";
     std::string command = "rm -rf " + path;
     system(command.c_str());
