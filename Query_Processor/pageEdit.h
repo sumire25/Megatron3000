@@ -11,6 +11,7 @@
 #define NUM_PAIRS_SIZE 3
 #define FREESPACE_SIZE 3
 #define PAGEID_SIZE 8
+#define SLOTNUM_SIZE 3
 //offset y length de slottedPage
 #define VAR_OFFSET_SIZE 3
 #define VAR_LENGTH_SIZE 3

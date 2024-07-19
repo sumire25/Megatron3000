@@ -2,66 +2,69 @@
 #include "Query_Processor/BPlusTree.h"
 
 int main() {
-    int degree;
-    std::cout << "Enter the degree of the B+ Tree: ";
-    std::cin >> degree;
-
-    BPlusTree<int> tree(degree);
-    int choice, key;
-    std::vector<int> rangeResult;
+    int order;
+    std::cout << "Enter the order of the B+ Tree: ";
+    std::cin >> order;
+    BPlusTree<int> bpt(order);
 
     while (true) {
-        std::cout << "\n1. Insert\n2. Search\n3. Remove\n4. Range Query\n5. Print Tree\n6. Exit\n";
-        std::cout << "Enter your choice: ";
+        std::cout << "\nMenu:\n"
+                  << "1. Insert\n"
+                  << "2. Delete\n"
+                  << "3. Search\n"
+                  << "4. Print Tree\n"
+                  << "5. Exit\n"
+                  << "Enter your choice: ";
+        int choice;
         std::cin >> choice;
 
+        int key, pageid, slotnum;
+        RID* rid;
         switch (choice) {
             case 1:
                 std::cout << "Enter key to insert: ";
-            std::cin >> key;
-            tree.insert(key);
+            std::cin >> key >> pageid >> slotnum;
+            rid = new RID(pageid, slotnum);
+            bpt.insert(key, rid);
+            std::cout << "After insert " << key << ":\n";
+            bpt.printTree();
             break;
             case 2:
-                std::cout << "Enter key to search: ";
+                std::cout << "Enter key to delete: ";
             std::cin >> key;
-            if (tree.search(key)) {
-                std::cout << "Key found\n";
-            } else {
-                std::cout << "Key not found\n";
-            }
+            bpt.remove(key);
+            std::cout << "After delete " << key << ":\n";
+            bpt.printTree();
             break;
             case 3:
-                std::cout << "Enter key to remove: ";
+                std::cout << "Enter key to search: ";
             std::cin >> key;
-            tree.remove(key);
+            rid = bpt.search(key);
+            if (rid != nullptr) {
+                std::cout << "Record found at page <" << rid->ToString()<< ">" << std::endl;
+            } else {
+                std::cout << "Record not found\n";
+            }
             break;
             case 4:
-                int lower, upper;
-            std::cout << "Enter lower and upper bounds for range query: ";
-            std::cin >> lower >> upper;
-            rangeResult = tree.rangeQuery(lower, upper);
-            std::cout << "Keys in range: ";
-            for (int key : rangeResult) {
-                std::cout << key << " ";
-            }
-            std::cout << "\n";
+                std::cout << "B+ Tree structure:\n";
+            bpt.printTree();
             break;
             case 5:
-                std::cout << "Printing tree:\n";
-            tree.printTree();
-            break;
-            case 6:
-                return 0;
+                std::cout << "Exiting...\n";
+            return 0;
             default:
-                std::cout << "Invalid choice. Please choose a valid operation.\n";
+                std::cout << "Invalid choice. Please try again.\n";
         }
     }
 
     return 0;
+
+    return 0;
 }
 
-
-/*#include <fstream>
+/*
+#include <fstream>
 #include "Megatron.h"
 
 void displayMenu();
@@ -225,5 +228,4 @@ void resetMegatron() {
     // crea un nuevo file schemas.txt
     ofstream file("../Disk/schemas.txt");
     file.close();
-}
-*/
+}*/

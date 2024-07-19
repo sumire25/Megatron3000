@@ -117,7 +117,7 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   buffManRef->unpinPage(headerBlockId);
   //create Rid;
   RID rid = RID(freePage,slot);
-  cerr<<"RID: "<<rid<<endl;
+  cerr<<"RID: "<<rid.ToString()<<endl;
 }
 
 //LAST WORK: TO MAKE PERSISTENT DB
