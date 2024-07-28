@@ -2,4 +2,6 @@
 5
 Post Fixed
 int int int char
+6
+Post postid 105
 0

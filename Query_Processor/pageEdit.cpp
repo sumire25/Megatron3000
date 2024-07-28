@@ -206,12 +206,20 @@ namespace pageEdit {
         return newData;
     }
 
-    string getRecord(string &data, int slotnum, int recordSize) {
+    string selectRecordUnpacked(string &data, int slotnum, int recordSize) {
         int numRecords = getTotalNumRecords(data, recordSize);
         if (slotnum >= numRecords) {
             std::cerr << "No existe el registro en la página.\n";
             return "";
         }
         return data.substr(NUM_RECORDS_SIZE+numRecords+1 + slotnum*recordSize, recordSize);
+    }
+
+    void deleteRecordUnpacked(string &page, int slotnum, int recordSize) {
+        string blank = string(recordSize, ' ');
+        const int totalNumRecords = getTotalNumRecords(page, recordSize);
+        int headerSize = NUM_RECORDS_SIZE + totalNumRecords + 1;
+        page.replace(headerSize + (slotnum*recordSize), recordSize, blank);
+        page.replace(NUM_RECORDS_SIZE + slotnum, 1, "0");
     }
 }

@@ -23,6 +23,7 @@ using namespace std;
 
 #define NUM_FRAMES 3
 #define REPLACER_TYPE 2 //2: clockreplacer, 1: lru
+#define BPLUSTREE_DEGREE 4
 
 #define SCHEMA_PATH "../Disk/schemas.txt"
 

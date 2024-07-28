@@ -27,21 +27,19 @@ private:
  */
   unordered_map<string, Schema*> schemas;
 
-	BPlusTree<int>* postIndex;
-
     /**
    * Inserta un registro de longitud variable en un bloque (slotted page).
    * @param record: vector de strings que representa el registro.
    * @author Suni Yanira
    */
-  void insertVariableRecord(vector<string>& record);
+  RID* insertVariableRecord(vector<string>& record);
 
     /**
      * Inserta un registro de longitud fija en un bloque (unpacked).
      * @param record: vector de strings que representa el registro.
      * @author Suni Yanira
      */
-  void insertFixedRecord(vector<string>& record);
+  RID* insertFixedRecord(vector<string>& record);
 
 
     /**
@@ -196,7 +194,10 @@ public:
   void setDataDictionary();
   void addSchematoDisk(string& relName);
 
-	string selectPost(int postId);
+  string selectRecord(vector<string> & selectQuery);
+    void addIndexEntry(vector<string> & record, RID* rid);
+    void deleteIndexEntry(vector<string> & deleteQuery);
+  void deleteRecord(vector<string> & deleteQuery);
 };
 
 

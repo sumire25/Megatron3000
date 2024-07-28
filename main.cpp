@@ -25,8 +25,8 @@ void displayMenu() {
     cout << "3. Crear tabla" << endl;
     cout << "4. Añadir nuevo registro" << endl;
     cout << "5. Leer archivo" << endl;
-    cout << "6. Leer Pagina" << endl;
-    cout << "7. Escribir Pagina" << endl;
+    cout << "6. Consultar registro" << endl;
+    cout << "7. Eliminar registro" << endl;
     cout << "8. Liberar Pagina" << endl;
     cout << "9. Reset Megatron and quit" << endl;
     cout << "10. Seleccionar Post dado id" << endl;
@@ -64,13 +64,11 @@ void handleChoice(int choice) {
             megatron.readFile();
             break;
         case 6: {
-            int pageId;
-            cin >> pageId;
+            megatron.selectRecord();
         }
         break;
         case 7: {
-            int pageId;
-            cin >> pageId;
+            megatron.deleteRecord();
         }
         break;
         case 8: {
@@ -85,7 +83,6 @@ void handleChoice(int choice) {
         case 10: {
             int postId;
             cin >> postId;
-            cout << "<" <<megatron.selectPost(postId)<<">"<<endl;
         }
         break;
         default:

@@ -165,7 +165,7 @@ void BPlusTree<T>::deleteKey(BPlusTreeNode<T>* node, T key) {
 
     auto it = std::lower_bound(actual->keys.begin(), actual->keys.end(), key);
     if (it != actual->keys.end() && *it == key) {
-        int oldKey = actual->keys.front();
+        T oldKey = actual->keys.front();
         actual->keys.erase(it);
 
         if (actual == root) {
@@ -176,7 +176,7 @@ void BPlusTree<T>::deleteKey(BPlusTreeNode<T>* node, T key) {
             return;
         }
         if (actual->keys.size() >= (degree + 1) / 2) {
-            int newKey = actual->keys.front();
+            T newKey = actual->keys.front();
             if (parent != nullptr && parent->keys[parentIndex] == key) {
                 parent->keys[parentIndex] = newKey;
                 updateInternalNodes(parent, oldKey, newKey);

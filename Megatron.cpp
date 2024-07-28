@@ -85,7 +85,39 @@ void Megatron::readFile() {
     file.close();
 }
 
-string Megatron::selectPost(int postId) {
-    string record = excEngine.selectPost(postId);
-    return record;
+void Megatron::selectRecord() {
+    // selectQuery: {relName, attrName, attrValue}
+    vector<string> selectQuery;
+    string word;
+    cout << "Ingrese el nombre de la relación:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    cout << "Ingrese el nombre del atributo:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    cout << "Ingrese el valor del atributo:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    string record = excEngine.selectRecord(selectQuery);
+    if (record != "") {
+        cout << "<" << record << ">" << endl;
+    } else {
+        cout << "No se encontró el registro." << endl;
+    }
+}
+
+void Megatron::deleteRecord() {
+    // deleteQuery: {relName, attrName, attrValue}
+    vector<string> deleteQuery;
+    string word;
+    cout << "Ingrese el nombre de la relación:" << endl;
+    cin >> word;
+    deleteQuery.push_back(word);
+    cout << "Ingrese el nombre del atributo:" << endl;
+    cin >> word;
+    deleteQuery.push_back(word);
+    cout << "Ingrese el valor del atributo:" << endl;
+    cin >> word;
+    deleteQuery.push_back(word);
+    excEngine.deleteRecord(deleteQuery);
 }

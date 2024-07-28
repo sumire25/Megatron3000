@@ -41,8 +41,8 @@ public:
 * @author todos
 */
   void readFile();
-  // Caso especifico de consulta de un post
-  string selectPost(int postId);
+  void selectRecord();
+  void deleteRecord();
 };
 
 

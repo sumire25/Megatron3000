@@ -5,9 +5,7 @@
 #include "Schema.h"
 
 Schema::Schema(const vector<string>& createQuery) {
-
 	//layout:relName,recordType,attr1Name,attr1Type,attr1Size,attr2Name,attr2Type,attr2Size,....
-
 	relationName = createQuery[0];
 	if(createQuery[1] == "Variable")
 		isVarLength = true;
@@ -17,6 +15,14 @@ Schema::Schema(const vector<string>& createQuery) {
 		idx = 2 + i*3;
 		attributes.push_back({createQuery[idx],createQuery[idx+1],stoi(createQuery[idx+2])});
 	}
+	//agregar indice en el atributo 0
+	if(attributes[0].type == "int") {
+		indexes[attributes[0].name] = new BPlusTree<int>(BPLUSTREE_DEGREE);
+	} else if(attributes[0].type == "float") {
+		indexes[attributes[0].name] = new BPlusTree<float>(BPLUSTREE_DEGREE);
+	} else {
+		indexes[attributes[0].name] = new BPlusTree<string>(BPLUSTREE_DEGREE);
+	}
 }
 
 int Schema::recordSize() const {
@@ -25,4 +31,15 @@ int Schema::recordSize() const {
 		recordSize += attr.size;
 	}
 	return recordSize;
+}
+
+string Schema::attributeType(string &attrName) const {
+	string type;
+	for(const auto& attr : attributes) {
+		if(attr.name == attrName) {
+			type = attr.type;
+			break;
+		}
+	}
+	return type;
 }
