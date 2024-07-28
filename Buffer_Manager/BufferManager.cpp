@@ -130,6 +130,14 @@ void BufferManager::setDirtyFlag(int pageId) {
 	get<0>(frameInfo[pageTable[pageId]]) = true;
 }
 
+int BufferManager::allocRandomBlock() {
+	return diskManRef->allocRandomBlock();
+}
+
+int BufferManager::allocNextBlock(int &headerPage) {
+	return diskManRef->allocNextBlock(headerPage);
+}
+
 int BufferManager::getMissCount() {
 	return missCount;
 }

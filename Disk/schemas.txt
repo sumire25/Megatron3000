@@ -1,1 +1,0 @@
-Post,Fixed,23,postid,int,6,userid,int,6,pdate,int,8,content,char,8

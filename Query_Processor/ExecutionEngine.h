@@ -21,11 +21,6 @@ private:
   BufferManager* buffManRef;
 
     /**
- * Referencia al administrador de disco.
- */
-  DiskManager* diskManRef;
-
-    /**
  * Tabla hash que almacena los esquemas de las relaciones.
  * La clave es el nombre de la relación y el valor es un puntero al esquema correspondiente.
  * @author Suni Yanira
@@ -124,13 +119,6 @@ public:
   void setBuffManRef(BufferManager* buffManRef);
 
     /**
- * Establece la referencia al DiskManager.
- * @param diskManRef: puntero al DiskManager.
- * @author Alonso
- */
-  void setDiskManRef(DiskManager* diskManRef);
-
-    /**
  * Lee los esquemas desde un archivo y los carga en la tabla de esquemas.
  * @author Alonso
  */
@@ -148,7 +136,7 @@ public:
    * @param headerPageId: el headerPageId de la relación.
 * @author Alonso
    */
-  void addSchema(vector<string>& relation, int headerPageId);
+  void addSchema(vector<string>& relation);
 
   /**
    * CARGA un esquema en la tabla de esquemas.
@@ -201,7 +189,7 @@ public:
      * @param blockId El identificador del bloque en el disco donde se almacenará la cabecera de la nueva relación.
      * @author  Suni Yanira
      */
-  void createRelation(vector<string> &relation, int blockId);
+  void createRelation(vector<string> &relation);
 
   //POR IMPLEMENTAR
   // funciones para crear un diccionario correctamente

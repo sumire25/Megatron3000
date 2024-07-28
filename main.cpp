@@ -1,82 +1,12 @@
-/*#include <iostream>
-#include "Query_Processor/BPlusTree.h"
-
-int main() {
-    int order;
-    std::cout << "Enter the order of the B+ Tree: ";
-    std::cin >> order;
-    BPlusTree<int> bpt(order);
-
-    while (true) {
-        std::cout << "\nMenu:\n"
-                  << "1. Insert\n"
-                  << "2. Delete\n"
-                  << "3. Search\n"
-                  << "4. Print Tree\n"
-                  << "5. Exit\n"
-                  << "Enter your choice: ";
-        int choice;
-        std::cin >> choice;
-
-        int key, pageid, slotnum;
-        RID* rid;
-        switch (choice) {
-            case 1:
-                std::cout << "Enter key to insert: ";
-            std::cin >> key >> pageid >> slotnum;
-            rid = new RID(pageid, slotnum);
-            bpt.insert(key, rid);
-            std::cout << "After insert " << key << ":\n";
-            bpt.printTree();
-            break;
-            case 2:
-                std::cout << "Enter key to delete: ";
-            std::cin >> key;
-            bpt.remove(key);
-            std::cout << "After delete " << key << ":\n";
-            bpt.printTree();
-            break;
-            case 3:
-                std::cout << "Enter key to search: ";
-            std::cin >> key;
-            rid = bpt.search(key);
-            if (rid != nullptr) {
-                std::cout << "Record found at page <" << rid->ToString()<< ">" << std::endl;
-            } else {
-                std::cout << "Record not found\n";
-            }
-            break;
-            case 4:
-                std::cout << "B+ Tree structure:\n";
-            bpt.printTree();
-            break;
-            case 5:
-                std::cout << "Exiting...\n";
-            return 0;
-            default:
-                std::cout << "Invalid choice. Please try again.\n";
-        }
-    }
-
-    return 0;
-
-    return 0;
-}*/
-
-
 #include <fstream>
 #include "Megatron.h"
 
 void displayMenu();
-
 void handleChoice(int choice);
-
-void readFile();
-
 void resetMegatron();
 
 Megatron megatron;
-int postid = 0;
+int postid = 151;
 
 int main() {
     int choice;
@@ -131,24 +61,21 @@ void handleChoice(int choice) {
         }
         break;
         case 5:
-            readFile();
+            megatron.readFile();
             break;
         case 6: {
             int pageId;
             cin >> pageId;
-            megatron.leerBloque(pageId);
         }
         break;
         case 7: {
             int pageId;
             cin >> pageId;
-            megatron.escribirBloque(pageId);
         }
         break;
         case 8: {
             int pageId;
             cin >> pageId;
-            megatron.liberarBloque(pageId);
         }
         case 9: {
             resetMegatron();
@@ -164,66 +91,6 @@ void handleChoice(int choice) {
         default:
             cout << "Invalid choice. Please try again." << endl;
     }
-}
-
-void readFile() {
-    string filename, recordType;
-    cout << "nombre del archivo:" << endl;
-    cin >> filename;
-    ifstream file("../Data/" + filename + ".csv");
-    if (!file.is_open()) {
-        cerr << "No se pudo abrir el archivo: " << filename + ".csv" << endl;
-    }
-    cin >> recordType;
-
-    string line, word;
-    vector<string> relation = {filename, recordType};
-    vector<int> maxColumnSizes;
-
-    while (getline(file, line)) {
-        istringstream iss(line);
-        int column = 0;
-        while (getline(iss, word, ';')) {
-            if (column >= maxColumnSizes.size()) {
-                maxColumnSizes.push_back(word.size());
-            } else {
-                maxColumnSizes[column] = max(maxColumnSizes[column], static_cast<int>(word.size()));
-            }
-            ++column;
-        }
-    }
-
-    file.clear();
-    file.seekg(0, ios::beg);
-
-    getline(file, line);
-    istringstream iss(line);
-    int column = 0;
-    while (getline(iss, word, ';')) {
-        relation.push_back(word);
-        cout << "Ingrese el tipo de dato para " << word << ":" << endl;
-        cin >> word;
-        relation.push_back(word);
-        relation.push_back(to_string(maxColumnSizes[column]));
-        ++column;
-    }
-
-    // Escribir en disco
-    megatron.createRelation(relation);
-
-    // Leer cada línea del archivo a partir de la segunda línea
-    getline(file, line); // Descartar la primera línea
-    while (getline(file, line)) {
-        iss.clear();
-        iss.str(line);
-        vector<string> record = {filename}; // Agregar el nombre del archivo al principio del registro
-        while (getline(iss, word, ';')) {
-            record.push_back(word);
-        }
-        megatron.insertRecord(record);
-    }
-
-    file.close();
 }
 
 void resetMegatron() {

@@ -98,6 +98,8 @@ public:
 	 * @author Todos
 	 */
 	void setDirtyFlag(int pageId);
+	int allocRandomBlock();
+	int allocNextBlock(int& headerPage);
 	/**
 	 * Obtiene el contador de misses
 	 * @return contador de misses

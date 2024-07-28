@@ -4,10 +4,6 @@ void ExecutionEngine::setBuffManRef(BufferManager *buffManRef) {
   this->buffManRef = buffManRef;
 }
 
-void ExecutionEngine::setDiskManRef(DiskManager *diskManRef) {
-  this->diskManRef = diskManRef;
-}
-
 void ExecutionEngine::insertRecord(vector<string> &record) {
   if(hasVarRecords(record[0]))
     insertVariableRecord(record);
@@ -58,7 +54,7 @@ void ExecutionEngine::insertVariableRecord(vector<string> &record) {
   bool allocated = false;
   int freePage = pageEdit::getAndUpdateFreePage(*(header->data),recordSize,true);
   if(freePage == -1) {
-    freePage = diskManRef->allocNextBlock(headerBlockId);
+    freePage = buffManRef->allocNextBlock(headerBlockId);
     allocated = true;
   }
   //solicitar pagina con espacio disponible, y añadir registro
@@ -95,7 +91,7 @@ void ExecutionEngine::insertFixedRecord(vector<string> &record) {
   bool allocated = false;
   int freePage = pageEdit::getAndUpdateFreePage(*(header->data),recordSize,false);
   if(freePage == -1) {
-    freePage = diskManRef->allocNextBlock(headerBlockId);
+    freePage = buffManRef->allocNextBlock(headerBlockId);
     allocated = true;
   }
   //solicitar pagina con espacio disponible, y añadir registro
@@ -157,7 +153,8 @@ bool ExecutionEngine::hasVarRecords(string &relName) {
   return schema->isVarLength;
 }
 
-void ExecutionEngine::addSchema(vector<string> &relation, int headerPageId) {
+void ExecutionEngine::addSchema(vector<string> &relation) {
+  int headerPageId = buffManRef->allocRandomBlock();
   loadSchema(relation, headerPageId);
   if(!buffManRef->pinPage(headerPageId, RequestType::WRITE)) {
     cerr<<"Error al pinnear pagina"<<endl;
@@ -179,7 +176,11 @@ void ExecutionEngine::addSchematoDisk(string &relName) {
 }
 
 string ExecutionEngine::selectPost(int postId) {
-  RID* rid =  postIndex->search(postId);
+  RID* rid = postIndex->search(postId);
+  if(!rid) {
+    cerr<<"null rid"<<endl;
+    return "";
+  }
   if(!buffManRef->pinPage(rid->GetPageId(), RequestType::READ)) {
     cerr<<"Error al pinnear pagina"<<endl;
   }
@@ -365,9 +366,9 @@ ExecutionEngine::ExecutionEngine() {
   postIndex = new BPlusTree<int>(4);
 }
 
-void ExecutionEngine::createRelation(vector<string> &relation, int blockId) {
+void ExecutionEngine::createRelation(vector<string> &relation) {
   if (!hasRelation(relation[0])) {
-    addSchema(relation, blockId);
+    addSchema(relation);
   } else {
     cerr << "Relacion ya existente" << endl;
   }

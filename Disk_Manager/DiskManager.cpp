@@ -80,8 +80,8 @@ int DiskManager::allocRandomBlock() {
     int track, blockId;
     string freeBlockMap;
     do {
-        // blockId = myFunc::generateRandomNumber(0, plattes*surfacesXplat*tracksXsurf*blocksXtrack - 1);
-        blockId = myFunc::generateRandomNumber(0, 100);
+        blockId = myFunc::generateRandomNumber(0, plattes*surfacesXplat*tracksXsurf*blocksXtrack - 1);
+        //blockId = myFunc::generateRandomNumber(0, 100);
         track = blockId / blocksPerCylinder;
         if(!existFreeBlockMap(track)) {
             //REFACTOR
