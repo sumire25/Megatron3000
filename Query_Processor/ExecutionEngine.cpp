@@ -13,7 +13,6 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   buffManRef->printRequestQueue();
   buffManRef->printPageTable();
   buffManRef->printReplacer();
-
   addIndexEntry(record, rid);
   /*string newRecord = formatRecord(record);
   cerr << "Record: " << newRecord << "\n";
@@ -205,6 +204,8 @@ string ExecutionEngine::selectRecord(vector<string> &selectQuery) {
       cerr<<"No se encontro el registro"<<endl;
       return "";
     }
+    //print rid
+    cerr<<"RID: "<<rid->GetPageId()<<", "<<rid->GetSlotNum()<<endl;
     if(!buffManRef->pinPage(rid->GetPageId(), RequestType::READ)) {
       cerr<<"Error al pinnear pagina"<<endl;
       return "";
@@ -228,12 +229,15 @@ void ExecutionEngine::addIndexEntry(vector<string> &record, RID *rid) {
       string type = schema->attributeType(schema->attributes[i].name);
       if(type == "int") {
         std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->insert(stoi(record[i+1]), rid);
+        std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
       else if(type == "float") {
         std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->insert(stof(record[i+1]), rid);
+        std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
       else {
         std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->insert(record[i+1], rid);
+        std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
     }
   }
@@ -279,13 +283,16 @@ void ExecutionEngine::deleteRecord(vector<string> &deleteQuery) {
       cerr<<"No se encontro el registro"<<endl;
       return;
     }
-    if(!buffManRef->pinPage(rid->GetPageId(), RequestType::READ)) {
+    if(!buffManRef->pinPage(rid->GetPageId(), RequestType::WRITE)) {
       cerr<<"Error al pinnear pagina"<<endl;
       return;
     }
     Page* page = buffManRef->getPage(rid->GetPageId());
+    cerr << "Before: <"<<*(page->data)<<">"<<endl;
     if(!schema->isVarLength)
       pageEdit::deleteRecordUnpacked(*(page->data),rid->GetSlotNum(), schema->recordSize());
+    cerr << "After: <"<<*(page->data)<<">"<<endl;
+    buffManRef->setDirtyFlag(rid->GetPageId());
     buffManRef->unpinPage(rid->GetPageId());
     deleteIndexEntry(deleteQuery);
     return;

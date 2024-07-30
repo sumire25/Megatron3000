@@ -166,8 +166,10 @@ void BPlusTree<T>::deleteKey(BPlusTreeNode<T>* node, T key) {
     auto it = std::lower_bound(actual->keys.begin(), actual->keys.end(), key);
     if (it != actual->keys.end() && *it == key) {
         T oldKey = actual->keys.front();
+        int idx = std::distance(actual->keys.begin(), it);
         actual->keys.erase(it);
-
+        delete actual->rids[idx];
+        actual->rids.erase(actual->rids.begin() + idx);
         if (actual == root) {
             if (actual->keys.empty()) {
                 delete root;
@@ -211,11 +213,14 @@ void BPlusTree<T>::deleteKey(BPlusTreeNode<T>* node, T key) {
 template<typename T>
 void BPlusTree<T>::borrowFromLeft(BPlusTreeNode<T>* parent, BPlusTreeNode<T>* leftSibling, BPlusTreeNode<T>* node, int index) {
     node->keys.insert(node->keys.begin(), parent->keys[index]);
+    if(node->isLeaf) {//move rid from left to right
+        node->rids.insert(node->rids.begin(), leftSibling->rids.back());
+        leftSibling->rids.pop_back();
+    }
     if (!node->isLeaf) {
         node->children.insert(node->children.begin(), leftSibling->children.back());
         leftSibling->children.pop_back();
     }
-    std::cout<<parent->keys[index-1];
     node->keys[index-1]= leftSibling->keys.back();//actualiza el hijo
     parent->keys[index] = leftSibling->keys.back();
     leftSibling->keys.pop_back();
@@ -224,6 +229,10 @@ void BPlusTree<T>::borrowFromLeft(BPlusTreeNode<T>* parent, BPlusTreeNode<T>* le
 template<typename T>
 void BPlusTree<T>::borrowFromRight(BPlusTreeNode<T>* parent, BPlusTreeNode<T>* rightSibling, BPlusTreeNode<T>* node, int index) {
     node->keys.push_back(parent->keys[index]);
+    if(node->isLeaf) {//move rid from right to left
+        node->rids.push_back(rightSibling->rids.front());
+        rightSibling->rids.erase(rightSibling->rids.begin());
+    }
     if (!node->isLeaf) {
         node->children.push_back(rightSibling->children.front());
         rightSibling->children.erase(rightSibling->children.begin());
@@ -236,6 +245,7 @@ template<typename T>
 void BPlusTree<T>::mergeNodes(BPlusTreeNode<T>* parent, BPlusTreeNode<T>* leftNode, BPlusTreeNode<T>* rightNode, int index) {
     // Mover todas las claves del nodo derecho al nodo izquierdo
     leftNode->keys.insert(leftNode->keys.end(), rightNode->keys.begin(), rightNode->keys.end());
+    leftNode->rids.insert(leftNode->rids.end(), rightNode->rids.begin(), rightNode->rids.end());
 
     // Mover todos los hijos del nodo derecho al nodo izquierdo
     if (!leftNode->isLeaf) {
@@ -317,7 +327,7 @@ void BPlusTree<T>::printTree() {
             BPlusTreeNode<T>* node = nodesQueue.front();
             nodesQueue.pop();
 
-            for (int key : node->keys) {
+            for (T key : node->keys) {
                 std::cout << key << " ";
             }
             std::cout << "| ";

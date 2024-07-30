@@ -40,6 +40,7 @@ void handleChoice(int choice) {
             cout << "Cerrando Megatron3000." << endl;
             break;
         case 1: {
+            //{plattes, surfacesXplat, tracksXsurf, sectorXtrack, bytesXsector, sectorXblock}
             int measures[6] = {2, 2, 256, 128, PAGE_SIZE / SECTOR_X_BLOCK, SECTOR_X_BLOCK};
             megatron.setDisk(measures);
         }
