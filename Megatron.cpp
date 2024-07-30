@@ -23,8 +23,23 @@ void Megatron::createRelation(vector<string> &relation) {
     excEngine.createRelation(relation);
 }
 
-void Megatron::insertRecord(vector<string> &record) {
-    excEngine.insertRecord(record);
+void Megatron::insertRecord() {
+    vector <string> insertQuery;
+    cout<<"ingrese el nombre de la relación:"<<endl;
+    string relName;
+    cin>>relName;
+    insertQuery.push_back(relName);
+    while(true) {
+        cout<<"ingrese el valor del atributo "<<endl;
+        string word;
+        cin>>word;
+        if(word == "fin"){
+            break;
+        }
+        insertQuery.push_back(word);
+    }
+    excEngine.insertRecord(insertQuery);
+    excEngine.graficarArbol(insertQuery);
 }
 
 void Megatron::readFile() {
@@ -79,8 +94,9 @@ void Megatron::readFile() {
             record.push_back(word);
         }
         cout << endl;
-        insertRecord(record);
+        excEngine.insertRecord(record);
     }
+    excEngine.graficarArbol(relation);
 
     file.close();
 }
@@ -99,6 +115,7 @@ void Megatron::selectRecord() {
     cin >> word;
     selectQuery.push_back(word);
     string record = excEngine.selectRecord(selectQuery);
+    excEngine.graficarArbol(selectQuery);
     if (record != "") {
         cout << "<" << record << ">" << endl;
     } else {
@@ -120,4 +137,22 @@ void Megatron::deleteRecord() {
     cin >> word;
     deleteQuery.push_back(word);
     excEngine.deleteRecord(deleteQuery);
+    excEngine.graficarArbol(deleteQuery);
+}
+void Megatron::resetMegatron() {
+    std::string path = "../Disk/*";
+    std::string command = "rm -rf " + path;
+    system(command.c_str());
+    // crea un nuevo file schemas.txt
+    ofstream file("../Disk/schemas.txt");
+    file.close();
+}
+
+void Megatron::printArbol() {
+    cout<<"ingrese el nombre de la relación:"<<endl;
+    string relName;
+    cin>>relName;
+    vector <string> query;
+    query.push_back(relName);
+    excEngine.graficarArbol(query);
 }

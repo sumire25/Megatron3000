@@ -35,7 +35,7 @@ public:
    * @param record vector de strings que representa el registro {relName, valor1, valor2, ...}
    * @author Alonso
    */
-  void insertRecord(vector<string>& record);
+  void insertRecord();
 /**
 * Lee un archivo csv y crea una relación y registros en base a los datos del archivo
 * @author todos
@@ -43,6 +43,9 @@ public:
   void readFile();
   void selectRecord();
   void deleteRecord();
+  void resetMegatron();
+    void printArbol();
+
 };
 
 

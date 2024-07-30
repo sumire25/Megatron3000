@@ -2,6 +2,8 @@
 3
 4
 5
-titanic Fixed
+titanic Variable
 int int int char char float int int char float char char
+6
+titanic PassengerId 4
 0

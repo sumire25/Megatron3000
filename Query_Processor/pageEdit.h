@@ -115,6 +115,11 @@ namespace pageEdit {
     std::string insertSlotted(const std::string& data, const std::string& registro); //inserta un registro de longitud variable al bloque
  string selectRecordUnpacked(string& data, int slotnum, int recordSize);
  void deleteRecordUnpacked(string& data, int slotnum, int recordSize);
+
+ int insertSlotted(std::string& data, const std::string& registro);
+ std::string obtenerContenidoRegistro(const std::string& data, size_t numRegistro);
+ std::string eliminarRegistro(std::string data, size_t numRegistro);
+
 }
 
 #endif //PAGEEDIT_H

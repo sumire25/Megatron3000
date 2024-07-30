@@ -47,6 +47,8 @@ public:
     RID* search(T key);  // Nueva función de búsqueda
     void printTree();
     void printLeaves();
+    void genDotFile();
+
 };
 
 template<typename T>
@@ -300,6 +302,7 @@ template<typename T>
 RID* BPlusTree<T>::search(T key) {
     BPlusTreeNode<T>* actual = root;
     // Buscar la hoja donde debería estar la clave
+    if(actual == nullptr) return nullptr;
     while (!actual->isLeaf) {
         auto it = std::upper_bound(actual->keys.begin(), actual->keys.end(), key);
         int index = std::distance(actual->keys.begin(), it);
@@ -360,6 +363,47 @@ void BPlusTree<T>::printLeaves() {
         current = current->next;
     }
     std::cout << std::endl;
+}
+
+template<typename T>
+void BPlusTree<T>::genDotFile() {
+    std::ofstream file("../bplustreee.dot");
+    file << "digraph G {" << std::endl;
+    file << "node [shape=record];" << std::endl;
+
+    std::queue<BPlusTreeNode<T>*> nodesQueue;
+    if (root == nullptr)
+        return;
+    nodesQueue.push(root);
+
+    while (!nodesQueue.empty()) {
+        BPlusTreeNode<T>* node = nodesQueue.front();
+        nodesQueue.pop();
+
+        file << "node" << node << " [label=\"";
+        for (T key : node->keys) {
+            file << "<f" << key << ">" << "|" << key << "|";
+        }
+        file << "<f" << node->keys.back() << "_"<< ">" << "\"];" << std::endl;
+
+        if (!node->isLeaf) {
+            int i = 0;
+            for (BPlusTreeNode<T>* child : node->children) {
+                if(child == node->children.back()) {
+                    file << "node" << node << ":f" << node->keys.back() << "_ -> node" << child << ";" << std::endl;
+                }
+                else {
+                    file << "node" << node << ":f" << node->keys[i] << " -> node" << child << ";" << std::endl;
+                }
+                nodesQueue.push(child);
+                i++;
+            }
+        }
+    }
+    file << "}" << std::endl;
+    file.close();
+    system("dot -Tpng ../bplustreee.dot -o ../bplustreee.png");
+    system("xdg-open ../bplustreee.png");
 }
 
 #endif //BPLUSTREE_H

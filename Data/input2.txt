@@ -4,4 +4,6 @@ Post Fixed
 int int int char
 6
 Post postid 105
+4
+Post 99 1 20230718 Hello fin
 0

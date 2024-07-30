@@ -22,8 +22,8 @@ using namespace std;
 #define SECTOR_X_BLOCK 2
 
 #define NUM_FRAMES 3
-#define REPLACER_TYPE 2 //2: clockreplacer, 1: lru
-#define BPLUSTREE_DEGREE 4
+#define REPLACER_TYPE 1 //2: clockreplacer, 1: lru
+#define BPLUSTREE_DEGREE 14
 
 #define SCHEMA_PATH "../Disk/schemas.txt"
 

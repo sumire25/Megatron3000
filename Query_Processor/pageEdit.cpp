@@ -17,7 +17,6 @@ namespace pageEdit {
 
         // recorrer byte por byte la página
         int numPairs = std::stoi(page.substr(0,NUM_PAIRS_SIZE));
-        std::cerr << endl << "Num Pairs: " << numPairs << endl;
         for (int i = 0; i < numPairs; i++) {
             int index = NUM_PAIRS_SIZE + i * (PAGEID_SIZE + FREESPACE_SIZE);
 
@@ -218,8 +217,137 @@ namespace pageEdit {
     void deleteRecordUnpacked(string &page, int slotnum, int recordSize) {
         string blank = string(recordSize, ' ');
         const int totalNumRecords = getTotalNumRecords(page, recordSize);
+        const int currentNumRecords = std::stoi(page.substr(0,NUM_RECORDS_SIZE));
         int headerSize = NUM_RECORDS_SIZE + totalNumRecords + 1;
         page.replace(headerSize + (slotnum*recordSize), recordSize, blank);
         page.replace(NUM_RECORDS_SIZE + slotnum, 1, "0");
+        page.replace(0,NUM_RECORDS_SIZE, myFunc::padString(std::to_string(currentNumRecords- 1),NUM_RECORDS_SIZE));
+    }
+
+
+     int insertSlotted(std::string& data, const std::string& registro) {
+        Cabecera cabecera = leerCabecera(data);
+
+        // Verificar si hay espacio suficiente
+        if ((cabecera.finFreeSpace - (cabecera.numRegistros * (VAR_OFFSET_SIZE + VAR_LENGTH_SIZE) + (
+                                              NUM_RECORDS_SIZE + VAR_OFFSET_SIZE))) < registro.size()) {
+            std::cerr << "No hay suficiente espacio para agregar el registro.\n";
+            return -1; // Retorna -1 en caso de error
+        }
+
+        size_t posicion = cabecera.finFreeSpace - registro.size();
+        std::ostringstream outStream;
+
+        // Reescribir la cabecera con los datos actualizados
+        cabecera.numRegistros++;
+        cabecera.finFreeSpace = posicion;
+
+        outStream << std::setw(NUM_RECORDS_SIZE) << std::setfill('-') << cabecera.numRegistros;
+        outStream << std::setw(VAR_OFFSET_SIZE) << std::setfill('-') << cabecera.finFreeSpace;
+
+        // Agregar el offset y longitud del nuevo registro
+        cabecera.offsets.push_back(posicion + 1);
+        cabecera.longitudes.push_back(registro.size());
+
+        for (size_t i = 0; i < cabecera.numRegistros; ++i) {
+            outStream << std::setw(VAR_OFFSET_SIZE) << std::setfill('-') << cabecera.offsets[i];
+            outStream << std::setw(VAR_LENGTH_SIZE) << std::setfill('-') << cabecera.longitudes[i];
+        }
+
+        // Calcular el tamaño de la cabecera
+        size_t cabeceraSize = (NUM_RECORDS_SIZE + VAR_OFFSET_SIZE) + cabecera.numRegistros * (VAR_OFFSET_SIZE + VAR_LENGTH_SIZE);
+
+        // Construir newData con la cabecera actualizada y los registros existentes
+        std::string newData = outStream.str();
+
+        // Añadir el resto de los datos (después de la cabecera y registros existentes)
+        newData += std::string(data.begin() + cabeceraSize, data.end());
+
+        // Reemplazar el registro en la posición adecuada
+        newData.replace(posicion, registro.size(), registro);
+
+        // Actualizar el data con newData
+        data = newData;
+
+        // Devolver la posición del registro insertado (1-based index)
+        return cabecera.numRegistros;
+
+    }
+     std::string obtenerContenidoRegistro(const std::string& data, size_t numRegistro) {
+        Cabecera cabecera = leerCabecera(data);
+
+        // Verificar si el número de registro es válido
+        if (numRegistro < 1 || numRegistro > cabecera.numRegistros) {
+            std::cerr << "Número de registro inválido: " << numRegistro << std::endl;
+            return "";
+        }
+
+        // Obtener el offset, longitud y contenido del registro específico
+        size_t offset = cabecera.offsets[numRegistro - 1] - 1; // -1 porque los offsets son basados en 1
+        size_t length = cabecera.longitudes[numRegistro - 1];
+
+        return data.substr(offset, length);
+
+    }
+     std::string eliminarRegistro(std::string data, size_t numRegistro) {
+        Cabecera cabecera = leerCabecera(data);
+
+        // Verificar si el número de registro a eliminar es válido
+        if (numRegistro < 1 || numRegistro > cabecera.numRegistros) {
+            std::cerr << "Número de registro inválido: " << numRegistro << std::endl;
+            return data;
+        }
+
+        // Calcular la posición del registro a eliminar según su offset y longitud
+        size_t offsetEliminar = cabecera.offsets[numRegistro - 1] - 1; // -1 porque los offsets son basados en 1
+        size_t longitudEliminar = cabecera.longitudes[numRegistro - 1];
+
+        // Eliminar el offset y la longitud del registro de la cabecera
+        cabecera.offsets.erase(cabecera.offsets.begin() + (numRegistro - 1));
+        cabecera.longitudes.erase(cabecera.longitudes.begin() + (numRegistro - 1));
+        cabecera.numRegistros--;
+
+        // Concatenar contenidos de los registros restantes
+        std::string registrosConcatenados;
+        for (size_t i = 0; i < cabecera.numRegistros; ++i) {
+            size_t oldOffset = cabecera.offsets[i] - 1;
+            size_t length = cabecera.longitudes[i];
+            registrosConcatenados += data.substr(oldOffset, length);
+        }
+
+        // Calcular la nueva posición del fin del espacio libre
+        size_t newFinFreeSpace = data.length() - registrosConcatenados.length();
+
+        // Crear un nuevo espacio de datos
+        std::string newData(data.length(), '-');
+
+        // Copiar los contenidos concatenados al final del espacio libre
+        std::copy(registrosConcatenados.begin(), registrosConcatenados.end(), newData.begin() + newFinFreeSpace);
+
+        // Ajustar los offsets de los registros restantes
+        size_t currentOffset = newFinFreeSpace;
+        for (size_t i = 0; i < cabecera.numRegistros; ++i) {
+            size_t length = cabecera.longitudes[i];
+            cabecera.offsets[i] = currentOffset + 1;
+            currentOffset += length;
+        }
+
+        cabecera.finFreeSpace = newFinFreeSpace;
+
+        // Reescribir la cabecera con los datos actualizados
+        std::ostringstream outStream;
+        outStream << std::setw(NUM_RECORDS_SIZE) << std::setfill('-') << cabecera.numRegistros;
+        outStream << std::setw(VAR_OFFSET_SIZE) << std::setfill('-') << cabecera.finFreeSpace;
+
+        // Ajustar offsets en orden decreciente
+        for (int i = cabecera.numRegistros - 1; i >= 0; --i) {
+            outStream << std::setw(VAR_OFFSET_SIZE) << std::setfill('-') << cabecera.offsets[i];
+            outStream << std::setw(VAR_LENGTH_SIZE) << std::setfill('-') << cabecera.longitudes[i];
+        }
+
+        newData.replace(0, outStream.str().size(), outStream.str());
+
+        return newData;
+
     }
 }

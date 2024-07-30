@@ -198,6 +198,7 @@ public:
     void addIndexEntry(vector<string> & record, RID* rid);
     void deleteIndexEntry(vector<string> & deleteQuery);
   void deleteRecord(vector<string> & deleteQuery);
+  void graficarArbol(vector<string> & query);
 };
 
 

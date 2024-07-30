@@ -6,7 +6,7 @@ void handleChoice(int choice);
 void resetMegatron();
 
 Megatron megatron;
-int postid = 151;
+int postid = 251;
 
 int main() {
     int choice;
@@ -29,7 +29,7 @@ void displayMenu() {
     cout << "7. Eliminar registro" << endl;
     cout << "8. Liberar Pagina" << endl;
     cout << "9. Reset Megatron and quit" << endl;
-    cout << "10. Seleccionar Post dado id" << endl;
+    cout << "10. mostrar arbol" << endl;
     cout << "0. Cerrar" << endl;
     cout << "Seleccione una opcion:" << endl;
 }
@@ -56,8 +56,8 @@ void handleChoice(int choice) {
         }
         break;
         case 4: {
-            vector<string> relation = {"Post", to_string(postid),"1","13", "miki"};
-            megatron.insertRecord(relation);
+
+            megatron.insertRecord();
             postid++;
         }
         break;
@@ -77,13 +77,13 @@ void handleChoice(int choice) {
             cin >> pageId;
         }
         case 9: {
-            resetMegatron();
+            megatron.resetMegatron();
             cout << "Megatron reseteado." << endl;
             break;
         }
         case 10: {
-            int postId;
-            cin >> postId;
+            megatron.printArbol();
+
         }
         break;
         default:
@@ -91,11 +91,3 @@ void handleChoice(int choice) {
     }
 }
 
-void resetMegatron() {
-    std::string path = "../Disk/*";
-    std::string command = "rm -rf " + path;
-    system(command.c_str());
-    // crea un nuevo file schemas.txt
-    ofstream file("../Disk/schemas.txt");
-    file.close();
-}

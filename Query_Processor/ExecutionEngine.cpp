@@ -14,20 +14,7 @@ void ExecutionEngine::insertRecord(vector<string> &record) {
   buffManRef->printPageTable();
   buffManRef->printReplacer();
   addIndexEntry(record, rid);
-  /*string newRecord = formatRecord(record);
-  cerr << "Record: " << newRecord << "\n";
-  int blockId = getBlock(record[0]);
-  if(!buffManRef->pinPage(blockId, RequestType::WRITE)) {
-    cerr<<"Error al pinnear pagina"<<endl;
-    return;
-  }
-  Page* header = buffManRef->getPage(blockId);
-  header->data->append(newRecord);
-  buffManRef->setDirtyFlag(blockId);
-  buffManRef->unpinPage(blockId);
-  buffManRef->printPageTable();
-  buffManRef->printReplacer();
-  //write record to disk*/
+
 }
 
 string ExecutionEngine::getPageContent(int &blockId) {
@@ -71,13 +58,15 @@ RID* ExecutionEngine::insertVariableRecord(vector<string> &record) {
     int freeSpace = PAGE_SIZE - (NUM_RECORDS_SIZE+VAR_OFFSET_SIZE) - (VAR_OFFSET_SIZE+VAR_LENGTH_SIZE) - recordSize;
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
-  *(pageToWrite->data) = pageEdit::insertSlotted(*(pageToWrite->data),newRecord);
+  int slot = pageEdit::insertSlotted(*(pageToWrite->data),newRecord);
   buffManRef->setDirtyFlag(freePage);
   buffManRef->unpinPage(freePage);
   //actualizar headerPage y liberarla
   buffManRef->setDirtyFlag(headerBlockId);
   buffManRef->unpinPage(headerBlockId);
 
+  rid =  new RID(freePage,slot);
+  cerr<<"RID: "<<rid->GetPageId()<<", "<<rid->GetSlotNum()<<endl;
   return rid;
 }
 
@@ -93,6 +82,7 @@ RID* ExecutionEngine::insertFixedRecord(vector<string> &record) {
     return rid;
   }
   Page* header = buffManRef->getPage(headerBlockId);
+  cout<< "page header antes:"<<*(header->data) <<endl;
   //buscar pagina con espacio disponible
   bool allocated = false;
   int freePage = pageEdit::getAndUpdateFreePage(*(header->data),recordSize,false);
@@ -106,12 +96,15 @@ RID* ExecutionEngine::insertFixedRecord(vector<string> &record) {
     return rid;
   }
   Page* pageToWrite = buffManRef->getPage(freePage);
+  cout<< "freepage antes:"<<*(pageToWrite->data) <<endl;
   if(allocated) {
     pageEdit::setNewUnpacked(*(pageToWrite->data),recordSize);
     int freeSpace = PAGE_SIZE - (recordSize+1) - NUM_RECORDS_SIZE - 1;
     pageEdit::addNewPageToDirectory(*(header->data),freePage,freeSpace);
   }
+  cout<< "page header despues:"<<*(header->data) <<endl;
   int slot = pageEdit::insertUnpacked(*(pageToWrite->data),newRecord);
+  cout<< "freepage después:"<<*(pageToWrite->data) <<endl;
   buffManRef->setDirtyFlag(freePage);
   buffManRef->unpinPage(freePage);
   //actualizar headerPage y liberarla
@@ -214,7 +207,15 @@ string ExecutionEngine::selectRecord(vector<string> &selectQuery) {
     string record = "";
     if(!schema->isVarLength)
       record = pageEdit::selectRecordUnpacked(*(page->data),rid->GetSlotNum(), schema->recordSize());
+    else {
+      record = pageEdit::obtenerContenidoRegistro(*(page->data),rid->GetSlotNum());
+    }
+    //imprimir página
+    cout<<"<"<<*(page->data)<<">"<<endl;
     buffManRef->unpinPage(rid->GetPageId());
+    buffManRef->printRequestQueue();
+    buffManRef->printPageTable();
+    buffManRef->printReplacer();
     return record;
   }
   cerr << "No existe un indice sobre el atributo" << endl;
@@ -222,22 +223,19 @@ string ExecutionEngine::selectRecord(vector<string> &selectQuery) {
 }
 
 void ExecutionEngine::addIndexEntry(vector<string> &record, RID *rid) {
-  auto& schema = schemas[record[0]];
+  auto& schema = schemas[record[0]];//extrayendo el esquema de la relacion
   //recorrer todos los atributos de la relacion, y verificar si tiene un indice
   for(int i=0; i<schema->numAttr; i++) {
     if(schema->indexes.find(schema->attributes[i].name) != schema->indexes.end()) {
       string type = schema->attributeType(schema->attributes[i].name);
       if(type == "int") {
         std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->insert(stoi(record[i+1]), rid);
-        std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
       else if(type == "float") {
         std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->insert(stof(record[i+1]), rid);
-        std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
       else {
         std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->insert(record[i+1], rid);
-        std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->printTree();
       }
     }
   }
@@ -291,13 +289,38 @@ void ExecutionEngine::deleteRecord(vector<string> &deleteQuery) {
     cerr << "Before: <"<<*(page->data)<<">"<<endl;
     if(!schema->isVarLength)
       pageEdit::deleteRecordUnpacked(*(page->data),rid->GetSlotNum(), schema->recordSize());
+    else {
+      pageEdit::eliminarRegistro(*(page->data),rid->GetSlotNum());
+    }
     cerr << "After: <"<<*(page->data)<<">"<<endl;
     buffManRef->setDirtyFlag(rid->GetPageId());
     buffManRef->unpinPage(rid->GetPageId());
     deleteIndexEntry(deleteQuery);
+
+    buffManRef->printRequestQueue();
+    buffManRef->printPageTable();
+    buffManRef->printReplacer();
     return;
   }
   cerr << "No existe un indice sobre el atributo" << endl;
+}
+
+void ExecutionEngine::graficarArbol(vector<string> & query) {
+  auto& schema = schemas[query[0]];//extrayendo el esquema de la relacion
+  for(int i=0; i<schema->numAttr; i++) {
+    if(schema->indexes.find(schema->attributes[i].name) != schema->indexes.end()) {
+      string type = schema->attributeType(schema->attributes[i].name);
+      if(type == "int") {
+        std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->genDotFile();
+      }
+      else if(type == "float") {
+        std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->genDotFile();
+      }
+      else {
+        std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->genDotFile();
+      }
+    }
+  }
 }
 
 string ExecutionEngine::formatRecord(vector<string> &record) {
