@@ -170,7 +170,7 @@ void BPlusTree<T>::deleteKey(BPlusTreeNode<T>* node, T key) {
         T oldKey = actual->keys.front();
         int idx = std::distance(actual->keys.begin(), it);
         actual->keys.erase(it);
-        delete actual->rids[idx];
+        // delete actual->rids[idx];
         actual->rids.erase(actual->rids.begin() + idx);
         if (actual == root) {
             if (actual->keys.empty()) {

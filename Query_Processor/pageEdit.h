@@ -119,6 +119,7 @@ namespace pageEdit {
  int insertSlotted(std::string& data, const std::string& registro);
  std::string obtenerContenidoRegistro(const std::string& data, size_t numRegistro);
  std::string eliminarRegistro(std::string data, size_t numRegistro);
+ void updatePageFreeSpaceFromPageHeader(std::string &pageHeader, int pageID, int newFreeSpace);
 
 }
 

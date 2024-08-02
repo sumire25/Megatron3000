@@ -16,6 +16,15 @@ Schema::Schema(const vector<string>& createQuery) {
 		attributes.push_back({createQuery[idx],createQuery[idx+1],stoi(createQuery[idx+2])});
 	}
 	//agregar indice en el atributo 0
+	if(attributes[0].type == "int") {
+		indexes[attributes[0].name] = new BPlusTree<int>(BPLUSTREE_DEGREE);
+	} else if(attributes[0].type == "float") {
+		indexes[attributes[0].name] = new BPlusTree<float>(BPLUSTREE_DEGREE);
+	} else {
+		indexes[attributes[0].name] = new BPlusTree<string>(BPLUSTREE_DEGREE);
+		cerr<<"bptree: string"<<endl;
+	}
+	//agregar indice en el atributo 0
 	if(attributes[3].type == "int") {
 		indexes[attributes[3].name] = new BPlusTree<int>(BPLUSTREE_DEGREE);
 	} else if(attributes[3].type == "float") {
@@ -24,6 +33,7 @@ Schema::Schema(const vector<string>& createQuery) {
 		indexes[attributes[3].name] = new BPlusTree<string>(BPLUSTREE_DEGREE);
 		cerr<<"bptree: string"<<endl;
 	}
+
 }
 
 int Schema::recordSize() const {

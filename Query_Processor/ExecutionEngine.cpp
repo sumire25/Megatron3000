@@ -216,6 +216,11 @@ string ExecutionEngine::selectRecord(vector<string> &selectQuery) {
     buffManRef->printRequestQueue();
     buffManRef->printPageTable();
     buffManRef->printReplacer();
+    vector <string> formatedrecord = deformatFixedRecord(record, *schema);
+    //imprimir vector:
+    for (int i = 0; i < formatedrecord.size(); ++i) {
+        cerr << formatedrecord[i] << endl;
+    }
     return record;
   }
   cerr << "No existe un indice sobre el atributo" << endl;
@@ -265,7 +270,7 @@ vector<string> ExecutionEngine::selectRangeRecords(vector<string> &selectQuery) 
       else
         l = selectQuery[2];
       if(selectQuery[3] == "-")
-        r = std::string(std::numeric_limits<std::size_t>::max(), '\xFF');
+        r = std::string(255, '\xFF');
       else
         r = selectQuery[3];
       rids = std::get<BPlusTree<string>*>(schema->indexes[selectQuery[1]])->searchRange(l, r);
@@ -315,19 +320,33 @@ void ExecutionEngine::addIndexEntry(vector<string> &record, RID *rid) {
 
 void ExecutionEngine::deleteIndexEntry(vector<string> &deleteQuery) {
   auto& schema = schemas[deleteQuery[0]];
-  //buscar indice en el atributo
-  if(schema->indexes.find(deleteQuery[1]) != schema->indexes.end()) {
-    string type = schema->attributeType(deleteQuery[1]);
-    if(type == "int") {
-      std::get<BPlusTree<int>*>(schema->indexes[deleteQuery[1]])->remove(stoi(deleteQuery[2]));
-    }
-    else if(type == "float") {
-      std::get<BPlusTree<float>*>(schema->indexes[deleteQuery[1]])->remove(stof(deleteQuery[2]));
-    }
-    else {
-      std::get<BPlusTree<string>*>(schema->indexes[deleteQuery[1]])->remove(deleteQuery[2]);
+  for(int i=0; i<schema->numAttr; i++) {
+    if(schema->indexes.find(schema->attributes[i].name) != schema->indexes.end()) {
+      string type = schema->attributeType(schema->attributes[i].name);
+      if(type == "int") {
+        std::get<BPlusTree<int>*>(schema->indexes[schema->attributes[i].name])->remove(stoi(deleteQuery[i+1]));
+      }
+      else if(type == "float") {
+        std::get<BPlusTree<float>*>(schema->indexes[schema->attributes[i].name])->remove(stof(deleteQuery[i+1]));
+      }
+      else {
+        std::get<BPlusTree<string>*>(schema->indexes[schema->attributes[i].name])->remove(deleteQuery[i+1]);
+      }
     }
   }
+  //buscar indice en el atributo
+  // if(schema->indexes.find(deleteQuery[1]) != schema->indexes.end()) {
+  //   string type = schema->attributeType(deleteQuery[1]);
+  //   if(type == "int") {
+  //     std::get<BPlusTree<int>*>(schema->indexes[deleteQuery[1]])->remove(stoi(deleteQuery[2]));
+  //   }
+  //   else if(type == "float") {
+  //     std::get<BPlusTree<float>*>(schema->indexes[deleteQuery[1]])->remove(stof(deleteQuery[2]));
+  //   }
+  //   else {
+  //     std::get<BPlusTree<string>*>(schema->indexes[deleteQuery[1]])->remove(deleteQuery[2]);
+  //   }
+  // }
 }
 
 void ExecutionEngine::deleteRecord(vector<string> &deleteQuery) {
@@ -353,25 +372,45 @@ void ExecutionEngine::deleteRecord(vector<string> &deleteQuery) {
       cerr<<"No se encontro el registro"<<endl;
       return;
     }
+    cerr<<"RID: "<<rid->ToString()<<endl;
     if(!buffManRef->pinPage(rid->GetPageId(), RequestType::WRITE)) {
       cerr<<"Error al pinnear pagina"<<endl;
       return;
     }
     Page* page = buffManRef->getPage(rid->GetPageId());
     cerr << "Before: <"<<*(page->data)<<">"<<endl;
-    if(!schema->isVarLength)
+
+    string deletedRecord = selectRecord(deleteQuery);
+
+    int updateForFreespace =  deletedRecord.size();
+    if(!schema->isVarLength) {
       pageEdit::deleteRecordUnpacked(*(page->data),rid->GetSlotNum(), schema->recordSize());
+
+    }
     else {
       pageEdit::eliminarRegistro(*(page->data),rid->GetSlotNum());
     }
+    int headerPageId = schema->headerPageId;
+    buffManRef->pinPage(headerPageId, RequestType::WRITE);
+    auto headerPage= buffManRef->getPage(schema->headerPageId);
+    cout<< "Header Page before: "<<*(headerPage->data)<<endl;
+    pageEdit::updatePageFreeSpaceFromPageHeader(*(headerPage->data),rid->GetPageId(),updateForFreespace);
+    cout<< "Header Page after: "<<*(headerPage->data)<<endl;
+    buffManRef->setDirtyFlag(schema->headerPageId);
+    buffManRef->unpinPage(schema->headerPageId);
+
+
     cerr << "After: <"<<*(page->data)<<">"<<endl;
     buffManRef->setDirtyFlag(rid->GetPageId());
     buffManRef->unpinPage(rid->GetPageId());
-    deleteIndexEntry(deleteQuery);
 
     buffManRef->printRequestQueue();
     buffManRef->printPageTable();
     buffManRef->printReplacer();
+
+    delete rid;
+    vector <string> deletedFormatedRecord = deformatFixedRecord(deletedRecord, *schema);
+    deleteIndexEntry(deletedFormatedRecord);
     return;
   }
   cerr << "No existe un indice sobre el atributo" << endl;
@@ -574,3 +613,44 @@ void ExecutionEngine::createRelation(vector<string> &relation) {
 ExecutionEngine::~ExecutionEngine() {
   writeSchemasToFile();
 }
+vector<string>ExecutionEngine::deformatFixedRecord(std::string record, Schema &schema) {
+        vector <string> deformatedRecord;
+        vector<Attribute> atributos = schema.attributes;
+        deformatedRecord.push_back(schema.relationName);
+        int currPos = 0;
+        for ( int i = 0 ; i < schema.numAttr ; i++) {
+            string currDataField = record.substr(currPos,atributos[i].size);
+            if(currDataField == string(atributos[i].size, ' ')) {
+                deformatedRecord.push_back("NULL");
+            } else {
+                myFunc::trim(currDataField); // remueve espacios en blanco
+                deformatedRecord.push_back(currDataField);
+            }
+            currPos += atributos[i].size;
+        }
+        return deformatedRecord;
+    }
+
+    vector<string> ExecutionEngine::deformatVariableRecord(const std::string &record, const Schema &schema) {
+        vector<string> deformatedRecord;
+        vector<Attribute> atributos = schema.attributes;
+        deformatedRecord.push_back(schema.relationName);
+        string nullbitmap = record.substr(0, schema.numAttr);
+        int currPos = schema.numAttr; // empieza en la posición siguiente al nullbitmap
+        for (int i = 0; i < schema.numAttr; i++) {
+            if(nullbitmap[i] == '1') {
+                deformatedRecord.push_back("NULL");
+            } else {
+                if(atributos[i].type == "VARCHAR" || atributos[i].type == "char") {
+                    int offset = std::stoi(record.substr(currPos, OFFSET_SIZE));
+                    int length = std::stoi(record.substr(currPos + OFFSET_SIZE, LENGTH_SIZE));
+                    deformatedRecord.push_back(record.substr(offset, length));
+                    currPos += OFFSET_SIZE + LENGTH_SIZE;
+                } else {
+                    deformatedRecord.push_back(record.substr(currPos, atributos[i].size));
+                    currPos += atributos[i].size;
+                }
+            }
+        }
+        return deformatedRecord;
+    }

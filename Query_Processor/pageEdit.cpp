@@ -350,4 +350,23 @@ namespace pageEdit {
         return newData;
 
     }
+    void    updatePageFreeSpaceFromPageHeader(std::string &pageHeader, int pageID, int newFreeSpace) {
+        string pageIDStr = myFunc::padString(std::to_string(pageID), PAGEID_SIZE);
+        string newFreeSpaceStr = myFunc::padString(std::to_string(newFreeSpace), FREESPACE_SIZE);
+        int numPairs = std::stoi(pageHeader.substr(0, NUM_PAIRS_SIZE));
+        for (int i = 0; i < numPairs; i++) {
+            int index = NUM_PAIRS_SIZE + i * (PAGEID_SIZE + FREESPACE_SIZE);
+
+            int currFreeSpace = std::stoi(pageHeader.substr(index,FREESPACE_SIZE));
+            int currPageID = std::stoi(pageHeader.substr(index + FREESPACE_SIZE,PAGEID_SIZE));
+
+
+            if (currPageID == pageID) {
+
+                // redimensionar el tamaño al freeSpace
+                std::string newFreeSpaceStr = myFunc::padString(std::to_string(currFreeSpace +  newFreeSpace), FREESPACE_SIZE);
+                pageHeader.replace(index, FREESPACE_SIZE, newFreeSpaceStr);
+            }
+        }
+     }
 }

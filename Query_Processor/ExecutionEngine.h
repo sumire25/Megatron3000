@@ -200,6 +200,9 @@ public:
     void deleteIndexEntry(vector<string> & deleteQuery);
   void deleteRecord(vector<string> & deleteQuery);
   void graficarArbol(vector<string> & query);
+
+    vector<string> deformatFixedRecord(std::string record, Schema &schema) ;
+    vector<string> deformatVariableRecord(const std::string &record, const Schema &schema) ;
 };
 
 
