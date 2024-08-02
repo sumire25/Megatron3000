@@ -44,11 +44,11 @@ public:
     BPlusTree(int degree);
     void insert(T key, RID* rid);
     void remove(T key);
-    RID* search(T key);  // Nueva función de búsqueda
+    RID* search(T key);
+    vector<RID*> searchRange(T l, T r);
     void printTree();
     void printLeaves();
     void genDotFile();
-
 };
 
 template<typename T>
@@ -315,6 +315,38 @@ RID* BPlusTree<T>::search(T key) {
         return actual->rids[index];
     }
     return nullptr;
+}
+
+template<typename T>
+vector<RID *> BPlusTree<T>::searchRange(T l, T r) {
+    BPlusTreeNode<T>* actual = root;
+    vector<RID*> rids;
+    // Buscar la hoja donde debería estar la clave minima dentor del rango
+    if(actual == nullptr) return rids;
+    while (!actual->isLeaf) {
+        auto it = std::upper_bound(actual->keys.begin(), actual->keys.end(), l);
+        int index = std::distance(actual->keys.begin(), it);
+        actual = actual->children[index];
+    }
+    // Buscar la clave en la hoja
+    auto it = std::lower_bound(actual->keys.begin(), actual->keys.end(), l);
+    int index;
+    while(true){
+        if(it == actual->keys.end()){
+            if(actual->next == nullptr)
+                break;
+            actual = actual->next;
+            it = actual->keys.begin();
+        }
+        else if(*it <= r) {
+            index = std::distance(actual->keys.begin(), it);
+            rids.push_back(actual->rids[index]);
+            it++;
+        }
+        else break;
+    }
+
+    return rids;
 }
 
 template<typename T>

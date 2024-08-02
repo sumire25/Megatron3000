@@ -123,6 +123,32 @@ void Megatron::selectRecord() {
     }
 }
 
+void Megatron::selectRangeRecords() {
+    // selectQuery: {relName, attrName, minValue, maxValue}
+    vector<string> selectQuery;
+    string word;
+    cout << "Ingrese el nombre de la relación:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    cout << "Ingrese el nombre del atributo:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    cout << "Ingrese el valor minimo del atributo:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    cout << "Ingrese el valor maximo del atributo:" << endl;
+    cin >> word;
+    selectQuery.push_back(word);
+    vector<string> records = excEngine.selectRangeRecords(selectQuery);
+    if (!records.empty()) {
+        for (const string &record : records) {
+            cout << "<" << record << ">" << endl;
+        }
+    } else {
+        cout << "No se encontró registros." << endl;
+    }
+}
+
 void Megatron::deleteRecord() {
     // deleteQuery: {relName, attrName, attrValue}
     vector<string> deleteQuery;

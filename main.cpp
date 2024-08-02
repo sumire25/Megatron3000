@@ -27,7 +27,7 @@ void displayMenu() {
     cout << "5. Leer archivo" << endl;
     cout << "6. Consultar registro" << endl;
     cout << "7. Eliminar registro" << endl;
-    cout << "8. Liberar Pagina" << endl;
+    cout << "8. Consulta rango" << endl;
     cout << "9. Reset Megatron and quit" << endl;
     cout << "10. mostrar arbol" << endl;
     cout << "0. Cerrar" << endl;
@@ -73,8 +73,7 @@ void handleChoice(int choice) {
         }
         break;
         case 8: {
-            int pageId;
-            cin >> pageId;
+            megatron.selectRangeRecords();
         }
         case 9: {
             megatron.resetMegatron();

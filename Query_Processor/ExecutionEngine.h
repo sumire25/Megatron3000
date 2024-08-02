@@ -2,7 +2,7 @@
 #define EXECUTIONENGINE_H
 
 #include <unordered_map>
-
+#include <limits>
 #include "../Buffer_Manager/BufferManager.h"
 #include "../Util/myFunc.h"
 #include "pageEdit.h"
@@ -195,6 +195,7 @@ public:
   void addSchematoDisk(string& relName);
 
   string selectRecord(vector<string> & selectQuery);
+	vector<string> selectRangeRecords(vector<string> & selectQuery);
     void addIndexEntry(vector<string> & record, RID* rid);
     void deleteIndexEntry(vector<string> & deleteQuery);
   void deleteRecord(vector<string> & deleteQuery);

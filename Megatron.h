@@ -42,6 +42,7 @@ public:
 */
   void readFile();
   void selectRecord();
+	void selectRangeRecords();
   void deleteRecord();
   void resetMegatron();
     void printArbol();

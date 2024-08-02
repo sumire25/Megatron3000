@@ -222,6 +222,78 @@ string ExecutionEngine::selectRecord(vector<string> &selectQuery) {
   return "";
 }
 
+vector<string> ExecutionEngine::selectRangeRecords(vector<string> &selectQuery) {
+  vector<RID*> rids;
+  vector<string> records;
+  //verificar si esiste la relacion
+  if(!hasRelation(selectQuery[0])) {
+    cerr<<"No existe la relacion"<<endl;
+    return records;
+  }
+  auto& schema = schemas[selectQuery[0]];
+  if(schema->indexes.find(selectQuery[1]) != schema->indexes.end()) {
+    string type = schema->attributeType(selectQuery[1]);
+    RID* rid = nullptr;
+    if(type == "int") {
+      int l, r;
+      if(selectQuery[2] == "-")
+        l = std::numeric_limits<int>::min();
+      else
+        l = stoi(selectQuery[2]);
+      if(selectQuery[3] == "-")
+        r = std::numeric_limits<int>::max();
+      else
+        r = stoi(selectQuery[3]);
+      rids = std::get<BPlusTree<int>*>(schema->indexes[selectQuery[1]])->searchRange(l, r);
+    }
+    else if(type == "float") {
+      float l, r;
+      if(selectQuery[2] == "-")
+        l = std::numeric_limits<float>::min();
+      else
+        l = stoi(selectQuery[2]);
+      if(selectQuery[3] == "-")
+        r = std::numeric_limits<float>::max();
+      else
+        r = stof(selectQuery[3]);
+      rids = std::get<BPlusTree<float>*>(schema->indexes[selectQuery[1]])->searchRange(l, r);
+    }
+    else {
+      string l, r;
+      if(selectQuery[2] == "-")
+        l = "";
+      else
+        l = selectQuery[2];
+      if(selectQuery[3] == "-")
+        r = std::string(std::numeric_limits<std::size_t>::max(), '\xFF');
+      else
+        r = selectQuery[3];
+      rids = std::get<BPlusTree<string>*>(schema->indexes[selectQuery[1]])->searchRange(l, r);
+    }
+    for(auto& rid : rids) {
+      if(!buffManRef->pinPage(rid->GetPageId(), RequestType::READ)) {
+        cerr<<"Error al pinnear pagina"<<endl;
+        return records;
+      }
+      Page* page = buffManRef->getPage(rid->GetPageId());
+      string record;
+      if(!schema->isVarLength)
+        record = pageEdit::selectRecordUnpacked(*(page->data),rid->GetSlotNum(), schema->recordSize());
+      else {
+        record = pageEdit::obtenerContenidoRegistro(*(page->data),rid->GetSlotNum());
+      }
+      buffManRef->unpinPage(rid->GetPageId());
+      buffManRef->printRequestQueue();
+      buffManRef->printPageTable();
+      buffManRef->printReplacer();
+      records.push_back(record);
+    }
+  }
+  else
+    cerr << "No existe un indice sobre el atributo" << endl;
+  return records;
+}
+
 void ExecutionEngine::addIndexEntry(vector<string> &record, RID *rid) {
   auto& schema = schemas[record[0]];//extrayendo el esquema de la relacion
   //recorrer todos los atributos de la relacion, y verificar si tiene un indice
